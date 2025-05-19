@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
@@ -45,6 +46,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void onPressed() {
+    // Handle button press
+    print("Button pressed");
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -56,11 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ProductCard(
-              title: "Essence Mascara Lash Princess", 
-              imageUrl:  "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp", 
-              price: 9.99,
-              )
+            Button(text: "Login", onPressed: onPressed)
           ]
         ),
       ),
