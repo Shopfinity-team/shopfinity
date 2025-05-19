@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shopfinity/shared/widgets/button.dart';
-import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
+import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/theme/app_colors.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -11,6 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'Poppins',
@@ -28,8 +27,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primaryColor,
           secondary: AppColors.accentColor,
-          primary: AppColors.primaryColor,  
-          ),
+          primary: AppColors.primaryColor,
+        ),
       ),
       home: const MyHomePage(),
     );
@@ -47,8 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void onPressed() {
     // Handle button press
     print("Button pressed");
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,11 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Button(text: "Login", onPressed: onPressed)
-          ]
-        ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Button(text: "Login", onPressed: onPressed)]),
       ),
     );
   }
