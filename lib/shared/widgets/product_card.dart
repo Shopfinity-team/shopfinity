@@ -27,7 +27,6 @@ class ProductCard extends StatelessWidget {
       ),
       elevation: 0,
       child: SizedBox(
-        width: cardWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,6 +35,7 @@ class ProductCard extends StatelessWidget {
                 imageUrl,
                 fit: BoxFit.cover,
                 width: double.infinity,
+                height: cardWidth * 1, 
               ),
             ),
             Padding(

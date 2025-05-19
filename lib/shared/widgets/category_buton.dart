@@ -19,11 +19,13 @@ class CategoryButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(),
             padding: EdgeInsets.all(20),
-            backgroundColor: Theme.of(context).colorScheme.onSecondary,
+            backgroundColor: Color(0xFFD9D9D9),
+            elevation: 0,
           ),
         ),
         Text(
           title,
+          textAlign: TextAlign.center,
         )
       ],
     );

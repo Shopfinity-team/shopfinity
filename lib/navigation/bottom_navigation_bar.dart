@@ -29,7 +29,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           data: NavigationBarThemeData(
               indicatorColor: AppColors.darkPrimaryColor,
               labelTextStyle:
-                  MaterialStateProperty.all(const TextStyle(fontSize: 0))),
+                  WidgetStateProperty.all(const TextStyle(fontSize: 0))),
           child: NavigationBar(
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
