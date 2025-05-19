@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/theme/app_colors.dart';
@@ -54,18 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopfinity'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Button(text: "Login", onPressed: onPressed)
-          ]
-        ),
-      ),
-    );
+    return LoginPage();
   }
 }

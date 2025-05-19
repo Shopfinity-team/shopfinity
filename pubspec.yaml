@@ -65,6 +65,8 @@ flutter:
           weight: 700
         - asset: lib/assets/fonts/Poppins-ExtraBold.ttf
           weight: 800
+  assets:
+    - lib/assets/images/
 
 
   # The following line ensures that the Material Icons font is
@@ -73,9 +75,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
