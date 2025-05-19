@@ -66,6 +66,8 @@ flutter:
           weight: 700
         - asset: lib/assets/fonts/Poppins-ExtraBold.ttf
           weight: 800
+  assets:
+    - lib/assets/images/
 
 
   # The following line ensures that the Material Icons font is
