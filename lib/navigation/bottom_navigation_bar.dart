@@ -27,9 +27,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
         body: _screens[_selectedIndex],
         bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
-              indicatorColor: AppColors.darkPrimaryColor,
-              labelTextStyle:
-                  WidgetStateProperty.all(const TextStyle(fontSize: 0))),
+            indicatorColor: AppColors.darkPrimaryColor,
+            labelTextStyle:
+                WidgetStateProperty.all(const TextStyle(fontSize: 0)),
+            iconTheme: WidgetStateProperty.all(const IconThemeData(size: 28)),
+            height: 55,
+          ),
           child: NavigationBar(
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
@@ -50,20 +53,34 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   ),
                   label: ''),
               NavigationDestination(
-                  selectedIcon: Icon(Icons.dashboard, color: AppColors.icons),
-                  icon: Icon(Icons.dashboard_outlined,
-                      color: AppColors.primaryText),
+                  selectedIcon: Icon(
+                    Icons.dashboard,
+                    color: AppColors.icons,
+                  ),
+                  icon: Icon(
+                    Icons.dashboard_outlined,
+                    color: AppColors.primaryText,
+                  ),
                   label: ''),
               NavigationDestination(
-                  selectedIcon:
-                      Icon(Icons.shopping_cart, color: AppColors.icons),
-                  icon: Icon(Icons.shopping_cart_outlined,
-                      color: AppColors.primaryText),
+                  selectedIcon: Icon(
+                    Icons.shopping_cart,
+                    color: AppColors.icons,
+                  ),
+                  icon: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: AppColors.primaryText,
+                  ),
                   label: ''),
               NavigationDestination(
-                  selectedIcon: Icon(Icons.person, color: AppColors.icons),
-                  icon: Icon(Icons.perm_identity_outlined,
-                      color: AppColors.primaryText),
+                  selectedIcon: Icon(
+                    Icons.person,
+                    color: AppColors.icons,
+                  ),
+                  icon: Icon(
+                    Icons.perm_identity_outlined,
+                    color: AppColors.primaryText,
+                  ),
                   label: ''),
             ],
           ),
