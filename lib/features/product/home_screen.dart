@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          toolbarHeight: 100.0,
+          toolbarHeight: 80.0,
           title: Image.asset('lib/assets/images/logo.png'),
           backgroundColor: Colors.white,
           elevation: 0,
@@ -36,7 +36,9 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const ProductSearchBar(),
-                  const SizedBox(height: 35.0),
+                  SizedBox(
+                    height: screenHeight * 0.04,
+                  ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -50,7 +52,9 @@ class HomeScreen extends StatelessWidget {
                           cardImage: Image.asset(
                               'lib/assets/images/homeCardImage1.png'),
                         ),
-                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: screenWidth * 0.04,
+                        ),
                         HomeScreenTopCards(
                           cardBackground: Color(0xFF03A9F4),
                           cardTitle: 'Deals of the Day',
@@ -58,7 +62,9 @@ class HomeScreen extends StatelessWidget {
                           cardImage: Image.asset(
                               'lib/assets/images/homeCardImage2.png'),
                         ),
-                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: screenWidth * 0.04,
+                        ),
                         HomeScreenTopCards(
                           cardBackground: Color(0xFF4CAF50),
                           cardTitle: 'Style Your Space',
@@ -69,7 +75,9 @@ class HomeScreen extends StatelessWidget {
                           showButton: true,
                           buttonText: 'Categories',
                         ),
-                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: screenWidth * 0.04,
+                        ),
                         HomeScreenTopCards(
                           cardBackground: Color(0xFF673AB7),
                           cardTitle: 'Festive Finds',
@@ -80,7 +88,9 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    height: screenHeight * 0.02,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -122,7 +132,9 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    height: screenHeight * 0.02,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

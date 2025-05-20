@@ -56,7 +56,9 @@ class HomeScreenTopCards extends StatelessWidget {
                                   fontSize: titleTextFontSize,
                                   fontWeight: FontWeight.w600),
                             ),
-                            const SizedBox(height: 10.0),
+                            SizedBox(
+                              height: screenHeight * 0.01,
+                            ),
                             Text(
                               cardSubText,
                               style: TextStyle(
@@ -64,7 +66,9 @@ class HomeScreenTopCards extends StatelessWidget {
                                 fontSize: subTextFontSize,
                               ),
                             ),
-                            const SizedBox(height: 10.0),
+                            SizedBox(
+                              height: screenHeight * 0.01,
+                            ),
                             if (showButton)
                               ElevatedButton(
                                   onPressed: () {},
@@ -84,7 +88,9 @@ class HomeScreenTopCards extends StatelessWidget {
                         ),
                       ),
                       Expanded(flex: 1, child: cardImage),
-                      const SizedBox(width: 12.0)
+                      SizedBox(
+                        width: screenWidth * 0.01,
+                      ),
                     ],
                   )
                 : Row(

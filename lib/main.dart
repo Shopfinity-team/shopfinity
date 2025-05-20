@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
-import 'package:shopfinity/features/checkout/payment_screen.dart';
-import 'package:shopfinity/features/product/cart_screen.dart';
-import 'package:shopfinity/features/product/product_screen.dart';
-import 'package:shopfinity/shared/widgets/button.dart';
-import 'package:shopfinity/shared/widgets/cart_card.dart';
-import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
-import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
 void main() => runApp(MyApp());
@@ -29,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: AppColors.primaryText),
-          bodySmall: TextStyle(color: AppColors.secondaryText), 
+          bodySmall: TextStyle(color: AppColors.secondaryText),
         ),
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: AppBarTheme(
@@ -66,6 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-        return PaymentScreen();
+    return LoginPage();
   }
 }

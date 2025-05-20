@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shopfinity/features/auth/profile_screen.dart';
 import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/features/product/home_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
-import 'package:shopfinity/features/product/profile_screen.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
 class BottomNavBar extends StatefulWidget {
