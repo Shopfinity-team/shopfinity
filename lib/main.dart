@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
+import 'package:shopfinity/shared/widgets/cart_card.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
@@ -26,8 +27,9 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: AppColors.primaryText),
-          bodySmall: TextStyle(color: AppColors.secondaryText),
+          bodySmall: TextStyle(color: AppColors.secondaryText), 
         ),
+        scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primaryColor,
           secondary: AppColors.accentColor,
@@ -56,16 +58,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopfinity'),
-      ),
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Button(text: "Login", onPressed: onPressed)]),
-      ),
-    );
-    return ProductScreen();
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
+        return Center(
+          child: Container(
+            height: screenHeight * 0.22,
+            width: screenWidth * 0.9,
+            child: CartCard(
+              title: "Essence Mascara Lash Princess", 
+              imageUrl: "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp", 
+              price: 9.99, 
+              quantity: 5, 
+              description: "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
+            ),
+          ),
+        );
   }
 }
