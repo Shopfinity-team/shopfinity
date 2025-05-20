@@ -72,7 +72,7 @@ class CheckoutScreen extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   children: [
                     Text(
                       'Name: ',
@@ -97,7 +97,7 @@ class CheckoutScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.01,
                 ),
-                Row(
+                const Row(
                   children: [
                     Text(
                       'Card Number: ',
@@ -122,7 +122,7 @@ class CheckoutScreen extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                           fontSize: 15),
                     ),
-                    Text(
+                    const Text(
                       '\$125.99',
                       style: TextStyle(
                           color: AppColors.primaryColor,
@@ -144,7 +144,7 @@ class CheckoutScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.01,
                 ),
-                Row(
+                const Row(
                   children: [
                     Text(
                       'Address: ',
