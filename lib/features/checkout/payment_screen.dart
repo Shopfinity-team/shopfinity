@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopfinity/features/checkout/checkout_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -78,7 +79,10 @@ class PaymentScreen extends StatelessWidget {
                               decoration: InputDecoration(
                                 labelText: "Expiry Date",
                                 labelStyle: TextStyle(
-                                  color: Theme.of(context).textTheme.bodySmall?.color,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.color,
                                 ),
                               ),
                             ),
@@ -92,7 +96,10 @@ class PaymentScreen extends StatelessWidget {
                               decoration: InputDecoration(
                                 labelText: "CVV",
                                 labelStyle: TextStyle(
-                                  color: Theme.of(context).textTheme.bodySmall?.color,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.color,
                                 ),
                               ),
                             ),
@@ -108,9 +115,13 @@ class PaymentScreen extends StatelessWidget {
               height: screenHeight * 0.02,
             ),
             Button(
-              text: "Next", 
-              onPressed: (){}
-            ),
+                text: "Next",
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CheckoutScreen()));
+                }),
             SizedBox(
               height: screenHeight * 0.02,
             ),

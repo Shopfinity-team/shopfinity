@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shopfinity/theme/app_colors.dart';
+
+import '../../model/product.dart';
 
 class CartCard extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final double price;
-  final int quantity;
-  final String description;
+  final Product product;
+  final bool isCheckout;
 
-  const CartCard({super.key, 
-    required this.title,
-    required this.imageUrl,
-    required this.price,
-    required this.quantity,
-    required this.description,
-  });
+  const CartCard({super.key, required this.product, this.isCheckout = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +15,7 @@ class CartCard extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double cardWidth = screenWidth * 0.9;
     double cardHeight = screenHeight * 0.3;
-    
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -33,7 +27,7 @@ class CartCard extends StatelessWidget {
         child: Row(
           children: [
             Image.network(
-              imageUrl,
+              product.imageUrl,
               width: cardWidth * 0.3,
               fit: BoxFit.cover,
             ),
@@ -46,19 +40,19 @@ class CartCard extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        title,
+                        product.title,
                         style: const TextStyle(fontSize: 16),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        description,
+                        product.description ?? '',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 10,
                           color: Theme.of(context).textTheme.bodySmall?.color,
                         ),
-                        ),
+                      ),
                       const SizedBox(height: 8),
                     ],
                   ),
@@ -67,43 +61,61 @@ class CartCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '\$$price',
+                        '\$${product.price.toString()}',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
-                        ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: (){}, 
-                              icon: Icon(Icons.remove, 
-                              color: Theme.of(context).textTheme.bodyMedium?.color,
-                              size: 16,
-                              )
+                      ),
+                      isCheckout
+                          ? Text(
+                              'Qty:${product.quantity.toString()}',
+                              style: TextStyle(color: AppColors.primaryText),
+                            )
+                          : Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.color ??
+                                      Colors.black,
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.remove,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.color,
+                                        size: 16,
+                                      )),
+                                  Text(product.quantity.toString()),
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.add,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.color,
+                                        size: 16,
+                                      )),
+                                ],
+                              ),
                             ),
-                            Text('$quantity'),
-                            IconButton(
-                              onPressed: (){}, 
-                              icon: Icon(Icons.add, 
-                              color: Theme.of(context).textTheme.bodyMedium?.color,
-                              size: 16,
-                              )
-                            ),
-                          ],
-                        )),
                     ],
                   ),
                 ],

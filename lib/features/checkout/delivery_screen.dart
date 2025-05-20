@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 
 import '../../theme/app_colors.dart';
@@ -182,7 +183,12 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             SizedBox(
               height: screenHeight * 0.02,
             ),
-            Button(text: "Next", onPressed: () {}),
+            Button(
+                text: "Next",
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PaymentScreen()));
+                }),
             SizedBox(
               height: screenHeight * 0.02,
             ),
