@@ -12,11 +12,12 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 100.0,
+        toolbarHeight: 80.0,
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
@@ -29,9 +30,12 @@ class ProductDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Center(child: Image.network(product.imageUrl)),
-              const SizedBox(height: 20.0),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +50,9 @@ class ProductDetailsScreen extends StatelessWidget {
                           fontWeight: FontWeight.w700),
                     ),
                   ),
-                  const SizedBox(width: 10.0),
+                  SizedBox(
+                    width: screenWidth * 0.02,
+                  ),
                   Text(
                     "\$" + product.price.toString(),
                     style: const TextStyle(
@@ -56,7 +62,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(height: 10.0),
+              SizedBox(
+                height: screenHeight * 0.01,
+              ),
               const Row(
                 children: [
                   Icon(
@@ -74,7 +82,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(height: 20.0),
+              SizedBox(
+                height: screenHeight * 0.01,
+              ),
               const Text(
                 'Product Description',
                 style: TextStyle(
@@ -82,7 +92,9 @@ class ProductDetailsScreen extends StatelessWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w600),
               ),
-              const SizedBox(height: 10.0),
+              SizedBox(
+                height: screenHeight * 0.01,
+              ),
               //Text(product.description ?? 'no description'),
               const Text(
                 'The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.',
@@ -91,7 +103,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   fontSize: 12,
                 ),
               ),
-              const SizedBox(height: 70.0),
+              SizedBox(
+                height: screenHeight * 0.06,
+              ),
               Center(
                   child: Button(
                       text: 'Buy Now',
