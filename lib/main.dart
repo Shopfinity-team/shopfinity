@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
+import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
@@ -65,6 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-        return CartScreen();
+        return PaymentScreen();
   }
 }
