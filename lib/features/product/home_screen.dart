@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopfinity/model/product.dart';
 import 'package:shopfinity/shared/widgets/home_screen_top_cards.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/shared/widgets/search_bar.dart';
@@ -17,8 +18,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          toolbarHeight: 100.0,
           title: Image.asset('lib/assets/images/logo.png'),
           backgroundColor: Colors.white,
+          elevation: 0,
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -104,17 +107,19 @@ class HomeScreen extends StatelessWidget {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                          children: List.generate(10, (index) {
-                        return SizedBox(
-                          height: cardHeight,
-                          width: cardWidth,
-                          child: const ProductCard(
+                        children: List.generate(10, (index) {
+                          final product = Product(
                               title: 'Essence Mascara Lash Princess',
                               imageUrl:
                                   'https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp',
-                              price: 9.99),
-                        );
-                      })),
+                              price: 9.99);
+                          return SizedBox(
+                            height: cardHeight,
+                            width: cardWidth,
+                            child: ProductCard(product: product),
+                          );
+                        }),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20.0),
@@ -144,17 +149,19 @@ class HomeScreen extends StatelessWidget {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                          children: List.generate(10, (index) {
-                        return SizedBox(
-                          height: cardHeight,
-                          width: cardWidth,
-                          child: const ProductCard(
+                        children: List.generate(10, (index) {
+                          final product = Product(
                               title: 'Essence Mascara Lash Princess',
                               imageUrl:
                                   'https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp',
-                              price: 9.99),
-                        );
-                      })),
+                              price: 9.99);
+                          return SizedBox(
+                            height: cardHeight,
+                            width: cardWidth,
+                            child: ProductCard(product: product),
+                          );
+                        }),
+                      ),
                     ),
                   )
                 ],

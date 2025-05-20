@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shopfinity/shared/widgets/category_buton.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 
+import '../../model/product.dart';
+
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
 
@@ -11,7 +13,7 @@ class ProductScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
@@ -30,7 +32,7 @@ class ProductScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for(int i = 0; i < 10; i++)
+                    for (int i = 0; i < 10; i++)
                       SizedBox(
                         width: screenWidth * 0.2,
                         child: CategoryButton(title: "Category $i"),
@@ -48,22 +50,26 @@ class ProductScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-               GridView.builder(
+              GridView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(), // Disable inner scrolling
+                physics:
+                    NeverScrollableScrollPhysics(), // Disable inner scrolling
                 itemCount: 10,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: screenHeight * 0.02,
                   crossAxisSpacing: screenWidth * 0.02,
-                  childAspectRatio: 0.6, // Adjust this based on your ProductCard layout
+                  childAspectRatio:
+                      0.6, // Adjust this based on your ProductCard layout
                 ),
                 itemBuilder: (context, index) {
                   return ProductCard(
-                    imageUrl: "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
+                      product: Product(
+                    imageUrl:
+                        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
                     title: "Essence Mascara Lash Princess",
                     price: 9.99,
-                  );
+                  ));
                 },
               ),
             ],
