@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../features/product/product_details_screen.dart';
-import '../../model/product.dart';
+import '../../model/product_model.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -35,6 +35,7 @@ class ProductCard extends StatelessWidget {
         elevation: 0,
         child: SizedBox(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
@@ -45,27 +46,32 @@ class ProductCard extends StatelessWidget {
                   height: cardWidth * 1,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  product.title,
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.04,
-                    fontStyle: FontStyle.normal,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      product.title,
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.04,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "\$" + product.price.toString(),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  )
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "\$" + product.price.toString(),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              )
             ],
           ),
         ),

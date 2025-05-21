@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopfinity/controllers/product_controller.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  Get.put(ProductController());
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

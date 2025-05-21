@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:shopfinity/model/product.dart';
+import 'package:get/get.dart';
+import 'package:shopfinity/controllers/product_controller.dart';
+import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/home_screen_top_cards.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/shared/widgets/search_bar.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final controller = Get.find<ProductController>();
+
+  @override
+  void initState() {
+    //controller.getAllProducts(); //for get all products
+    controller.getLimitProducts(); // for get limit products
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth * 0.5;
-    double cardHeight = screenHeight * 0.35;
+    double cardHeight = screenHeight * 0.359;
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -113,25 +129,25 @@ class HomeScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(
-                    child: SingleChildScrollView(
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: List.generate(10, (index) {
-                          final product = Product(
-                              title: 'Essence Mascara Lash Princess',
-                              imageUrl:
-                                  'https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp',
-                              price: 9.99);
+                        children: controller.products.map((product) {
                           return SizedBox(
                             height: cardHeight,
                             width: cardWidth,
                             child: ProductCard(product: product),
                           );
-                        }),
+                        }).toList(),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                   SizedBox(
                     height: screenHeight * 0.02,
                   ),

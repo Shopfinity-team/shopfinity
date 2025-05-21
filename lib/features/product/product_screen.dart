@@ -3,7 +3,7 @@ import 'package:shopfinity/shared/widgets/category_buton.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/shared/widgets/search_bar.dart';
 
-import '../../model/product.dart';
+import '../../model/product_model.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
