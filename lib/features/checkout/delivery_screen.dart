@@ -186,8 +186,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             Button(
                 text: "Next",
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PaymentScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PaymentScreen()));
                 }),
             SizedBox(
               height: screenHeight * 0.02,

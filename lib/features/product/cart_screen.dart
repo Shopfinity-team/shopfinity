@@ -44,7 +44,7 @@ class CartScreen extends StatelessWidget {
                   return Column(
                     children: [
                       CartCard(product: product),
-                      Divider(
+                      const Divider(
                         color: Colors.black,
                         height: 20,
                         thickness: 1,
@@ -55,7 +55,7 @@ class CartScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.1,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
