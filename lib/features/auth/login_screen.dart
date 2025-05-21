@@ -44,7 +44,7 @@ class LoginPage extends StatelessWidget {
               prefixIcon: const Icon(Icons.lock_outline),
               labelText: "Password",
               suffixIcon: IconButton(
-                icon: Icon(Icons.visibility_off_outlined),
+                icon: const Icon(Icons.visibility_off_outlined),
                 onPressed: () {},
               ),
             ),
@@ -55,8 +55,10 @@ class LoginPage extends StatelessWidget {
           Button(
               text: "Login",
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => BottomNavBar()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BottomNavBar()));
               })
         ],
       ),

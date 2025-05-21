@@ -120,7 +120,7 @@ class PaymentScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CheckoutScreen()));
+                          builder: (context) => const CheckoutScreen()));
                 }),
             SizedBox(
               height: screenHeight * 0.02,

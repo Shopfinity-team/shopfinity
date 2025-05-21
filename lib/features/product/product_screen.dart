@@ -23,7 +23,7 @@ class ProductScreen extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.06,
               ),
-              ProductSearchBar(),
+              const ProductSearchBar(),
               SizedBox(
                 height: screenHeight * 0.03,
               ),
