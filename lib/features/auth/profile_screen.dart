@@ -111,6 +111,9 @@ class ProfileScreen extends StatelessWidget {
                               fontSize: 14,
                             ),
                           ),
+                          SizedBox(
+                            width: screenWidth * 0.2,
+                          ),
                           Flexible(
                             child: Text(
                               "88511,1896 Washington Street,Dallas,Nevada,United States",
