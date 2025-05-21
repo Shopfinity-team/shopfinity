@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/features/product/home_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,13 +18,13 @@ class LoginController extends GetxController{
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
-  void login() async {
+  Future<void> login() async {
   if (formKey.currentState!.validate()) {
     isLoading.value = true;
     
     try {
       final response = await http.post(
-        Uri.parse("'https://dummyjson.com/auth/login'"),
+        Uri.parse("https://dummyjson.com/auth/login"),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -34,21 +35,37 @@ class LoginController extends GetxController{
       );
 
       if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+          final token = data['token'];
 
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('access_token', token);
+          await prefs.get('access_token');
+          print("Token: $token");
+
+          Get.snackbar("Success", "Logged in successfully", snackPosition: SnackPosition.BOTTOM);
+          Get.offAll(() => HomeScreen());
       }else{
-        final error = jsonDecode(response.body);
-        Get.snackbar(error, "Invalid username or password", snackPosition: SnackPosition.BOTTOM);
+        // final error = jsonDecode(response.body);
+        Get.snackbar(
+          "error", "Invalid username or password", 
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          );
+        // print("Error: ${error}");
       }
 
     } catch (e) {
-      Get.snackbar("Error", "An error occurred: $e", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", "An error occurred: $e", 
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      print("Error: $e");
     } finally {
       isLoading.value = false;
     }
-
-    isLoading.value = false;
-    Get.snackbar("Success", "Logged in successfully", snackPosition: SnackPosition.BOTTOM);
-    Get.offAll(() => HomeScreen());
   } else {
     Get.snackbar("Error", "Please fix errors", snackPosition: SnackPosition.BOTTOM);
   }

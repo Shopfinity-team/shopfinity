@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/login_controller.dart';
-import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 
 class LoginPage extends StatelessWidget {
