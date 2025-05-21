@@ -59,6 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return const LoginPage();
+    return LoginPage();
   }
 }
