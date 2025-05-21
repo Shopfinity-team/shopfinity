@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
-import '../../model/product.dart';
+import '../../model/product_model.dart';
 
 class CartCard extends StatelessWidget {
   final Product product;

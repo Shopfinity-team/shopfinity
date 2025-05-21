@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopfinity/features/checkout/delivery_screen.dart';
-import 'package:shopfinity/model/product.dart';
+import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 
 import '../../shared/widgets/cart_card.dart';
