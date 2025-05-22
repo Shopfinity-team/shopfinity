@@ -9,7 +9,6 @@ import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/features/product/home_screen.dart';
 import 'package:shopfinity/features/product/product_details_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
-import 'package:shopfinity/model/product.dart';
 import 'package:shopfinity/routes/app_routes.dart';
 
 class AppPages{

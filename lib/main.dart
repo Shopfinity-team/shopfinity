@@ -5,9 +5,8 @@ import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
-void main() {
-  Get.put(ProductController());
 void main() async {
+  Get.put(ProductController());
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
