@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopfinity/shared/widgets/categories.dart';
 import 'package:shopfinity/shared/widgets/category_buton.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/shared/widgets/search_bar.dart';
@@ -12,6 +13,8 @@ class ProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
+    Categories categories = Categories();
 
     return Scaffold(
       body: Padding(
@@ -31,10 +34,10 @@ class ProductScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (int i = 0; i < 10; i++)
+                    for (final category in categories.categories)
                       SizedBox(
-                        width: screenWidth * 0.2,
-                        child: CategoryButton(title: "Category $i"),
+                        width: screenWidth * 0.25,
+                        child: CategoryButton(title: category['title'], icon: category['icon']),
                       ),
                   ],
                 ),
