@@ -20,6 +20,7 @@ class AppPages{
     GetPage(
       name: AppRoutes.home,
       page: () => HomeScreen(),
+      
     ),
     GetPage(
       name: AppRoutes.categories,
