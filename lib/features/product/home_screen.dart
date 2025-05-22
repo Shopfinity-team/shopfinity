@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/product_controller.dart';
-import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/home_screen_top_cards.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/shared/widgets/search_bar.dart';
@@ -19,8 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    //controller.getAllProducts(); //for get all products
     controller.getLimitProducts(); // for get limit products
+    controller.getRecommendedGroceries();
     super.initState();
   }
 
@@ -130,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   Obx(() {
-                    if (controller.isLoading.value) {
+                    if (controller.isLimitProductsLoading.value) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
@@ -138,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: controller.products.map((product) {
+                        children: controller.limitProducts.map((product) {
                           return SizedBox(
                             height: cardHeight,
                             width: cardWidth,
@@ -173,25 +172,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       )
                     ],
                   ),
-                  SizedBox(
-                    child: SingleChildScrollView(
+                  Obx(() {
+                    if (controller.isRecommendedGroceriesLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: List.generate(10, (index) {
-                          final product = Product(
-                              title: 'Essence Mascara Lash Princess',
-                              imageUrl:
-                                  'https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp',
-                              price: 9.99);
+                        children:
+                            controller.recommendedGroceries.map((product) {
                           return SizedBox(
                             height: cardHeight,
                             width: cardWidth,
                             child: ProductCard(product: product),
                           );
-                        }),
+                        }).toList(),
                       ),
-                    ),
-                  )
+                    );
+                  }),
                 ],
               )),
         ));
