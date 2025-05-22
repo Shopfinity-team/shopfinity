@@ -39,6 +39,7 @@ dependencies:
   persistent_bottom_nav_bar_v2: ^5.4.0
   country_picker: ^2.0.27
   http: ^1.4.0
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:

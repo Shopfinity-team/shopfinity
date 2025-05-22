@@ -5,15 +5,16 @@ import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
-void main() {
+void main() async {
   Get.put(ProductController());
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -64,6 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return const LoginPage();
+    return LoginPage();
   }
 }
