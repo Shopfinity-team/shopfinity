@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopfinity/controllers/category_controller.dart';
 import 'package:shopfinity/shared/widgets/categories.dart';
 import 'package:shopfinity/shared/widgets/category_buton.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
@@ -15,6 +17,7 @@ class ProductScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     Categories categories = Categories();
+    CategoryController categoryController = Get.put(CategoryController());
 
     return Scaffold(
       body: Padding(
@@ -30,18 +33,38 @@ class ProductScreen extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.03,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    for (final category in categories.categories)
-                      SizedBox(
-                        width: screenWidth * 0.25,
-                        child: CategoryButton(title: category['title'], icon: category['icon']),
-                      ),
-                  ],
+                SizedBox(
+                  height: screenHeight * 0.1,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: categories.categories.length,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        width: screenWidth * 0.215,
+                        child: CategoryButton(
+                          title: categories.categories[index]['title'],
+                          icon: categories.categories[index]['icon'],
+                          controller: categoryController,
+                          index: categories.categories[index]['index'],
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Obx(() =>
+              //     Row(
+              //         children: [
+              //           for (final category in categories.categories)
+              //             SizedBox(
+              //               width: screenWidth * 0.215,
+              //               child: CategoryButton(title: category['title'], icon: category['icon'], controller: categoryController, index: category['index'],),
+              //             ),
+              //         ],
+              //       ),
+              //   ),
+              // ),
               SizedBox(
                 height: screenHeight * 0.04,
               ),
