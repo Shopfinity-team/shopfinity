@@ -65,18 +65,18 @@ class ProductDetailsScreen extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.01,
               ),
-              const Row(
+              Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.star,
                     color: Color(0xFFFFCC00),
                   ),
                   //Text(product.productRate.toString())
                   Padding(
-                    padding: EdgeInsets.only(left: 10.0),
+                    padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
-                      '4.94',
-                      style: TextStyle(
+                      product.productRate.toString(),
+                      style: const TextStyle(
                           color: AppColors.secondaryText, fontSize: 14),
                     ),
                   )
@@ -96,9 +96,9 @@ class ProductDetailsScreen extends StatelessWidget {
                 height: screenHeight * 0.01,
               ),
               //Text(product.description ?? 'no description'),
-              const Text(
-                'The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.',
-                style: TextStyle(
+              Text(
+                product.description ?? '',
+                style: const TextStyle(
                   color: Color(0xFF706D6D),
                   fontSize: 12,
                 ),
