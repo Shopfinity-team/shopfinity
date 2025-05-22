@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shopfinity/features/auth/profile_screen.dart';
-import 'package:shopfinity/features/product/cart_screen.dart';
-import 'package:shopfinity/features/product/home_screen.dart';
-import 'package:shopfinity/features/product/product_screen.dart';
+import 'package:get/get.dart';
+import 'package:shopfinity/routes/app_routes.dart';
 import 'package:shopfinity/theme/app_colors.dart';
+
+import '../features/auth/profile_screen.dart';
+import '../features/product/cart_screen.dart';
+import '../features/product/home_screen.dart';
+import '../features/product/product_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -15,12 +18,26 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
+  final List<String> _routes = [
+    AppRoutes.home,
+    AppRoutes.categories,
+    AppRoutes.cart,
+    AppRoutes.profile
+  ];
   final List<Widget> _screens = [
     const HomeScreen(),
     const ProductScreen(),
     const CartScreen(),
     const ProfileScreen()
   ];
+
+  void onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    Get.offNamed(_routes[index]); //for navigate to corresponding name route
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +52,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           child: NavigationBar(
             selectedIndex: _selectedIndex,
-            onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
+            onDestinationSelected: onItemTapped,
             backgroundColor: AppColors.dividerColor,
             destinations: const <NavigationDestination>[
               NavigationDestination(

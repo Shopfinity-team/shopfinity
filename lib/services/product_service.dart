@@ -47,4 +47,22 @@ class ProductService extends GetConnect {
       throw Exception('failed to fetch limit products');
     }
   }
+
+  //for fetch groceries for home screen
+
+  Future<List<Product>?> getRecommendedGroceries() async {
+    final response = await get('/products/category/groceries');
+
+    if (response.statusCode == 200 && response.body != null) {
+      final jsonData = response.body;
+      final List productsJson = jsonData['products'];
+
+      return productsJson
+          .map((product) => Product.fromJson(product))
+          .toList()
+          .cast<Product>();
+    } else {
+      throw Exception('failed to fetch recommended groceries');
+    }
+  }
 }
