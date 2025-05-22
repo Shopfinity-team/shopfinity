@@ -6,13 +6,18 @@ import '../model/product_model.dart';
 class ProductController extends GetxController {
   final ProductService _productService = ProductService();
 
+  var isAllProductsLoading = true.obs;
+  var isLimitProductsLoading = true.obs;
+  var isRecommendedGroceriesLoading = true.obs;
+
   var products = <Product>[].obs;
-  var isLoading = true.obs;
+  var limitProducts = <Product>[].obs;
+  var recommendedGroceries = <Product>[].obs;
 
   //for get all products
   Future<void> getAllProducts() async {
     try {
-      isLoading(true);
+      isAllProductsLoading(true);
       final result = await _productService.getAllProducts();
       if (result != null) {
         products.assignAll(result);
@@ -20,7 +25,7 @@ class ProductController extends GetxController {
     } catch (e) {
       print('error fetching all products');
     } finally {
-      isLoading(false);
+      isAllProductsLoading(false);
     }
   }
 
@@ -28,16 +33,31 @@ class ProductController extends GetxController {
 
   Future<void> getLimitProducts() async {
     try {
-      isLoading(true);
+      isLimitProductsLoading(true);
       final result = await _productService.getLimitProducts();
 
       if (result != null) {
-        products.assignAll(result);
+        limitProducts.assignAll(result);
       }
     } catch (e) {
       print('error fetching limit products');
     } finally {
-      isLoading(false);
+      isLimitProductsLoading(false);
+    }
+  }
+
+  //for get recommended groceries
+  Future<void> getRecommendedGroceries() async {
+    try {
+      isRecommendedGroceriesLoading(true);
+      final result = await _productService.getRecommendedGroceries();
+      if (result != null) {
+        recommendedGroceries.assignAll(result);
+      }
+    } catch (e) {
+      print('error fetching recommended groceries');
+    } finally {
+      isRecommendedGroceriesLoading(false);
     }
   }
 }
