@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
@@ -110,10 +111,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   child: Button(
                       text: 'Buy Now',
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CartScreen()));
+                        Get.to(() => CartScreen());
                       }))
             ],
           ),

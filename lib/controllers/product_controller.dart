@@ -9,10 +9,12 @@ class ProductController extends GetxController {
   var isAllProductsLoading = true.obs;
   var isLimitProductsLoading = true.obs;
   var isRecommendedGroceriesLoading = true.obs;
+  var isSearchLoading = true.obs;
 
   var products = <Product>[].obs;
   var limitProducts = <Product>[].obs;
   var recommendedGroceries = <Product>[].obs;
+  var searchedProducts = <Product>[].obs;
 
   //for get all products
   Future<void> getAllProducts() async {
@@ -58,6 +60,22 @@ class ProductController extends GetxController {
       print('error fetching recommended groceries');
     } finally {
       isRecommendedGroceriesLoading(false);
+    }
+  }
+
+  //for search products
+  Future<void> searchProducts(String query) async {
+    try {
+      isSearchLoading(true);
+      final result = await _productService.searchProducts(query);
+      print(result);
+      if (result != null) {
+        searchedProducts.assignAll(result);
+      }
+    } catch (e) {
+      print('error searching items');
+    } finally {
+      isSearchLoading(false);
     }
   }
 }
