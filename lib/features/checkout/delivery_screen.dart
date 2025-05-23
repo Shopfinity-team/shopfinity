@@ -1,9 +1,9 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
-
-import '../../theme/app_colors.dart';
+import 'package:shopfinity/shared/widgets/checkoutInputField.dart';
 
 class DeliveryScreen extends StatefulWidget {
   DeliveryScreen({super.key});
@@ -18,6 +18,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   final TextEditingController _streetController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _postalCodeController = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -62,132 +64,94 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                         SizedBox(
                           height: screenHeight * 0.02,
                         ),
-                        TextField(
-                          controller: _countryController,
-                          cursorColor: AppColors.primaryText,
-                          decoration: InputDecoration(
-                              labelText: "Country",
-                              hintText: 'Select Country',
-                              labelStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.color,
-                              ),
-                              hintStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.color,
-                              ),
-                              focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppColors.primaryText, width: 1)),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  showCountryPicker(
-                                      context: context,
-                                      onSelect: (Country country) {
-                                        setState(() {
-                                          _countryController.text =
-                                              country.name;
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              InputField(
+                                controller: _countryController,
+                                labelText: 'country',
+                                hintText: 'Select Country',
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    showCountryPicker(
+                                        context: context,
+                                        onSelect: (Country country) {
+                                          setState(() {
+                                            _countryController.text =
+                                                country.name;
+                                          });
                                         });
-                                      });
+                                  },
+                                  icon: const Icon(Icons.arrow_drop_down),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '* Please select country';
+                                  }
+                                  return null;
                                 },
-                                icon: Icon(Icons.arrow_drop_down),
-                              )),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        TextField(
-                          controller: _districtController,
-                          cursorColor: AppColors.primaryText,
-                          decoration: InputDecoration(
-                            labelText: "District",
-                            //hintText: 'Enter Country',
-                            labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                            hintStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: AppColors.primaryText, width: 1)),
+                              ),
+                              SizedBox(
+                                height: screenHeight * 0.02,
+                              ),
+                              InputField(
+                                controller: _districtController,
+                                labelText: 'District',
+                                validator: (value) {
+                                  if (_countryController.text == 'Sri Lanka') {
+                                    if (value == null || value.isEmpty) {
+                                      return '* Please enter district';
+                                    }
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: screenHeight * 0.02,
+                              ),
+                              InputField(
+                                labelText: 'Street',
+                                controller: _streetController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '* Please enter street';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: screenHeight * 0.02,
+                              ),
+                              InputField(
+                                labelText: 'City',
+                                controller: _cityController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '* Please enter city';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: screenHeight * 0.02,
+                              ),
+                              InputField(
+                                labelText: 'Postal Code',
+                                controller: _postalCodeController,
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '* Please enter postal code';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: screenHeight * 0.02,
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        TextField(
-                          controller: _streetController,
-                          cursorColor: AppColors.primaryText,
-                          decoration: InputDecoration(
-                            labelText: "Street",
-                            //hintText: 'Enter Country',
-                            labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                            hintStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: AppColors.primaryText, width: 1)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        TextField(
-                          controller: _cityController,
-                          cursorColor: AppColors.primaryText,
-                          decoration: InputDecoration(
-                            labelText: "City",
-                            //hintText: 'Enter Country',
-                            labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                            hintStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: AppColors.primaryText, width: 1)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        TextField(
-                          controller: _postalCodeController,
-                          cursorColor: AppColors.primaryText,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            labelText: "Postal Code",
-                            //hintText: 'Enter Country',
-                            labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                            hintStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: AppColors.primaryText, width: 1)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
                         ),
                       ],
                     ),
@@ -200,10 +164,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               Button(
                   text: "Next",
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PaymentScreen()));
+                    if (formKey.currentState!.validate()) {
+                      Get.to(() => PaymentScreen());
+                    } else {
+                      print('form is not valid');
+                    }
                   }),
               SizedBox(
                 height: screenHeight * 0.02,
