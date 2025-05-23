@@ -81,9 +81,11 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.08,
               ),
-              Button(
-                  text: "Login",
-                  onPressed: controller.login
+              Obx(() =>
+                Button(
+                    text: controller.isLoading.value ? "Loading..." : "Login",
+                    onPressed: controller.login
+                ),
               )
             ],
           ),

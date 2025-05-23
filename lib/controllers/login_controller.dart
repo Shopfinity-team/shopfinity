@@ -1,82 +1,69 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shopfinity/features/product/home_screen.dart';
-import 'package:http/http.dart' as http;
+import 'package:shopfinity/services/login_service.dart';
 
-class LoginController extends GetxController{
+class LoginController extends GetxController {
   final username = TextEditingController();
   final password = TextEditingController();
   final isLoading = false.obs;
   final isPasswordVisible = false.obs;
 
   final formKey = GlobalKey<FormState>();
+  final LoginService _loginService = LoginService();
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
   Future<void> login() async {
-  if (formKey.currentState!.validate()) {
-    isLoading.value = true;
-    
-    try {
-      final response = await http.post(
-        Uri.parse("https://dummyjson.com/auth/login"),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(({
-          'username': username.text,
-          'password': password.text,
-        })),
-      );
+    final formState = formKey.currentState;
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-          final token = data['token'];
+    if (formState == null) {
+      Get.snackbar("Error", "Form state is null", snackPosition: SnackPosition.TOP);
+      return;
+    }
 
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('access_token', token);
-          await prefs.get('access_token');
-          print("Token: $token");
+    if (formState.validate()) {
+      isLoading.value = true;
 
-          Get.snackbar("Success", "Logged in successfully", snackPosition: SnackPosition.BOTTOM);
-          Get.offAll(() => HomeScreen());
-      }else{
-        // final error = jsonDecode(response.body);
+      try {
+        final token = await _loginService.login(username.text, password.text);
+
+        if (token != null) {
+          Get.snackbar(
+            "Success", "Logged in successfully", 
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+          );
+          Get.toNamed('/home');
+        } else {
+          Get.snackbar(
+            "Login Failed", "Invalid username or password",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+        }
+      } catch (e) {
         Get.snackbar(
-          "error", "Invalid username or password", 
-          snackPosition: SnackPosition.BOTTOM,
+          "Login failed", "An error occurred: $e",
+          snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white,
-          );
-        // print("Error: ${error}");
+        );
+      } finally {
+        isLoading.value = false;
       }
-
-    } catch (e) {
-      Get.snackbar("Error", "An error occurred: $e", 
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      print("Error: $e");
-    } finally {
-      isLoading.value = false;
+    } else {
+      Get.snackbar("Error", "Please fix errors", snackPosition: SnackPosition.TOP);
     }
-  } else {
-    Get.snackbar("Error", "Please fix errors", snackPosition: SnackPosition.BOTTOM);
   }
-}
 
-
-   @override
+  @override
   void onClose() {
     username.dispose();
     password.dispose();
     super.onClose();
   }
-
 }
