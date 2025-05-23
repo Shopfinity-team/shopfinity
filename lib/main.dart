@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/product_controller.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
+import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/features/product/home_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
@@ -63,6 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return ProductScreen();
+    return CartScreen();
   }
 }
