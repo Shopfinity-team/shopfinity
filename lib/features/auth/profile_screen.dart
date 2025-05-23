@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/features/product/add_product_screen.dart';
+import 'package:shopfinity/model/profile_model.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -9,6 +12,8 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
+    ProfileController profileController = Get.put(ProfileController());
 
     return Scaffold(
       body: SingleChildScrollView(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/product_controller.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
+import 'package:shopfinity/features/auth/profile_screen.dart';
 import 'package:shopfinity/features/checkout/delivery_screen.dart';
 import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/features/product/cart_screen.dart';
@@ -64,6 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    return PaymentScreen();
+    return BottomNavBar();
   }
 }
