@@ -50,7 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               child: Column(
                 children: [
-                  const ProductSearchBar(),
+                  ProductSearchBar(
+                    enabled: false,
+                  ),
                   SizedBox(
                     height: screenHeight * 0.04,
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../features/product/product_details_screen.dart';
 import '../../model/product_model.dart';
@@ -18,12 +19,7 @@ class ProductCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetailsScreen(
-                      product: product,
-                    )));
+        Get.to(() => ProductDetailsScreen(product: product));
       },
       child: Card(
         color: Colors.white,
@@ -38,7 +34,7 @@ class ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
+              Expanded(
                 child: Image.network(
                   product.imageUrl,
                   fit: BoxFit.cover,

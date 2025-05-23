@@ -7,11 +7,11 @@ import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/features/product/add_product_screen.dart';
 import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/features/product/home_screen.dart';
-import 'package:shopfinity/features/product/product_details_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
+import 'package:shopfinity/features/product/search_screen.dart';
 import 'package:shopfinity/routes/app_routes.dart';
 
-class AppPages{
+class AppPages {
   static final pages = [
     GetPage(
       name: AppRoutes.login,
@@ -53,5 +53,6 @@ class AppPages{
       name: AppRoutes.addproduct,
       page: () => AddProductScreen(),
     ),
+    GetPage(name: AppRoutes.search, page: () => SearchScreen())
   ];
 }

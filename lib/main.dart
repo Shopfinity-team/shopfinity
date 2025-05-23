@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/product_controller.dart';
-import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
@@ -53,18 +52,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void onPressed() {
-    // Handle button press
-    print("Button pressed");
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return LoginPage();
+    return BottomNavBar();
   }
 }
