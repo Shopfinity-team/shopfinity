@@ -34,7 +34,9 @@ class ProfileScreen extends StatelessWidget {
                         radius: 35,
                         backgroundColor: Colors.transparent,
                         backgroundImage:
-                            NetworkImage("https://dummyjson.com/icon/emilys/128"),
+                            NetworkImage(profileController.userProfileImage.value.isNotEmpty
+                                ? profileController.userProfileImage.value
+                                : "https://dummyjson.com/icon/emilys/128"),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

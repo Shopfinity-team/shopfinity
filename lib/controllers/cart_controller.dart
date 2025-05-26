@@ -105,6 +105,9 @@ class CartController extends GetxController{
       totalPrice.value -= product.price;
       await cartService.updateCart(cartId, product.id, cartItems[index].quantity.value);
     }
+    else if (index != -1 && cartItems[index].quantity.value == 1) {
+      await removeFromCart(product);
+    }
   }
 
 }
