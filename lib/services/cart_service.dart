@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shopfinity/model/cart_model.dart';
 import 'package:shopfinity/model/product_model.dart';
 
 class CartService {
