@@ -7,7 +7,8 @@ import '../../theme/app_colors.dart';
 
 class ProductSearchBar extends StatefulWidget {
   final bool enabled;
-  ProductSearchBar({super.key, required this.enabled});
+
+  const ProductSearchBar({super.key, required this.enabled});
 
   @override
   State<ProductSearchBar> createState() => _ProductSearchBarState();
@@ -15,7 +16,8 @@ class ProductSearchBar extends StatefulWidget {
 
 class _ProductSearchBarState extends State<ProductSearchBar> {
   final controller = Get.find<ProductController>();
-  TextEditingController _searchInputController = TextEditingController();
+
+  final TextEditingController _searchInputController = TextEditingController();
 
   void onSearchChanged(String value) {
     if (value.isEmpty) {
@@ -31,7 +33,7 @@ class _ProductSearchBarState extends State<ProductSearchBar> {
     return GestureDetector(
       onTap: () {
         if (!widget.enabled) {
-          Get.to(() => SearchScreen());
+          Get.to(() => const SearchScreen());
         }
       },
       child: Container(

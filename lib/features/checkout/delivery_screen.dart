@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
-import 'package:shopfinity/shared/widgets/checkoutInputField.dart';
+import 'package:shopfinity/shared/widgets/checkout_input_field.dart';
 
 class DeliveryScreen extends StatefulWidget {
   DeliveryScreen({super.key});
@@ -139,7 +139,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                               InputField(
                                 labelText: 'Postal Code',
                                 controller: _postalCodeController,
-                                keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return '* Please enter postal code';
