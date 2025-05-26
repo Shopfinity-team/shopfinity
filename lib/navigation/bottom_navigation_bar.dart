@@ -35,7 +35,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       _selectedIndex = index;
     });
-    Get.offNamed(_routes[index]); //for navigate to corresponding name route
+    // Get.offNamed(_routes[index]); //for navigate to corresponding name route
   }
 
   @override

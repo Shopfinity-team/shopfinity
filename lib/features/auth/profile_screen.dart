@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/features/product/add_product_screen.dart';
-import 'package:shopfinity/model/profile_model.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -35,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
                         radius: 35,
                         backgroundColor: Colors.transparent,
                         backgroundImage:
-                            NetworkImage(profileController.userProfileImage.value),
+                            NetworkImage("https://dummyjson.com/icon/emilys/128"),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

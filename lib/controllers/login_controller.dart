@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/services/login_service.dart';
 
 class LoginController extends GetxController {
@@ -36,7 +37,7 @@ class LoginController extends GetxController {
             backgroundColor: Colors.green,
             colorText: Colors.white,
           );
-          Get.toNamed('/home');
+          Get.toNamed('/navbar');
         } else {
           Get.snackbar(
             "Login Failed", "Invalid username or password",

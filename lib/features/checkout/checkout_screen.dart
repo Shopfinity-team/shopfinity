@@ -34,6 +34,7 @@ class CheckoutScreen extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final product = Product(
+                    id:  1,
                       title: "Essence Mascara Lash Princess",
                       imageUrl:
                           "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",

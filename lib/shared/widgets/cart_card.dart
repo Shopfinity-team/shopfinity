@@ -70,7 +70,7 @@ class CartCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      isCheckout
+                      !isCheckout
                           ? Text(
                               'Qty:${product.quantity.toString()}',
                               style: TextStyle(color: AppColors.primaryText),
@@ -98,7 +98,7 @@ class CartCard extends StatelessWidget {
                                       onPressed: () {
                                         if (product.quantity > 1) {
                                           cartController.decreaseQuantity(
-                                              product, product.quantity - 1);
+                                              product);
                                         } else {
                                           cartController.removeFromCart(product);
                                         }
@@ -115,7 +115,7 @@ class CartCard extends StatelessWidget {
                                   IconButton(
                                       onPressed: (){
                                         cartController.increaseQuantity(
-                                            product, product.quantity + 1
+                                            product
                                         );
                                       },
                                       icon: Icon(

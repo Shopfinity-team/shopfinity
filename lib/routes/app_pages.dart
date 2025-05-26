@@ -9,6 +9,7 @@ import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/features/product/home_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
 import 'package:shopfinity/features/product/search_screen.dart';
+import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/routes/app_routes.dart';
 
 class AppPages {
@@ -54,6 +55,13 @@ class AppPages {
       name: AppRoutes.addproduct,
       page: () => AddProductScreen(),
     ),
-    GetPage(name: AppRoutes.search, page: () => SearchScreen())
+    GetPage(
+      name: AppRoutes.search, 
+      page: () => SearchScreen()
+    ),
+    GetPage(
+            name: '/navbar',
+            page: () => BottomNavBar(),
+    )
   ];
 }
