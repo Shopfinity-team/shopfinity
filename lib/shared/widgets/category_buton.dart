@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shopfinity/controllers/category_controller.dart';
+import 'package:shopfinity/shared/widgets/categories.dart';
 
 class CategoryButton extends StatelessWidget {
   final String title;
   final IconData icon;
-  final CategoryController controller;
-  final int index;
+  final int selectedCategoryIndex;
+  final void Function()? onPressed;
 
-  const CategoryButton({super.key, required this.title, required this.icon, required this.controller, required this.index});
+  const CategoryButton({super.key, required this.title, required this.icon, required this.selectedCategoryIndex, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
+    final int index = Categories.categories.indexWhere((category) => category['title'] == title);
     RxBool isSelected = false.obs;
-    isSelected.value = controller.selectedCategoryIndex.value == index;
+    isSelected.value = selectedCategoryIndex == index;
 
     return Obx(() =>
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
             ElevatedButton(
-              onPressed: () => controller.selectCategory(index),
+              onPressed: onPressed,
               style: ElevatedButton.styleFrom(
                 shape: CircleBorder(),
                 padding: EdgeInsets.all(20),

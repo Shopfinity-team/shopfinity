@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Categories{
   
-final List<Map<String, dynamic>> categories = [
+static final List<Map<String, dynamic>> categories = [
   { "index": 0,  "title": "beauty",             "icon": Icons.brush },
   { "index": 1,  "title": "fragrances",         "icon": Icons.spa },
   { "index": 2,  "title": "furniture",          "icon": Icons.chair },

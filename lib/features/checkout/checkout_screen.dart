@@ -12,7 +12,6 @@ class CheckoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +38,6 @@ class CheckoutScreen extends StatelessWidget {
                       imageUrl:
                           "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
                       price: 9.99,
-                      quantity: 5,
                       description:
                           "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.");
                   return Column(

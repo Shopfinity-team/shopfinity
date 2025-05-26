@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopfinity/controllers/cart_controller.dart';
 import 'package:shopfinity/features/checkout/delivery_screen.dart';
 import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
@@ -10,8 +12,9 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartController cartController = Get.put(CartController());
+
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +41,6 @@ class CartScreen extends StatelessWidget {
                       imageUrl:
                           "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
                       price: 9.99,
-                      quantity: 5,
                       description:
                           "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.");
                   return Column(
@@ -55,20 +57,22 @@ class CartScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.1,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Total (3 items):",
+                  "Total ${cartController.cartItemCount.value} items",
                   style: TextStyle(
                     fontSize: 20,
                   ),
                 ),
-                Text(
-                  "\$125.99",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                Obx(() =>
+                  Text(
+                    "\$"+cartController.totalPrice.value.toString(),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 )
               ],
