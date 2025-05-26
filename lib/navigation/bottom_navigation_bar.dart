@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shopfinity/routes/app_routes.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
@@ -35,7 +34,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       _selectedIndex = index;
     });
-    Get.offNamed(_routes[index]); //for navigate to corresponding name route
+    //Get.offNamed(_routes[index]); //for navigate to corresponding name route
   }
 
   @override
