@@ -36,7 +36,7 @@ class ProductCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Image.network(
-                  product.imageUrl,
+                  product.imageUrl ?? 'https://via.placeholder.com/150',
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: cardWidth * 1,
@@ -48,7 +48,7 @@ class ProductCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      product.title,
+                      product.title ?? 'No title',
                       style: TextStyle(
                         fontSize: screenWidth * 0.04,
                         fontStyle: FontStyle.normal,

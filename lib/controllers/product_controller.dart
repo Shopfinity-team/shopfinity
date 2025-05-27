@@ -78,4 +78,21 @@ class  ProductController extends GetxController {
       isSearchLoading(false);
     }
   }
+
+  //for add a product
+  Future<Map<String, dynamic>?> addProduct(Product product) async {
+    final newProduct = {
+      'title': product.title,
+      'description': product.description,
+      'price': product.price,
+      'thumbnail': product.imageUrl,
+    };
+    try {
+      final result = await _productService.addProduct(newProduct);
+      print(result);
+      return result;
+    } catch (e) {
+      print(e);
+    }
+  }
 }
