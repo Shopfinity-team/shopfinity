@@ -11,7 +11,7 @@ class Product {
 
   Product(
       {
-      required this.id,
+      this.id,
       required this.title,
       required this.imageUrl,
       required this.price,

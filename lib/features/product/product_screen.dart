@@ -23,6 +23,8 @@ class _ProductScreenState extends State<ProductScreen> {
 
     CategoryController categoryController = Get.put(CategoryController());
 
+    final productsFuture = categoryController.getCategoryProducts(categoryController.getSelectedCategoryName());
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
@@ -74,27 +76,39 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                 ),
               ),
-              GridView.builder(
-                shrinkWrap: true,
-                physics:
-                    NeverScrollableScrollPhysics(), // Disable inner scrolling
-                itemCount: 10,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: screenHeight * 0.02,
-                  crossAxisSpacing: screenWidth * 0.02,
-                  childAspectRatio:
-                      0.6, // Adjust this based on your ProductCard layout
-                ),
-                itemBuilder: (context, index) {
-                  return ProductCard(
-                      product: Product(
-                        id: 1,
-                    imageUrl:
-                        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-                    title: "Essence Mascara Lash Princess",
-                    price: 9.99,
-                  ));
+              FutureBuilder<List<Product>>(
+                future: productsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Column(
+                      children: [
+                        SizedBox(height: screenHeight*0.1),
+                        Center(child: CircularProgressIndicator()),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('No products found.'));
+                  } else {
+                    final products = snapshot.data!;
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(), // Disable inner scrolling
+                      itemCount: products.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: screenHeight * 0.02,
+                        crossAxisSpacing: screenWidth * 0.02,
+                        childAspectRatio: 0.6, // Adjust this based on your ProductCard layout
+                      ),
+                      itemBuilder: (context, index) {
+                        return ProductCard(
+                          product: products[index],
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             ],

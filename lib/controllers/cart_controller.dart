@@ -66,7 +66,7 @@ class CartController extends GetxController{
       totalPrice.value += product.price;
     }
     cartItemCount.value = cartItems.length;
-    await cartService.updateCart(cartId, product.id, product.quantity.value);
+    await cartService.updateCart(cartId, product.id!, product.quantity.value);
   }
 
   Future<void> removeFromCart(Product product) async {
@@ -74,7 +74,7 @@ class CartController extends GetxController{
       cartItems.remove(product);
       totalPrice.value -= product.price * product.quantity.value;
       cartItemCount.value = cartItems.length;
-      await cartService.updateCart(cartId, product.id, 0);
+      await cartService.updateCart(cartId, product.id!, 0);
     }
   }
 
@@ -94,7 +94,7 @@ class CartController extends GetxController{
     if (index != -1) {
       cartItems[index].quantity.value += 1;
       totalPrice.value += product.price;
-      await cartService.updateCart(cartId, product.id, cartItems[index].quantity.value);
+      await cartService.updateCart(cartId, product.id!, cartItems[index].quantity.value);
     }
   }
 
@@ -103,7 +103,7 @@ class CartController extends GetxController{
     if (index != -1 && cartItems[index].quantity.value > 1) {
       cartItems[index].quantity.value -= 1;
       totalPrice.value -= product.price;
-      await cartService.updateCart(cartId, product.id, cartItems[index].quantity.value);
+      await cartService.updateCart(cartId, product.id!, cartItems[index].quantity.value);
     }
     else if (index != -1 && cartItems[index].quantity.value == 1) {
       await removeFromCart(product);
