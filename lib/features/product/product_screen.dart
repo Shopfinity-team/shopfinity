@@ -89,6 +89,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 itemBuilder: (context, index) {
                   return ProductCard(
                       product: Product(
+                        id: 1,
                     imageUrl:
                         "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
                     title: "Essence Mascara Lash Princess",

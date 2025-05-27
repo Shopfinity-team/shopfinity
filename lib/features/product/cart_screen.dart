@@ -31,21 +31,24 @@ class CartScreen extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            ListView.builder(
-                itemCount: 2,
+            cartController.cartItemCount.value == 0
+            ? Center(
+                child: Text(
+                  "Your cart is empty",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                  ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: cartController.cartItems.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  final product = Product(
-                      title: "Essence Mascara Lash Princess",
-                      imageUrl:
-                          "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-                      price: 9.99,
-                      description:
-                          "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.");
                   return Column(
                     children: [
-                      CartCard(product: product),
+                      CartCard(product: cartController.cartItems[index], isCheckout: true),
                       const Divider(
                         color: Colors.black,
                         height: 20,
@@ -53,7 +56,8 @@ class CartScreen extends StatelessWidget {
                       ),
                     ],
                   );
-                }),
+                },
+              ),
             SizedBox(
               height: screenHeight * 0.1,
             ),
