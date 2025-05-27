@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopfinity/controllers/login_controller.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/features/product/add_product_screen.dart';
@@ -13,6 +14,7 @@ class ProfileScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     ProfileController profileController = Get.put(ProfileController());
+    final loginController = Get.put(LoginController());
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -302,7 +304,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          profileController.logout();
+                          loginController.logout();
                         },
                         icon: const Icon(
                           Icons.logout,

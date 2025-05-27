@@ -25,7 +25,6 @@ class ProfileController extends GetxController{
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('access_token') ?? '';
-      print(token);
 
       final response = await profileService.getCurrentUser(token);
 
@@ -45,13 +44,6 @@ class ProfileController extends GetxController{
     } catch (e) {
       print("Error fetching user data: $e");
     }
-  }
-
-  void logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('access_token');
-    await prefs.remove('refresh_token');
-    Get.offAllNamed('/login');
   }
 
 }

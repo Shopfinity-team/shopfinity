@@ -9,6 +9,7 @@ import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/features/product/home_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
 import 'package:shopfinity/features/product/search_screen.dart';
+import 'package:shopfinity/middleware/auth_middleware.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/routes/app_routes.dart';
 
@@ -21,47 +22,52 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => HomeScreen(),
-      
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: AppRoutes.categories,
       page: () => ProductScreen(),
+      middlewares: [AuthMiddleware()]
     ),
-    // GetPage(
-    //   name: AppRoutes.productDetails,
-    //   page: () => ProductDetailsScreen(product: Product product,),
-    // ),
     GetPage(
       name: AppRoutes.cart,
       page: () => CartScreen(),
+      middlewares: [AuthMiddleware()]
     ),
     GetPage(
       name: AppRoutes.delivery,
       page: () => DeliveryScreen(),
+      middlewares: [AuthMiddleware()]
     ),
     GetPage(
       name: AppRoutes.payment,
       page: () => PaymentScreen(),
+      middlewares: [AuthMiddleware()]
     ),
     GetPage(
       name: AppRoutes.checkout,
       page: () => CheckoutScreen(),
+      middlewares: [AuthMiddleware()]
     ),
     GetPage(
       name: AppRoutes.profile,
       page: () => ProfileScreen(),
+      middlewares: [AuthMiddleware()]
     ),
     GetPage(
       name: AppRoutes.addproduct,
       page: () => AddProductScreen(),
+      middlewares: [AuthMiddleware()]
     ),
     GetPage(
       name: AppRoutes.search, 
-      page: () => SearchScreen()
+      page: () => SearchScreen(),
+      middlewares: [AuthMiddleware()]
     ),
     GetPage(
-            name: '/navbar',
-            page: () => BottomNavBar(),
+      name: '/navbar',
+      page: () => BottomNavBar(),
+      middlewares: [AuthMiddleware()]
     )
   ];
 }

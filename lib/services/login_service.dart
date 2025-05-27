@@ -17,12 +17,14 @@ class LoginService {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final token = data['accessToken'];
+      final accessToken = data['accessToken'];
+      final refreshToken = data['refreshToken'];
 
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('access_token', token);
+      await prefs.setString('access_token', accessToken);
+      await prefs.setString('refresh_token', refreshToken);
 
-      return token;
+      return accessToken;
     } else {
       return null;
     }

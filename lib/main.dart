@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopfinity/controllers/login_controller.dart';
 import 'package:shopfinity/controllers/product_controller.dart';
 import 'package:shopfinity/features/auth/login_screen.dart';
 import 'package:shopfinity/features/auth/profile_screen.dart';
@@ -15,6 +16,7 @@ import 'package:shopfinity/theme/app_colors.dart';
 void main() async {
   Get.put(ProductController());
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(LoginController());
   runApp(MyApp());
 }
 
@@ -48,6 +50,7 @@ class MyApp extends StatelessWidget {
           primary: AppColors.primaryColor,
         ),
       ),
+      initialRoute: '/login',
       home: const MyHomePage(),
     );
   }

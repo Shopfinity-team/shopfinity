@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/services/login_service.dart';
 
 class LoginController extends GetxController {
@@ -8,6 +9,7 @@ class LoginController extends GetxController {
   final password = TextEditingController();
   final isLoading = false.obs;
   final isPasswordVisible = false.obs;
+  RxBool isLoggedIn = false.obs;
 
   final formKey = GlobalKey<FormState>();
   final LoginService _loginService = LoginService();
@@ -37,6 +39,7 @@ class LoginController extends GetxController {
             backgroundColor: Colors.green,
             colorText: Colors.white,
           );
+          isLoggedIn.value = true;
           Get.toNamed('/navbar');
         } else {
           Get.snackbar(
@@ -59,6 +62,14 @@ class LoginController extends GetxController {
     } else {
       Get.snackbar("Error", "Please fix errors", snackPosition: SnackPosition.TOP);
     }
+  }
+
+  void logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    isLoggedIn.value = false;
+    await prefs.remove('access_token');
+    await prefs.remove('refresh_token');
+    Get.offAllNamed('/login');
   }
 
   @override
