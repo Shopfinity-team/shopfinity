@@ -43,7 +43,7 @@ class _ProductSearchBarState extends State<ProductSearchBar> {
         decoration: BoxDecoration(
             color: AppColors.icons,
             borderRadius: BorderRadius.circular(15),
-            border: Border.all(width: 0.4)),
+            border: Border.all(width: 0.8)),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(

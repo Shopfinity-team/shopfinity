@@ -1,0 +1,81 @@
+[33m5c8e699[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mshashini1[m[33m)[m Tempary commit
+[33madeb703[m Tempary commit
+[33mccd444e[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Finished product page
+[33m94b554c[m Updated product model
+[33m5123795[m Merge branch 'main' of https://github.com/Shopfinity-team/shopfinity
+[33mcb47afd[m Finished logout and secured routes
+[33mc7446be[m Merge pull request #15 from Shopfinity-team/shashini1
+[33m897cb40[m Merge branch 'main' into shashini1
+[33m3a0ccf1[m[33m ([m[1;31morigin/shashini1[m[33m)[m Implement add new product function
+[33mb91746c[m Fixed total price issue
+[33ma0e9917[m Fixed update ui in cart screen
+[33m36cd650[m Merge branch 'Layanga1'
+[33mf47554d[m Removed imported cart model
+[33m9718e44[m Fixed remove cart item issue
+[33m3a5866b[m Finished profile page. need to fix some functionality in cart screen
+[33m9121a50[m[33m ([m[1;32mmain[m[33m)[m Merge pull request #14 from Shopfinity-team/shashini1
+[33meeed29e[m Update add product screen with validations
+[33m7e55f78[m Merge branch 'Layanga1'
+[33mde4e7e3[m Finished profile screen states
+[33m837e8bc[m Added profile controller for state management
+[33ma390e73[m Merge pull request #13 from Shopfinity-team/shashini1
+[33md29f422[m Add validations to delivery details form
+[33m1da3aa0[m Added form validations
+[33mffc781c[m Finished states in cart page
+[33m994aa4c[m Merge pull request #12 from Shopfinity-team/shashini1
+[33m29dcf1a[m Merge branch 'main' into shashini1
+[33mf6f0892[m Implement search products function
+[33m332453a[m Fixed issue with category buttons
+[33mfe8f97b[m Finished icon buttons state in product page
+[33m53b13a8[m Added categories icon buttons
+[33m86e017b[m Merge branch 'main' into Layanga1
+[33m34718fb[m Merge pull request #11 from Shopfinity-team/shashini1
+[33m3baddb0[m Finished login function
+[33m2b3bb85[m Completed home screen and product detail screen
+[33mf0a1f55[m Merge pull request #10 from Shopfinity-team/shashini1
+[33m82717e7[m Merge branch 'main' into shashini1
+[33m1faec4c[m Added routes to bottom nav bar
+[33m176d4d0[m Fixed main
+[33m3529608[m Merge branch 'Layanga1'
+[33mf926c81[m Finished login controller. still issue with login shared preferences
+[33mdd42a4e[m Merge pull request #9 from Shopfinity-team/shashini1
+[33m307dabe[m Fetch products from api
+[33m16f7a50[m Created login function
+[33m3b790eb[m Added get routes. added login page form validation
+[33m1579a22[m Updated profile screen ui
+[33ma8d721d[m Merge pull request #8 from Shopfinity-team/shashini1
+[33ma0cbd67[m Temporary commit for shashini1 work
+[33m3e1d17c[m Merge branch 'Layanga1'
+[33m716b173[m Merge pull request #7 from Shopfinity-team/shashini1
+[33m715c6de[m Create add product screen
+[33m7a2aacf[m Merge pull request #6 from Shopfinity-team/shashini1
+[33mb11c97a[m Create checkout screen
+[33m7de1208[m Create checkout delivery screen
+[33m9eb1f9b[m[33m ([m[1;31morigin/Layanga1[m[33m)[m Profile page ui finished
+[33m3437155[m Merge branch 'Layanga1'
+[33m0ecd094[m Merge pull request #5 from Shopfinity-team/shashini2
+[33m4ccb653[m[33m ([m[1;31morigin/shashini2[m[33m, [m[1;32mshashini2[m[33m)[m Create product detail screen
+[33m7e586cd[m Payment screen ui finished
+[33m85ca2eb[m Cart page UI finished
+[33ma13c743[m Merge pull request #4 from Shopfinity-team/shashini2
+[33m51b277b[m Create home screen complete ui
+[33m7626c87[m Cart cart finished, fixed background color issue
+[33mc15e6d6[m Merge pull request #3 from Shopfinity-team/shashini2
+[33mfeb6ac2[m Create home screen top cards
+[33m138ec73[m Merge pull request #2 from Layanga-Rajapakshe/shashini2
+[33m02eb25e[m Merge branch 'main' into shashini2
+[33m12ddbe0[m Create product search bar
+[33m75761e9[m Finished product page ui
+[33me09c6fa[m Created product page layout. not finished
+[33m694c980[m Merge branch 'Layanga1'
+[33m1b08ed9[m Login screen UI finished
+[33m3e1f2cb[m Merge remote-tracking branch 'origin/shashini'
+[33m85dff3c[m[33m ([m[1;31morigin/shashini[m[33m)[m Create bottom navigation bar
+[33mc581cc6[m Added poppins font
+[33mda985ed[m Finished button widget
+[33ma48919a[m Created product card widget
+[33mce49339[m Added color theme
+[33me2ba23e[m Added get dependency
+[33m6337d3e[m Created folder structure
+[33med689b0[m Initial commit
+[33m3382ca6[m Initial commit

@@ -97,10 +97,11 @@ class CartCard extends StatelessWidget {
                                   IconButton(
                                       onPressed: () {
                                         if (product.quantity > 1) {
-                                          cartController.decreaseQuantity(
-                                              product);
+                                          cartController
+                                              .decreaseQuantity(product);
                                         } else {
-                                          cartController.removeFromCart(product);
+                                          cartController
+                                              .removeFromCart(product);
                                         }
                                       },
                                       icon: Icon(
@@ -111,12 +112,12 @@ class CartCard extends StatelessWidget {
                                             ?.color,
                                         size: 16,
                                       )),
-                                  Obx(() => Text(product.quantity.value.toString())),
+                                  Obx(() =>
+                                      Text(product.quantity.value.toString())),
                                   IconButton(
-                                      onPressed: (){
-                                        cartController.increaseQuantity(
-                                            product
-                                        );
+                                      onPressed: () {
+                                        cartController
+                                            .increaseQuantity(product);
                                       },
                                       icon: Icon(
                                         Icons.add,
