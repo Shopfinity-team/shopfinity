@@ -10,4 +10,5 @@ class AppRoutes {
   static const profile = '/profile';
   static const addproduct = '/add-product';
   static const search = '/search';
+  static const newProducts = '/newProducts';
 }

@@ -31,8 +31,8 @@ class ProductService extends GetConnect {
   Future<List<Product>?> getLimitProducts() async {
     final response = await get('/products?limit=10&skip=10');
 
-    print(response.statusCode);
-    print(response.body); //ok
+    //print(response.statusCode);
+    //print(response.body); //ok
 
     if (response.statusCode == 200 && response.body != null) {
       final jsonData = response.body;
@@ -67,8 +67,8 @@ class ProductService extends GetConnect {
   //for search products
   Future<List<Product>?> searchProducts(String query) async {
     final response = await get('/products/search?q=$query');
-    print(response.statusCode);
-    print(response.body);
+    //print(response.statusCode);
+    //print(response.body);
 
     if (response.statusCode == 200 && response.body != null) {
       final jsonData = response.body;
@@ -80,6 +80,22 @@ class ProductService extends GetConnect {
           .cast<Product>();
     } else {
       throw Exception('failed to fetch recommended groceries');
+    }
+  }
+
+  //for add a product
+  Future<Map<String, dynamic>?> addProduct(Map<String, dynamic> Product) async {
+    final response = await post(
+      '/products/add',
+      Product,
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if ((response.statusCode == 200 || response.statusCode == 201) &&
+        response.body != null) {
+      return response.body;
+    } else {
+      throw Exception('error posting : ${response.body}');
     }
   }
 }

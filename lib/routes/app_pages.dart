@@ -20,7 +20,6 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => HomeScreen(),
-      
     ),
     GetPage(
       name: AppRoutes.categories,
@@ -54,6 +53,6 @@ class AppPages {
       name: AppRoutes.addproduct,
       page: () => AddProductScreen(),
     ),
-    GetPage(name: AppRoutes.search, page: () => SearchScreen())
+    GetPage(name: AppRoutes.search, page: () => SearchScreen()),
   ];
 }

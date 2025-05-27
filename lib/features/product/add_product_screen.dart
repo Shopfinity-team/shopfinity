@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
+import 'package:shopfinity/controllers/product_controller.dart';
+import 'package:shopfinity/features/product/new_products_screen.dart';
+import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/shared/widgets/checkout_input_field.dart';
 
@@ -11,14 +13,15 @@ class AddProductScreen extends StatefulWidget {
   State<AddProductScreen> createState() => _AddProductScreenState();
 }
 
-final addProductFormKey = GlobalKey<FormState>();
-
 class _AddProductScreenState extends State<AddProductScreen> {
+  final controller = Get.find<ProductController>();
   final TextEditingController _productTitleController = TextEditingController();
   final TextEditingController _productDescriptionController =
       TextEditingController();
   final TextEditingController _productPriceController = TextEditingController();
   final TextEditingController _productImageController = TextEditingController();
+
+  final addProductFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -137,9 +140,34 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
               Button(
                   text: "Save",
-                  onPressed: () {
+                  onPressed: () async {
                     if (addProductFormKey.currentState!.validate()) {
-                      Get.to(() => const BottomNavBar());
+                      final price =
+                          double.tryParse(_productPriceController.text.trim());
+                      if (price == null) {
+                        print('enter valid price');
+                        return;
+                      }
+                      final product = Product(
+                          title: _productTitleController.text.trim(),
+                          price: price,
+                          description:
+                              _productDescriptionController.text.trim(),
+                          imageUrl: _productImageController.text
+                                  .trim()
+                                  .isNotEmpty
+                              ? _productImageController.text.trim()
+                              : 'https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp');
+
+                      final result = await controller.addProduct(product);
+
+                      if (result != null) {
+                        Get.to(() => NewProductsScreen(
+                            products: [Product.fromJson(result)]));
+                        print('new product added successfully');
+                      } else {
+                        print('failed to add new product');
+                      }
                     } else {
                       print('Form is not valid');
                     }
