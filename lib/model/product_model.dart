@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class Product {
-  final int id;
+  final int? id;
   final String title;
   final String imageUrl;
   final double price;
@@ -21,7 +21,7 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-
+      id: json['id'] ?? 0,
       title: json['title'] ?? '',
       imageUrl: json['thumbnail'] ?? '',
       price: (json['price'] ?? 0).toDouble(),
