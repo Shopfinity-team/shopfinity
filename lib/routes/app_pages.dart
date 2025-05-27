@@ -59,6 +59,7 @@ class AppPages {
       page: () => AddProductScreen(),
       middlewares: [AuthMiddleware()]
     ),
+
     GetPage(
       name: AppRoutes.search, 
       page: () => SearchScreen(),
@@ -69,5 +70,6 @@ class AppPages {
       page: () => BottomNavBar(),
       middlewares: [AuthMiddleware()]
     )
+
   ];
 }
