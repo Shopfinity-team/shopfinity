@@ -29,70 +29,72 @@ class CartScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            cartController.cartItemCount.value == 0
-            ? Center(
-                child: Text(
-                  "Your cart is empty",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
-                  ),
-                ),
-              )
-            : ListView.builder(
-                itemCount: cartController.cartItems.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      CartCard(product: cartController.cartItems[index], isCheckout: true),
-                      const Divider(
-                        color: Colors.black,
-                        height: 20,
-                        thickness: 1,
-                      ),
-                    ],
-                  );
-                },
-              ),
-            SizedBox(
-              height: screenHeight * 0.1,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total ${cartController.cartItemCount.value} items",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                Obx(() =>
-                  Text(
-                    "\$"+cartController.totalPrice.value.toString(),
+        child: Obx(() =>
+          Column(
+            children: [
+              cartController.cartItemCount.value == 0
+              ? Center(
+                  child: Text(
+                    "Your cart is empty",
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),
                   ),
                 )
-              ],
-            ),
-            SizedBox(
-              height: screenHeight * 0.1,
-            ),
-            Button(
-                text: "Checkout",
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DeliveryScreen()));
-                }),
-          ],
+              : ListView.builder(
+                  itemCount: cartController.cartItems.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        CartCard(product: cartController.cartItems[index], isCheckout: true),
+                        const Divider(
+                          color: Colors.black,
+                          height: 20,
+                          thickness: 1,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              SizedBox(
+                height: screenHeight * 0.1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total ${cartController.cartItemCount.value} items",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  Obx(() =>
+                    Text(
+                      "\$"+cartController.totalPrice.value.toString(),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: screenHeight * 0.1,
+              ),
+              Button(
+                  text: "Checkout",
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DeliveryScreen()));
+                  }),
+            ],
+          ),
         ),
       ),
     );

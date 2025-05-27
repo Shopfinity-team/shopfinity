@@ -302,10 +302,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
+                          profileController.logout();
                         },
                         icon: const Icon(
                           Icons.logout,
