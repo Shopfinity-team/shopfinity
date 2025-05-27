@@ -3,7 +3,7 @@ import 'package:shopfinity/services/product_service.dart';
 
 import '../model/product_model.dart';
 
-class ProductController extends GetxController {
+class  ProductController extends GetxController {
   final ProductService _productService = ProductService();
 
   var isAllProductsLoading = true.obs;

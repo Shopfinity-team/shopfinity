@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopfinity/controllers/cart_controller.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
 import '../../model/product_model.dart';
@@ -11,10 +13,10 @@ class CartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartController cartController = Get.put(CartController());
+
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     double cardWidth = screenWidth * 0.9;
-    double cardHeight = screenHeight * 0.3;
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -68,7 +70,7 @@ class CartCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      isCheckout
+                      !isCheckout
                           ? Text(
                               'Qty:${product.quantity.toString()}',
                               style: TextStyle(color: AppColors.primaryText),
@@ -93,7 +95,14 @@ class CartCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        if (product.quantity > 1) {
+                                          cartController.decreaseQuantity(
+                                              product);
+                                        } else {
+                                          cartController.removeFromCart(product);
+                                        }
+                                      },
                                       icon: Icon(
                                         Icons.remove,
                                         color: Theme.of(context)
@@ -102,9 +111,13 @@ class CartCard extends StatelessWidget {
                                             ?.color,
                                         size: 16,
                                       )),
-                                  Text(product.quantity.toString()),
+                                  Obx(() => Text(product.quantity.value.toString())),
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: (){
+                                        cartController.increaseQuantity(
+                                            product
+                                        );
+                                      },
                                       icon: Icon(
                                         Icons.add,
                                         color: Theme.of(context)

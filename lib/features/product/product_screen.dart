@@ -8,15 +8,19 @@ import 'package:shopfinity/shared/widgets/search_bar.dart';
 
 import '../../model/product_model.dart';
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
 
+  @override
+  State<ProductScreen> createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    Categories categories = Categories();
     CategoryController categoryController = Get.put(CategoryController());
 
     return Scaffold(
@@ -39,42 +43,35 @@ class ProductScreen extends StatelessWidget {
                   height: screenHeight * 0.1,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: categories.categories.length,
+                    itemCount: Categories.categories.length,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        width: screenWidth * 0.215,
-                        child: CategoryButton(
-                          title: categories.categories[index]['title'],
-                          icon: categories.categories[index]['icon'],
-                          controller: categoryController,
-                          index: categories.categories[index]['index'],
+                      return Obx(() =>
+                        SizedBox(
+                          width: screenWidth * 0.215,
+                          child: CategoryButton(
+                            title: Categories.categories[index]['title'],
+                            icon: Categories.categories[index]['icon'],
+                            onPressed: () {
+                              categoryController.selectCategory(index);
+                            },
+                            selectedCategoryIndex:
+                                categoryController.selectedCategoryIndex.value,
+                          ),
                         ),
                       );
                     },
                   ),
                 ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Obx(() =>
-              //     Row(
-              //         children: [
-              //           for (final category in categories.categories)
-              //             SizedBox(
-              //               width: screenWidth * 0.215,
-              //               child: CategoryButton(title: category['title'], icon: category['icon'], controller: categoryController, index: category['index'],),
-              //             ),
-              //         ],
-              //       ),
-              //   ),
-              // ),
               SizedBox(
                 height: screenHeight * 0.04,
               ),
-              Text(
-                "Beauty Products",
-                style: TextStyle(
-                  fontSize: screenWidth * 0.05,
-                  fontWeight: FontWeight.w600,
+              Obx(() =>
+                Text(
+                  categoryController.selectedCategory.value + " Products",
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.05,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               GridView.builder(
@@ -92,6 +89,7 @@ class ProductScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ProductCard(
                       product: Product(
+                        id: 1,
                     imageUrl:
                         "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
                     title: "Essence Mascara Lash Princess",

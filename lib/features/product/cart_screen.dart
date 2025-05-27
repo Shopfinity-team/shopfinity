@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopfinity/controllers/cart_controller.dart';
 import 'package:shopfinity/features/checkout/delivery_screen.dart';
 import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
@@ -10,8 +12,9 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartController cartController = Get.put(CartController());
+
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -26,65 +29,72 @@ class CartScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            ListView.builder(
-                itemCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final product = Product(
-                      title: "Essence Mascara Lash Princess",
-                      imageUrl:
-                          "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-                      price: 9.99,
-                      quantity: 5,
-                      description:
-                          "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.");
-                  return Column(
-                    children: [
-                      CartCard(product: product),
-                      const Divider(
-                        color: Colors.black,
-                        height: 20,
-                        thickness: 1,
-                      ),
-                    ],
-                  );
-                }),
-            SizedBox(
-              height: screenHeight * 0.1,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total (3 items):",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                Text(
-                  "\$125.99",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+        child: Obx(() =>
+          Column(
+            children: [
+              cartController.cartItemCount.value == 0
+              ? Center(
+                  child: Text(
+                    "Your cart is empty",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                    ),
                   ),
                 )
-              ],
-            ),
-            SizedBox(
-              height: screenHeight * 0.1,
-            ),
-            Button(
-                text: "Checkout",
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DeliveryScreen()));
-                }),
-          ],
+              : ListView.builder(
+                  itemCount: cartController.cartItems.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        CartCard(product: cartController.cartItems[index], isCheckout: true),
+                        const Divider(
+                          color: Colors.black,
+                          height: 20,
+                          thickness: 1,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              SizedBox(
+                height: screenHeight * 0.1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total ${cartController.cartItemCount.value} items",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  Obx(() =>
+                    Text(
+                      "\$"+cartController.totalPrice.value.toStringAsFixed(2),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: screenHeight * 0.1,
+              ),
+              Button(
+                  text: "Checkout",
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DeliveryScreen()));
+                  }),
+            ],
+          ),
         ),
       ),
     );
