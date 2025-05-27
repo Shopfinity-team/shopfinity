@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Image.asset('lib/assets/images/logo.png'),
           backgroundColor: Colors.white,
           elevation: 0,
+          automaticallyImplyLeading: false,
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
