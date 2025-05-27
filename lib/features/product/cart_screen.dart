@@ -73,7 +73,7 @@ class CartScreen extends StatelessWidget {
                   ),
                   Obx(() =>
                     Text(
-                      "\$"+cartController.totalPrice.value.toString(),
+                      "\$"+cartController.totalPrice.value.toStringAsFixed(2),
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
