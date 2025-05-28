@@ -11,6 +11,12 @@ class CategoryController extends GetxController{
 
   CategoryService categoryService = CategoryService();
 
+  @override
+  void onInit() {
+    super.onInit();
+    getCategoryProducts(selectedCategory.value);
+  }
+
   void selectCategory(int index) {
     selectedCategoryIndex.value = index;
     setSelectedCategory();

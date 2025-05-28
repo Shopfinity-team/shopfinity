@@ -12,15 +12,6 @@ class CartController extends GetxController{
   CartService cartService = CartService();
   ProfileController profileController = Get.put(ProfileController());
 
-  @override
-  void onInit() {
-    super.onInit();
-    userId = profileController.userId.value;
-    syncWithServer(userId);
-    if (cartId == null || cartId  == 0) {
-      createCart(userId, cartItems);
-    }
-  }
   late String userId;
 
   Future<void> syncWithServer(String userId) async{
@@ -39,6 +30,14 @@ class CartController extends GetxController{
       }
     } catch (e) {
       print("Error syncing with server: $e");
+    }
+  }
+
+  Future<void> initializeCartForUser(String userId) async {
+    this.userId = userId;
+    await syncWithServer(userId);
+    if (cartId == null || cartId == 0) {
+      await createCart(userId, cartItems);
     }
   }
 

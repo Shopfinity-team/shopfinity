@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopfinity/controllers/cart_controller.dart';
+import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/services/login_service.dart';
 
 class LoginController extends GetxController {
@@ -40,6 +42,14 @@ class LoginController extends GetxController {
             colorText: Colors.white,
           );
           isLoggedIn.value = true;
+          // Store user profile details
+          final profileController = Get.put(ProfileController());
+          String userId = profileController.userId.value;
+
+          // Initialize the cart for this user
+          final cartController = Get.put(CartController());
+          await cartController.initializeCartForUser(userId);
+          
           Get.toNamed('/navbar');
         } else {
           Get.snackbar(
