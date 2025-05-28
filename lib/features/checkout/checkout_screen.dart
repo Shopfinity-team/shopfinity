@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
+import 'package:shopfinity/controllers/login_controller.dart';
+import 'package:shopfinity/controllers/profile_controller.dart';
+import 'package:shopfinity/features/checkout/delivery_screen.dart';
+import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/theme/app_colors.dart';
@@ -14,7 +18,11 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final CartController cartController =
         Get.find(); //Access existing cart controller
+    final LoginController loginController = Get.put(LoginController());
+    ProfileController profileController = Get.put(ProfileController());
+
     double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,32 +73,81 @@ class CheckoutScreen extends StatelessWidget {
                 height: screenHeight * 0.04,
               ),
               Text(
-                'Summary',
+                'Shipping Details',
                 style: TextStyle(
                     fontSize: 20,
                     color: Theme.of(context).textTheme.bodyMedium?.color,
                     fontWeight: FontWeight.w700),
               ),
               SizedBox(
-                height: screenHeight * 0.01,
+                height: screenHeight * 0.02,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+                  Text(
+                    'Shipping Address',
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16),
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.01,
+                  ),
+                  Row(
                     children: [
-                      Text(
-                        'Name: ',
-                        style: TextStyle(
-                            color: AppColors.secondaryText, fontSize: 12),
+                      Text(profileController.firstName.value,
+                          style: const TextStyle(
+                              color: AppColors.secondaryText,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600)),
+                      SizedBox(
+                        width: screenWidth * 0.01,
                       ),
-                      Text('John Doe',
-                          style: TextStyle(
-                              color: AppColors.secondaryText, fontSize: 12))
+                      Text(profileController.lastName.value,
+                          style: const TextStyle(
+                              color: AppColors.secondaryText,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600)),
+                      SizedBox(
+                        width: screenWidth * 0.05,
+                      ),
+                      Text(profileController.userPhone.value,
+                          style: const TextStyle(
+                              color: AppColors.secondaryText,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600)),
                     ],
                   ),
                   SizedBox(
                     height: screenHeight * 0.01,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: Text(
+                          profileController.userAddress.value,
+                          style: const TextStyle(
+                              color: AppColors.secondaryText, fontSize: 14),
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            Get.to(() => DeliveryScreen());
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.black,
+                            size: 15,
+                          ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.02,
                   ),
                   Text(
                     'Payment Method',
@@ -99,85 +156,74 @@ class CheckoutScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         fontSize: 16),
                   ),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const Row(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Card Number: ',
-                        style: TextStyle(
-                            color: AppColors.secondaryText, fontSize: 12),
+                      Row(
+                        children: [
+                          Text(
+                            'Card Number: ',
+                            style: TextStyle(
+                                color: AppColors.secondaryText, fontSize: 14),
+                          ),
+                          Text(profileController.cardNumber.value,
+                              style: TextStyle(
+                                color: AppColors.secondaryText,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ],
                       ),
-                      Text('1212 1212 1212',
-                          style: TextStyle(
-                              color: AppColors.secondaryText, fontSize: 12))
+                      IconButton(
+                          onPressed: () {
+                            Get.to(() => PaymentScreen());
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: Colors.black,
+                            size: 15,
+                          ))
                     ],
                   ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: screenHeight * 0.04,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Amount: ',
+                        'Total: ',
                         style: TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyMedium?.color,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18),
                       ),
-                      const Text(
-                        '\$125.99',
+                      Text(
+                        '\$' +
+                            cartController.totalPrice.value.toStringAsFixed(2),
                         style: TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w700,
-                            fontSize: 18),
+                            fontSize: 20),
                       )
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  Text(
-                    'Delivery',
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyMedium?.color,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: screenHeight * 0.01,
-                  ),
-                  const Row(
-                    children: [
-                      Text(
-                        'Address: ',
-                        style: TextStyle(
-                            color: AppColors.secondaryText, fontSize: 12),
-                      ),
-                      Text('90090, Hapugala,Wakwella, Galle, Srilanka',
-                          style: TextStyle(
-                              color: AppColors.secondaryText, fontSize: 12))
                     ],
                   ),
                 ],
               ),
-              SizedBox(
-                height: screenHeight * 0.08,
-              ),
-              Button(
-                  text: "Add Order",
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BottomNavBar()));
-                  })
             ],
           );
         }),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 42.0, vertical: 20.0),
+        child: Button(
+            text: "Place Order",
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BottomNavBar()));
+            }),
       ),
     );
   }
