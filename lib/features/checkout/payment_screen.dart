@@ -22,7 +22,7 @@ class PaymentScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Payment",
+          "Edit payment details",
           style: TextStyle(
             fontSize: 24,
             color: Theme.of(context).textTheme.bodyMedium?.color,
@@ -61,7 +61,8 @@ class PaymentScreen extends StatelessWidget {
                           decoration: InputDecoration(
                             labelText: "Name on Card",
                             labelStyle: TextStyle(
-                              color: Theme.of(context).textTheme.bodySmall?.color,
+                              color:
+                                  Theme.of(context).textTheme.bodySmall?.color,
                             ),
                           ),
                           validator: (value) {
@@ -78,7 +79,8 @@ class PaymentScreen extends StatelessWidget {
                           decoration: InputDecoration(
                             labelText: "Card Number",
                             labelStyle: TextStyle(
-                              color: Theme.of(context).textTheme.bodySmall?.color,
+                              color:
+                                  Theme.of(context).textTheme.bodySmall?.color,
                             ),
                           ),
                           validator: (value) {
@@ -149,12 +151,9 @@ class PaymentScreen extends StatelessWidget {
                 height: screenHeight * 0.02,
               ),
               Button(
-                  text: "Next",
+                  text: "Save",
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CheckoutScreen()));
+                    Get.to(() => CheckoutScreen());
                   }),
               SizedBox(
                 height: screenHeight * 0.02,

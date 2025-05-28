@@ -11,7 +11,8 @@ class Cart {
   });
 
   double getTotalPrice() {
-    totalPrice =  products.fold(0.0, (sum, product) => sum + (product.price * product.quantity.value));
+    totalPrice = products.fold(
+        0.0, (sum, product) => sum + (product.price * product.quantity.value));
     return totalPrice;
   }
 
