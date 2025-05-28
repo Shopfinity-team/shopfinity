@@ -23,8 +23,6 @@ class _ProductScreenState extends State<ProductScreen> {
 
     CategoryController categoryController = Get.put(CategoryController());
 
-    final productsFuture = categoryController.getCategoryProducts(categoryController.getSelectedCategoryName());
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
@@ -76,39 +74,32 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                 ),
               ),
-              FutureBuilder<List<Product>>(
-                future: productsFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
+              GetBuilder<CategoryController>(
+                builder: (controller) {
+                  if (controller.isLoading.value) {
                     return Column(
                       children: [
-                        SizedBox(height: screenHeight*0.1),
+                        SizedBox(height: screenHeight * 0.1),
                         Center(child: CircularProgressIndicator()),
                       ],
                     );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No products found.'));
-                  } else {
-                    final products = snapshot.data!;
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(), // Disable inner scrolling
-                      itemCount: products.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: screenHeight * 0.02,
-                        crossAxisSpacing: screenWidth * 0.02,
-                        childAspectRatio: 0.6, // Adjust this based on your ProductCard layout
-                      ),
-                      itemBuilder: (context, index) {
-                        return ProductCard(
-                          product: products[index],
-                        );
-                      },
-                    );
+                  } else if (controller.products.isEmpty) {
+                    return Center(child: Text("No products found."));
                   }
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.products.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: screenHeight * 0.02,
+                      crossAxisSpacing: screenWidth * 0.02,
+                      childAspectRatio: 0.6,
+                    ),
+                    itemBuilder: (context, index) {
+                      return ProductCard(product: controller.products[index]);
+                    },
+                  );
                 },
               ),
             ],
