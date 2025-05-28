@@ -71,7 +71,12 @@ class LoginController extends GetxController {
         isLoading.value = false;
       }
     } else {
-      Get.snackbar("Error", "Please fix errors", snackPosition: SnackPosition.TOP);
+      Get.snackbar(
+        "Error", "Please fix errors", 
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -80,6 +85,12 @@ class LoginController extends GetxController {
     isLoggedIn.value = false;
     await prefs.remove('access_token');
     await prefs.remove('refresh_token');
+    Get.snackbar(
+      "Success", "Successfully logged out", 
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
     Get.offAllNamed('/login');
   }
 

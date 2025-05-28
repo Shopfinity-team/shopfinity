@@ -51,6 +51,13 @@ class CartController extends GetxController{
         print("Failed to add products to cart");
       }
     } catch (e) {
+      Get.snackbar(
+        "Error", "Failed to create a new cart.",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+
       print("Error adding to cart on server: $e");
     }
   }
@@ -81,9 +88,9 @@ class CartController extends GetxController{
       totalPrice.value -= product.price * product.quantity.value;
       cartItemCount.value = cartItems.length;
       Get.snackbar(
-      "Success", "${product.title} removed from cart", 
+      "Product Removed", "${product.title} removed from cart", 
       snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.orange,
       colorText: Colors.white,
     );
       await cartService.updateCart(cartId, product.id!, 0);
@@ -95,6 +102,12 @@ class CartController extends GetxController{
       await cartService.removeCart(cartId, 0);
       cartItems.clear();
       totalPrice.value = 0.0;
+      Get.snackbar(
+        "Cart Cleared", "Your cart has been emptied.",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
+      );
       cartItemCount.value = 0;
     } catch (e) {
       print("Error clearing cart: $e");
