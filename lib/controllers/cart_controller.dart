@@ -51,13 +51,6 @@ class CartController extends GetxController{
         print("Failed to add products to cart");
       }
     } catch (e) {
-      Get.snackbar(
-        "Error", "Failed to create a new cart.",
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-
       print("Error adding to cart on server: $e");
     }
   }

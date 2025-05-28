@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopfinity/controllers/delivery_controller.dart';
 import 'package:shopfinity/features/checkout/checkout_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/shared/widgets/checkout_input_field.dart';
@@ -13,15 +14,65 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _aptController = TextEditingController();
-  final TextEditingController _provinceController = TextEditingController();
-  final TextEditingController _districtController = TextEditingController();
-  final TextEditingController _townController = TextEditingController();
-  final TextEditingController _postalCodeController = TextEditingController();
+  final DeliveryController deliveryController = Get.put(DeliveryController());
+
+  late final TextEditingController _countryController;
+  late final TextEditingController _addressController;
+  late final TextEditingController _aptController;
+  late final TextEditingController _provinceController;
+  late final TextEditingController _districtController;
+  late final TextEditingController _townController;
+  late final TextEditingController _postalCodeController;
 
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _countryController = TextEditingController(text: deliveryController.country.value);
+    _addressController = TextEditingController(text: deliveryController.address.value);
+    _aptController = TextEditingController();
+    _provinceController = TextEditingController(text: deliveryController.state.value);
+    _districtController = TextEditingController(text: deliveryController.city.value);
+    _townController = TextEditingController();
+    _postalCodeController = TextEditingController(text: deliveryController.postalCode.value);
+  }
+
+  @override
+  void dispose() {
+    // Don't forget to dispose controllers
+    _countryController.dispose();
+    _addressController.dispose();
+    _aptController.dispose();
+    _provinceController.dispose();
+    _districtController.dispose();
+    _townController.dispose();
+    _postalCodeController.dispose();
+    super.dispose();
+  }
+
+  // The missing method that was causing the error
+  void _saveDeliveryDetails() {
+    if (formKey.currentState!.validate()) {
+      // Update the delivery controller with new values
+      deliveryController.country.value = _countryController.text;
+      deliveryController.address.value = _addressController.text;
+      deliveryController.state.value = _provinceController.text;
+      deliveryController.city.value = _districtController.text;
+      deliveryController.postalCode.value = _postalCodeController.text;
+      
+      // Show success message
+      Get.snackbar(
+        'Success',
+        'Delivery details saved successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      
+      // Navigate back or to checkout screen
+      Get.back();
+      // Or navigate to checkout: Get.to(() => CheckoutScreen());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,22 +121,25 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           key: formKey,
                           child: Column(
                             children: [
-                              InputField(
+                              TextFormField(
                                 controller: _countryController,
-                                labelText: 'Country*',
-                                hintText: 'Select Country',
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    showCountryPicker(
+                                readOnly: true, // Make it read-only since it's selected via picker
+                                decoration: InputDecoration(
+                                  labelText: 'Country*',
+                                  hintText: 'Select Country',
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      showCountryPicker(
                                         context: context,
                                         onSelect: (Country country) {
                                           setState(() {
-                                            _countryController.text =
-                                                country.name;
+                                            _countryController.text = country.name;
                                           });
-                                        });
-                                  },
-                                  icon: const Icon(Icons.arrow_drop_down),
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                  ),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -94,12 +148,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: 'Street/house/apartment/unit*',
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _addressController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Street/house/apartment/unit*',
+                                ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter an address';
@@ -107,19 +162,21 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: 'Apt/suite,unit,etc (optional)',
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _aptController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Apt/suite, unit, etc (optional)',
+                                ),
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _provinceController,
-                                labelText: 'Province',
+                                decoration: const InputDecoration(
+                                  labelText: 'Province',
+                                ),
                                 validator: (value) {
                                   if (_countryController.text == 'Sri Lanka') {
                                     if (value == null || value.isEmpty) {
@@ -129,12 +186,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _districtController,
-                                labelText: 'District',
+                                decoration: const InputDecoration(
+                                  labelText: 'District',
+                                ),
                                 validator: (value) {
                                   if (_countryController.text == 'Sri Lanka') {
                                     if (value == null || value.isEmpty) {
@@ -144,12 +202,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: 'Area/Town*',
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _townController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Area/Town*',
+                                ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter city';
@@ -157,12 +216,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: 'ZIP code*',
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _postalCodeController,
+                                decoration: const InputDecoration(
+                                  labelText: 'ZIP code*',
+                                ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter a ZIP/postal code';
@@ -170,12 +230,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
+                              SizedBox(height: screenHeight * 0.02),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -185,14 +243,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 height: screenHeight * 0.02,
               ),
               Button(
-                  text: "Save",
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      Get.to(() => CheckoutScreen());
-                    } else {
-                      print('form is not valid');
-                    }
-                  }),
+                text: "Save",
+                onPressed: _saveDeliveryDetails,
+              ),
               SizedBox(
                 height: screenHeight * 0.02,
               ),

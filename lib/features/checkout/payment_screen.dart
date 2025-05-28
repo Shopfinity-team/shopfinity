@@ -14,10 +14,10 @@ class PaymentScreen extends StatelessWidget {
 
     PaymentController paymentController = Get.put(PaymentController());
 
-    TextEditingController nameController = TextEditingController();
-    TextEditingController cardNumberController = TextEditingController();
-    TextEditingController expiryDateController = TextEditingController();
-    TextEditingController cvvController = TextEditingController();
+    TextEditingController nameController = TextEditingController(text: paymentController.nameOnCard); 
+    TextEditingController cardNumberController = TextEditingController(text: paymentController.cardNumber);
+    TextEditingController expiryDateController = TextEditingController(text: paymentController.expiryDate);
+    TextEditingController cvvController = TextEditingController(text: paymentController.cvv );
 
     return Scaffold(
       appBar: AppBar(
@@ -58,6 +58,7 @@ class PaymentScreen extends StatelessWidget {
                           ),
                         ),
                         TextFormField(
+                          controller: nameController,
                           decoration: InputDecoration(
                             labelText: "Name on Card",
                             labelStyle: TextStyle(
