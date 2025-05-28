@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/model/product_model.dart';
@@ -65,6 +66,12 @@ class CartController extends GetxController{
       totalPrice.value += product.price;
     }
     cartItemCount.value = cartItems.length;
+    Get.snackbar(
+      "Success", "${product.title} added to cart", 
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
     await cartService.updateCart(cartId, product.id!, product.quantity.value);
   }
 
@@ -73,6 +80,12 @@ class CartController extends GetxController{
       cartItems.remove(product);
       totalPrice.value -= product.price * product.quantity.value;
       cartItemCount.value = cartItems.length;
+      Get.snackbar(
+      "Success", "${product.title} removed from cart", 
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+    );
       await cartService.updateCart(cartId, product.id!, 0);
     }
   }

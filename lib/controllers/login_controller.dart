@@ -35,12 +35,6 @@ class LoginController extends GetxController {
         final token = await _loginService.login(username.text, password.text);
 
         if (token != null) {
-          Get.snackbar(
-            "Success", "Logged in successfully", 
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-          );
           isLoggedIn.value = true;
           // Store user profile details
           final profileController = Get.put(ProfileController());
@@ -49,7 +43,14 @@ class LoginController extends GetxController {
           // Initialize the cart for this user
           final cartController = Get.put(CartController());
           await cartController.initializeCartForUser(userId);
-          
+
+          Get.snackbar(
+            "Success", "Logged in successfully", 
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+          );
+
           Get.toNamed('/navbar');
         } else {
           Get.snackbar(

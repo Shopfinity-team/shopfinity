@@ -116,7 +116,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       text: 'Buy Now',
                       onPressed: () {
                         cartController.addToCart(product);
-                      }))
+                    }))
             ],
           ),
         ),
