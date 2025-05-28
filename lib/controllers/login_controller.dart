@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopfinity/controllers/cart_controller.dart';
+import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/services/login_service.dart';
 
 class LoginController extends GetxController {
@@ -33,13 +35,22 @@ class LoginController extends GetxController {
         final token = await _loginService.login(username.text, password.text);
 
         if (token != null) {
+          isLoggedIn.value = true;
+          // Store user profile details
+          final profileController = Get.put(ProfileController());
+          String userId = profileController.userId.value;
+
+          // Initialize the cart for this user
+          final cartController = Get.put(CartController());
+          await cartController.initializeCartForUser(userId);
+
           Get.snackbar(
             "Success", "Logged in successfully", 
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.green,
             colorText: Colors.white,
           );
-          isLoggedIn.value = true;
+
           Get.toNamed('/navbar');
         } else {
           Get.snackbar(
@@ -60,7 +71,12 @@ class LoginController extends GetxController {
         isLoading.value = false;
       }
     } else {
-      Get.snackbar("Error", "Please fix errors", snackPosition: SnackPosition.TOP);
+      Get.snackbar(
+        "Error", "Please fix errors", 
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 
@@ -69,6 +85,12 @@ class LoginController extends GetxController {
     isLoggedIn.value = false;
     await prefs.remove('access_token');
     await prefs.remove('refresh_token');
+    Get.snackbar(
+      "Success", "Successfully logged out", 
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
     Get.offAllNamed('/login');
   }
 

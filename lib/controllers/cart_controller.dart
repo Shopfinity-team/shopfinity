@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/model/product_model.dart';
@@ -12,15 +13,6 @@ class CartController extends GetxController{
   CartService cartService = CartService();
   ProfileController profileController = Get.put(ProfileController());
 
-  @override
-  void onInit() {
-    super.onInit();
-    userId = profileController.userId.value;
-    syncWithServer(userId);
-    if (cartId == null || cartId  == 0) {
-      createCart(userId, cartItems);
-    }
-  }
   late String userId;
 
   Future<void> syncWithServer(String userId) async{
@@ -42,6 +34,14 @@ class CartController extends GetxController{
     }
   }
 
+  Future<void> initializeCartForUser(String userId) async {
+    this.userId = userId;
+    await syncWithServer(userId);
+    if (cartId == null || cartId == 0) {
+      await createCart(userId, cartItems);
+    }
+  }
+
   Future<void> createCart(String userId, List<Product> products) async {
     try {
       cartId = await cartService.addToCart(userId, products);
@@ -51,6 +51,13 @@ class CartController extends GetxController{
         print("Failed to add products to cart");
       }
     } catch (e) {
+      Get.snackbar(
+        "Error", "Failed to create a new cart.",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+
       print("Error adding to cart on server: $e");
     }
   }
@@ -66,6 +73,12 @@ class CartController extends GetxController{
       totalPrice.value += product.price;
     }
     cartItemCount.value = cartItems.length;
+    Get.snackbar(
+      "Success", "${product.title} added to cart", 
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
     await cartService.updateCart(cartId, product.id!, product.quantity.value);
   }
 
@@ -74,6 +87,12 @@ class CartController extends GetxController{
       cartItems.remove(product);
       totalPrice.value -= product.price * product.quantity.value;
       cartItemCount.value = cartItems.length;
+      Get.snackbar(
+      "Product Removed", "${product.title} removed from cart", 
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.orange,
+      colorText: Colors.white,
+    );
       await cartService.updateCart(cartId, product.id!, 0);
     }
   }
@@ -83,6 +102,12 @@ class CartController extends GetxController{
       await cartService.removeCart(cartId, 0);
       cartItems.clear();
       totalPrice.value = 0.0;
+      Get.snackbar(
+        "Cart Cleared", "Your cart has been emptied.",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.orange,
+        colorText: Colors.white,
+      );
       cartItemCount.value = 0;
     } catch (e) {
       print("Error clearing cart: $e");

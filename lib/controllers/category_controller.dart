@@ -6,12 +6,21 @@ import 'package:shopfinity/shared/widgets/categories.dart';
 class CategoryController extends GetxController{
   var selectedCategoryIndex = 0.obs;
   RxString selectedCategory = 'beauty'.obs;
+  RxBool isLoading = false.obs;
+  List<Product> products = [];
 
   CategoryService categoryService = CategoryService();
+
+  @override
+  void onInit() {
+    super.onInit();
+    getCategoryProducts(selectedCategory.value);
+  }
 
   void selectCategory(int index) {
     selectedCategoryIndex.value = index;
     setSelectedCategory();
+    getCategoryProducts(selectedCategory.value);
   }
 
   int getSelectedCategory() {
@@ -26,14 +35,18 @@ class CategoryController extends GetxController{
     return selectedCategory.value;
   }
 
-  Future<List<Product>> getCategoryProducts(String category) async {
+  Future<void> getCategoryProducts(String category) async {
     try {
+      isLoading.value = true;
+      products.clear();
+      update();
       final response = await categoryService.getCategoryProducts(category);
       if (response.isNotEmpty) {
-        List<Product> products = (response['products'] as List)
+        products = (response['products'] as List)
             .map((product) => Product.fromJson(product))
             .toList();
-        return products;
+      isLoading.value = false;
+      update();
       } else {
         throw Exception('No products found for category $category');
       }
