@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +30,28 @@ class PaymentController extends GetxController {
     cardNumber = response['paymentDetails']['cardNumber'] ?? '';
     expiryDate = response['paymentDetails']['expiryDate'] ?? '';
     cvv = response['paymentDetails']['cvv'] ?? '';
+  }
+
+  void updatePaymentDetails(String name, String cardNum, String expiry, String cvvCode) {
+    nameOnCard = name;
+    cardNumber = cardNum;
+    expiryDate = expiry;
+    cvv = cvvCode;
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString('nameOnCard', name);
+      prefs.setString('cardNumber', cardNum);
+      prefs.setString('expiryDate', expiry);
+      prefs.setString('cvv', cvvCode);
+    });
+
+    Get.snackbar(
+      "Payment Details Updated",
+      "Your payment details have been updated successfully.",
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
   }
 
   void processPayment() {

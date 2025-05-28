@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/services/profile_service.dart';
@@ -32,6 +33,30 @@ class DeliveryController extends GetxController {
     } catch (e) {
       print("Error fetching location: $e");
     }
+  }
+
+  void updateAddress(String country, String newAddress, String city, String state, String postalCode) {
+    this.country.value = country;
+    this.address.value = newAddress;
+    this.city.value = city;
+    this.state.value = state;
+    this.postalCode.value = postalCode;
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString('country', country);
+      prefs.setString('address', newAddress);
+      prefs.setString('city', city);
+      prefs.setString('state', state);
+      prefs.setString('postalCode', postalCode);
+    });
+
+    Get.snackbar(
+      "Address Updated",
+      "Your delivery address has been updated successfully.",
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+    );
   }
 
   @override
