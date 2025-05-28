@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/services/profile_service.dart';
 
-class ProfileController extends GetxController{
+class ProfileController extends GetxController {
   var userId = ''.obs; // userId should be a String observable
   var userName = ''.obs;
   var userEmail = ''.obs;
@@ -12,6 +12,8 @@ class ProfileController extends GetxController{
   var cardNumber = ''.obs;
   var cardType = ''.obs;
   var cardExpiry = ''.obs;
+  var firstName = ''.obs;
+  var lastName = ''.obs;
 
   ProfileService profileService = ProfileService();
 
@@ -30,20 +32,25 @@ class ProfileController extends GetxController{
 
       userId.value = response['id'].toString();
       userName.value = response['username'];
-      userEmail.value = response['email'] ;
+      userEmail.value = response['email'];
       userPhone.value = response['phone'];
-      userAddress.value = response['address']['address']+ ', ' +
-          response['address']['city'] + ', ' +
-          response['address']['state'] + ', ' +
-          response['address']['postalCode'] + ', ' +
+      userAddress.value = response['address']['address'] +
+          ', ' +
+          response['address']['city'] +
+          ', ' +
+          response['address']['state'] +
+          ', ' +
+          response['address']['postalCode'] +
+          ', ' +
           response['address']['country'];
       userProfileImage.value = response['image'];
       cardNumber.value = response['bank']['cardNumber'];
       cardType.value = response['bank']['cardType'];
       cardExpiry.value = response['bank']['cardExpire'];
+      firstName.value = response['firstName'];
+      lastName.value = response['lastName'];
     } catch (e) {
       print("Error fetching user data: $e");
     }
   }
-
 }

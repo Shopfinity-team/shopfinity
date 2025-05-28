@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
-import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/theme/app_colors.dart';
@@ -115,7 +114,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       text: 'Buy Now',
                       onPressed: () {
                         cartController.addToCart(product);
-                        Get.to(() => CartScreen());
+                        //Get.to(() => CartScreen());
                       }))
             ],
           ),

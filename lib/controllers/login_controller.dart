@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/services/login_service.dart';
 
@@ -22,7 +21,8 @@ class LoginController extends GetxController {
     final formState = formKey.currentState;
 
     if (formState == null) {
-      Get.snackbar("Error", "Form state is null", snackPosition: SnackPosition.TOP);
+      Get.snackbar("Error", "Form state is null",
+          snackPosition: SnackPosition.TOP);
       return;
     }
 
@@ -34,7 +34,8 @@ class LoginController extends GetxController {
 
         if (token != null) {
           Get.snackbar(
-            "Success", "Logged in successfully", 
+            "Success",
+            "Logged in successfully",
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.green,
             colorText: Colors.white,
@@ -43,7 +44,8 @@ class LoginController extends GetxController {
           Get.toNamed('/navbar');
         } else {
           Get.snackbar(
-            "Login Failed", "Invalid username or password",
+            "Login Failed",
+            "Invalid username or password",
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.red,
             colorText: Colors.white,
@@ -51,7 +53,8 @@ class LoginController extends GetxController {
         }
       } catch (e) {
         Get.snackbar(
-          "Login failed", "An error occurred: $e",
+          "Login failed",
+          "An error occurred: $e",
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white,
@@ -60,7 +63,8 @@ class LoginController extends GetxController {
         isLoading.value = false;
       }
     } else {
-      Get.snackbar("Error", "Please fix errors", snackPosition: SnackPosition.TOP);
+      Get.snackbar("Error", "Please fix errors",
+          snackPosition: SnackPosition.TOP);
     }
   }
 

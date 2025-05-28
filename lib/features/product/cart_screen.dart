@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
-import 'package:shopfinity/features/checkout/delivery_screen.dart';
+import 'package:shopfinity/features/checkout/checkout_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 
 import '../../shared/widgets/cart_card.dart';
@@ -67,15 +67,15 @@ class CartScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Total ${cartController.cartItemCount.value} items",
-                    style: TextStyle(
+                    "Total (${cartController.cartItemCount.value} items)",
+                    style: const TextStyle(
                       fontSize: 20,
                     ),
                   ),
                   Obx(
                     () => Text(
                       "\$" + cartController.totalPrice.value.toStringAsFixed(2),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -89,10 +89,7 @@ class CartScreen extends StatelessWidget {
               Button(
                   text: "Checkout",
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DeliveryScreen()));
+                    Get.to(() => CheckoutScreen());
                   }),
             ],
           ),
