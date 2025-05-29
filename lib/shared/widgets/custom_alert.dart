@@ -3,20 +3,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Future<void> showCustomAlert(
-    {String title = '',
-    String message = '',
-    String buttonText = 'OK',
-    bool isError = false,
-    bool isAlert = false}) async {
+Future<bool?> showCustomAlert({
+  String title = '',
+  String message = '',
+  String buttonText = 'OK',
+  bool isError = false,
+  bool isAlert = false,
+  bool isConfirm = false,
+}) async {
   late Timer timer;
 
   // Start the timer to auto-close after 3 seconds
-  timer = Timer(const Duration(seconds: 3), () {
-    if (Get.isDialogOpen ?? false) {
-      Get.back(); // Close the dialog
-    }
-  });
+  if (!isConfirm) {
+    timer = Timer(const Duration(seconds: 3), () {
+      if (Get.isDialogOpen ?? false) {
+        Get.back(result: true); // Close the dialog
+      }
+    });
+  }
 
   // Show the dialog and wait for it to close
   return Get.dialog(
@@ -29,6 +33,8 @@ Future<void> showCustomAlert(
             else if (isAlert)
               const Icon(Icons.warning_rounded,
                   color: Colors.orangeAccent, size: 50)
+            else if (isConfirm)
+              const Icon(Icons.help_outlined, color: Colors.blue, size: 50)
             else
               const Icon(Icons.check_circle, color: Colors.green, size: 50),
             const SizedBox(height: 10),
@@ -43,29 +49,70 @@ Future<void> showCustomAlert(
           textAlign: TextAlign.center,
         ),
         actions: [
-          Center(
-            child: SizedBox(
-              width: 90,
-              child: ElevatedButton(
-                onPressed: () {
-                  timer.cancel();
-                  Get.back(); // Manual close
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: isError
-                      ? Colors.red
-                      : isAlert
-                          ? Colors.orangeAccent
-                          : Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+          !isConfirm
+              ? Center(
+                  child: SizedBox(
+                    width: 90,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        timer.cancel();
+                        Get.back(); // Manual close
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: isError
+                            ? Colors.red
+                            : isAlert
+                                ? Colors.orangeAccent
+                                : Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(buttonText),
+                    ),
+                  ),
+                )
+              : Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 90,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.back(result: false); // Manual close
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text('No'),
+                        ),
+                      ),
+                      const SizedBox(width: 20.0),
+                      SizedBox(
+                        width: 90,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.back(result: true); // Manual close
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text('Yes'),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Text(buttonText),
-              ),
-            ),
-          ),
         ],
       ),
       barrierDismissible: false);

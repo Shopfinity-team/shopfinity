@@ -73,16 +73,23 @@ class LoginController extends GetxController {
   }
 
   void logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    isLoggedIn.value = false;
-    await prefs.remove('access_token');
-    await prefs.remove('refresh_token');
-    await showCustomAlert(
-      title: 'Success',
-      message: 'You have logged out successfully!',
-    );
+    final confirm = await showCustomAlert(
+        title: 'Confirm Logout',
+        message: 'Are you sure want to log out?',
+        isConfirm: true);
 
-    Get.offAllNamed('/login');
+    if (confirm == true) {
+      final prefs = await SharedPreferences.getInstance();
+      isLoggedIn.value = false;
+      await prefs.remove('access_token');
+      await prefs.remove('refresh_token');
+
+      await showCustomAlert(
+        title: 'Success',
+        message: 'You have logged out successfully!',
+      );
+      Get.offAllNamed('/login');
+    }
   }
 
   @override
