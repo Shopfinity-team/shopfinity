@@ -4,7 +4,6 @@ import 'package:shopfinity/controllers/cart_controller.dart';
 import 'package:shopfinity/controllers/checkout_controller.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/features/checkout/delivery_screen.dart';
-import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
@@ -15,7 +14,8 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartController cartController = Get.find(); //Access existing cart controller
+    CartController cartController =
+        Get.find(); //Access existing cart controller
     ProfileController profileController = Get.put(ProfileController());
     CheckoutController checkoutController = Get.put(CheckoutController());
 
@@ -216,7 +216,9 @@ class CheckoutScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 42.0, vertical: 20.0),
         child: Button(
-            text: checkoutController.isLoading.value ? "Placing Order..." : "Place Order",
+            text: checkoutController.isLoading.value
+                ? "Placing Order..."
+                : "Place Order",
             onPressed: () {
               checkoutController.processCheckout();
             }),

@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/services/cart_service.dart';
+import 'package:shopfinity/shared/widgets/custom_alert.dart';
 
-class CartController extends GetxController{
+class CartController extends GetxController {
   var cartItems = <Product>[].obs;
   var cartItemCount = 0.obs;
   var totalPrice = 0.0.obs;
@@ -15,14 +16,13 @@ class CartController extends GetxController{
 
   late String userId;
 
-  Future<void> syncWithServer(String userId) async{
+  Future<void> syncWithServer(String userId) async {
     try {
       var data = await cartService.getCartItemsCount(userId);
       if (data['total'] == 0) {
         print("No cart data found for user: $userId");
         return;
-      }
-      else {
+      } else {
         cartId = data['carts'][0]['id'];
         cartItemCount.value = data['carts'][0]['totalProducts'];
         cartItems.value = (data['carts'][0]['products'] as List)
@@ -66,12 +66,11 @@ class CartController extends GetxController{
       totalPrice.value += product.price;
     }
     cartItemCount.value = cartItems.length;
-    Get.snackbar(
-      "Success", "${product.title} added to cart", 
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
+    await showCustomAlert(
+      title: 'Success',
+      message: '${product.title} Added to cart',
     );
+
     await cartService.updateCart(cartId, product.id!, product.quantity.value);
   }
 
@@ -80,27 +79,26 @@ class CartController extends GetxController{
       cartItems.remove(product);
       totalPrice.value -= product.price * product.quantity.value;
       cartItemCount.value = cartItems.length;
-      Get.snackbar(
-      "Product Removed", "${product.title} removed from cart", 
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.orange,
-      colorText: Colors.white,
-    );
+      await showCustomAlert(
+          title: 'Waining',
+          message: '${product.title} removed from cart',
+          buttonText: 'OK',
+          isAlert: true);
+
       await cartService.updateCart(cartId, product.id!, 0);
     }
   }
 
-  Future<void> clearCart() async{
+  Future<void> clearCart(BuildContext context) async {
     try {
       await cartService.removeCart(cartId, 0);
       cartItems.clear();
       totalPrice.value = 0.0;
-      Get.snackbar(
-        "Cart Cleared", "Your cart has been emptied.",
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.orange,
-        colorText: Colors.white,
-      );
+      await showCustomAlert(
+          title: 'Cart Cleared',
+          message: 'Your cart has been emptied.',
+          buttonText: 'OK');
+
       cartItemCount.value = 0;
     } catch (e) {
       print("Error clearing cart: $e");
@@ -112,7 +110,8 @@ class CartController extends GetxController{
     if (index != -1) {
       cartItems[index].quantity.value += 1;
       totalPrice.value += product.price;
-      await cartService.updateCart(cartId, product.id!, cartItems[index].quantity.value);
+      await cartService.updateCart(
+          cartId, product.id!, cartItems[index].quantity.value);
     }
   }
 
@@ -121,11 +120,10 @@ class CartController extends GetxController{
     if (index != -1 && cartItems[index].quantity.value > 1) {
       cartItems[index].quantity.value -= 1;
       totalPrice.value -= product.price;
-      await cartService.updateCart(cartId, product.id!, cartItems[index].quantity.value);
-    }
-    else if (index != -1 && cartItems[index].quantity.value == 1) {
+      await cartService.updateCart(
+          cartId, product.id!, cartItems[index].quantity.value);
+    } else if (index != -1 && cartItems[index].quantity.value == 1) {
       await removeFromCart(product);
     }
   }
-
 }

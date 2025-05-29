@@ -6,10 +6,11 @@ import '../model/product_model.dart';
 class ProductController extends GetxController {
   final ProductService _productService = ProductService();
 
-  var isAllProductsLoading = true.obs;
-  var isLimitProductsLoading = true.obs;
-  var isRecommendedGroceriesLoading = true.obs;
-  var isSearchLoading = true.obs;
+  final RxBool isAllProductsLoading = true.obs;
+  final RxBool isLimitProductsLoading = true.obs;
+  final RxBool isRecommendedGroceriesLoading = true.obs;
+  final RxBool isSearchLoading = false.obs;
+  final RxBool hasSearched = false.obs;
 
   var products = <Product>[].obs;
   var limitProducts = <Product>[].obs;
@@ -68,13 +69,17 @@ class ProductController extends GetxController {
   Future<void> searchProducts(String query) async {
     try {
       isSearchLoading(true);
+      hasSearched(true);
       final result = await _productService.searchProducts(query);
       print(result);
       if (result != null) {
         searchedProducts.assignAll(result);
+      } else {
+        searchedProducts.clear();
       }
     } catch (e) {
       print('error searching items');
+      searchedProducts.clear();
     } finally {
       isSearchLoading(false);
     }

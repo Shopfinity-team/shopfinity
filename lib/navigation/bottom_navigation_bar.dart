@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shopfinity/routes/app_routes.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
 import '../features/auth/profile_screen.dart';
@@ -17,12 +16,6 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-  final List<String> _routes = [
-    AppRoutes.home,
-    AppRoutes.categories,
-    AppRoutes.cart,
-    AppRoutes.profile
-  ];
   final List<Widget> _screens = [
     const HomeScreen(),
     const ProductScreen(),

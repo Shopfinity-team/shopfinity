@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
@@ -7,6 +7,7 @@ import 'package:shopfinity/controllers/delivery_controller.dart';
 import 'package:shopfinity/controllers/payment_controller.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/model/order_model.dart';
+import 'package:shopfinity/shared/widgets/custom_alert.dart';
 
 class CheckoutController extends GetxController {
   var isLoading = false.obs;
@@ -40,21 +41,23 @@ class CheckoutController extends GetxController {
 
   // Calculate total quantity from cart items
   int _calculateTotalQuantity() {
-    return cartController.cartItems.fold(0, (sum, item) => sum + (item.quantity.value));
+    return cartController.cartItems
+        .fold(0, (sum, item) => sum + (item.quantity.value));
   }
 
   // Save order to shared preferences
   Future<void> _saveOrderToPreferences(OrderModel order) async {
     final sharedPrefs = await SharedPreferences.getInstance();
-    
+
     // Get existing orders
     List<OrderModel> existingOrders = await getOrdersFromPreferences();
-    
+
     // Add new order to the list
     existingOrders.add(order);
-    
+
     // Convert orders to JSON and save
-    List<Map<String, dynamic>> ordersJson = existingOrders.map((order) => order.toJson()).toList();
+    List<Map<String, dynamic>> ordersJson =
+        existingOrders.map((order) => order.toJson()).toList();
     await sharedPrefs.setString('saved_orders', jsonEncode(ordersJson));
   }
 
@@ -62,11 +65,11 @@ class CheckoutController extends GetxController {
   Future<List<OrderModel>> getOrdersFromPreferences() async {
     final sharedPrefs = await SharedPreferences.getInstance();
     String? ordersString = sharedPrefs.getString('saved_orders');
-    
+
     if (ordersString == null || ordersString.isEmpty) {
       return [];
     }
-    
+
     try {
       List<dynamic> ordersJson = jsonDecode(ordersString);
       return ordersJson.map((json) => OrderModel.fromJson(json)).toList();
@@ -88,7 +91,7 @@ class CheckoutController extends GetxController {
       final sharedPrefs = await SharedPreferences.getInstance();
 
       // Load address details
-      country.value = sharedPrefs.getString('country') ?? ''; 
+      country.value = sharedPrefs.getString('country') ?? '';
       address.value = sharedPrefs.getString('address') ?? '';
       apt.value = sharedPrefs.getString('apt') ?? '';
       district.value = sharedPrefs.getString('district') ?? '';
@@ -96,8 +99,13 @@ class CheckoutController extends GetxController {
       state.value = sharedPrefs.getString('state') ?? '';
       postalCode.value = sharedPrefs.getString('postalCode') ?? '';
 
-      if ([country, address, city, state, postalCode].any((element) => element.value.isEmpty)) {
-        Get.snackbar('Error', 'Please complete your delivery address before proceeding.');
+      if ([country, address, city, state, postalCode]
+          .any((element) => element.value.isEmpty)) {
+        await showCustomAlert(
+            title: 'Error',
+            message: 'Please complete your delivery address before proceeding.',
+            isError: true);
+
         return;
       }
 
@@ -107,22 +115,27 @@ class CheckoutController extends GetxController {
       expiryDate.value = sharedPrefs.getString('expiryDate') ?? '';
       cvv.value = sharedPrefs.getString('cvv') ?? '';
 
-      if ([nameOnCard, cardNumber, expiryDate, cvv].any((element) => element.value.isEmpty)) {
-        Get.snackbar('Error', 'Please complete your payment details before proceeding.');
+      if ([nameOnCard, cardNumber, expiryDate, cvv]
+          .any((element) => element.value.isEmpty)) {
+        await showCustomAlert(
+            title: 'Error',
+            message: 'Please complete your payment details before proceeding.',
+            isError: true);
+
         return;
       }
 
       // Create OrderModel instance
       OrderModel newOrder = OrderModel(
         orderId: _generateOrderId(),
-        customerName: profileController.userName.value.isNotEmpty 
-            ? profileController.userName.value 
+        customerName: profileController.userName.value.isNotEmpty
+            ? profileController.userName.value
             : nameOnCard.value,
         products: List.from(cartController.cartItems),
         quantity: _calculateTotalQuantity(),
         price: cartController.totalPrice.value,
         orderDate: DateTime.now().toIso8601String(),
-        
+
         // Address details
         country: country.value,
         address: address.value,
@@ -131,13 +144,17 @@ class CheckoutController extends GetxController {
         city: city.value,
         state: state.value,
         postalCode: postalCode.value,
-        
+
         // Payment details
         nameOnCard: nameOnCard.value,
-        cardNumber: cardNumber.value.replaceRange(4, cardNumber.value.length - 4, '*' * (cardNumber.value.length - 8)), // Mask card number for security
+        cardNumber: cardNumber.value.replaceRange(
+            4,
+            cardNumber.value.length - 4,
+            '*' *
+                (cardNumber.value.length - 8)), // Mask card number for security
         expiryDate: expiryDate.value,
         cvv: '***', // Never save actual CVV
-        
+
         // Order status
         deliveryStatus: deliveryStatus.value,
         paymentStatus: paymentStatus.value,
@@ -160,39 +177,37 @@ class CheckoutController extends GetxController {
         'cardNumber': cardNumber.value,
         'expiryDate': expiryDate.value,
         'cvv': cvv.value,
-        'cartItems': cartController.cartItems.map((item) => item.toJson()).toList(),
+        'cartItems':
+            cartController.cartItems.map((item) => item.toJson()).toList(),
         'totalPrice': cartController.totalPrice.value,
         'orderDate': newOrder.orderDate,
       };
 
       await sharedPrefs.setString('orderDetails', jsonEncode(orderDetails));
-      
+
       // Clean up temporary data
       final keys = sharedPrefs.getKeys();
       for (var key in keys) {
-        if (key != 'orderDetails' && 
-            key != 'saved_orders' && 
-            key != 'access_token' && 
+        if (key != 'orderDetails' &&
+            key != 'saved_orders' &&
+            key != 'access_token' &&
             key != 'refresh_token') {
           await sharedPrefs.remove(key);
         }
       }
 
-      Get.snackbar('Success', 'Order placed successfully! Order ID: ${newOrder.orderId}',
-          snackPosition: SnackPosition.TOP,
-          colorText: Colors.white,
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 3)
-      );
-      
-      cartController.clearCart();
+      await showCustomAlert(
+          title: 'Success',
+          message: 'Order placed successfully! Order ID: ${newOrder.orderId}');
+
+      cartController.clearCart;
       Get.toNamed('/navbar');
     } catch (e) {
-      Get.snackbar('Error', 'Failed to complete checkout: $e',
-          snackPosition: SnackPosition.TOP,
-          colorText: Colors.white,
-          backgroundColor: Colors.red
-      );
+      await showCustomAlert(
+          title: 'Error',
+          message: 'Failed to complete checkout: $e',
+          isError: true);
+
       print('Checkout error: $e');
     } finally {
       toggleLoading();
@@ -210,9 +225,10 @@ class CheckoutController extends GetxController {
   }
 
   // Update order status
-  Future<void> updateOrderStatus(String orderId, {String? deliveryStatus, String? paymentStatus}) async {
+  Future<void> updateOrderStatus(String orderId,
+      {String? deliveryStatus, String? paymentStatus}) async {
     List<OrderModel> orders = await getOrdersFromPreferences();
-    
+
     for (int i = 0; i < orders.length; i++) {
       if (orders[i].orderId == orderId) {
         if (deliveryStatus != null) {
@@ -224,10 +240,11 @@ class CheckoutController extends GetxController {
         break;
       }
     }
-    
+
     // Save updated orders
     final sharedPrefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> ordersJson = orders.map((order) => order.toJson()).toList();
+    List<Map<String, dynamic>> ordersJson =
+        orders.map((order) => order.toJson()).toList();
     await sharedPrefs.setString('saved_orders', jsonEncode(ordersJson));
   }
 }

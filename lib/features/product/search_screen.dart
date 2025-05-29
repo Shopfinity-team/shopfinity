@@ -18,6 +18,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     controller.searchedProducts.clear();
+    controller.hasSearched(false); // Reset flag to avoid message before search
     super.initState();
   }
 
@@ -38,10 +39,24 @@ class _SearchScreenState extends State<SearchScreen> {
                 enabled: true,
               ))),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
             Obx(() {
+              if (!controller.hasSearched.value) {
+                return const SizedBox.shrink();
+              }
+              if (controller.isSearchLoading.value) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (controller.searchedProducts.isEmpty) {
+                return const Expanded(
+                    child: Center(
+                        child: Text(
+                  'Searched item not found',
+                  style: TextStyle(fontSize: 16),
+                )));
+              }
               return Expanded(
                 child: GridView.builder(
                   itemCount: controller.searchedProducts.length,

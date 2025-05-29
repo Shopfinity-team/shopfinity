@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/services/profile_service.dart';
+import 'package:shopfinity/shared/widgets/custom_alert.dart';
 
 class DeliveryController extends GetxController {
-
   var deliveryStatus = 'Pending'.obs;
   var country = '';
   var address = '';
@@ -24,19 +23,21 @@ class DeliveryController extends GetxController {
       final token = prefs.getString('access_token') ?? '';
 
       final response = await profileService.getCurrentUser(token);
-      
+
       country = response['address']['country'];
       address = response['address']['address'];
       city = response['address']['city'];
       state = response['address']['state'];
       postalCode = response['address']['postalCode'];
-      print(  "Current location fetched successfully: $country, $address, $city, $state, $postalCode");
+      print(
+          "Current location fetched successfully: $country, $address, $city, $state, $postalCode");
     } catch (e) {
       print("Error fetching location: $e");
     }
   }
 
-  void updateAddress(String country, String newAddress, String? apt, String? district, String city, String state, String postalCode) {
+  void updateAddress(String country, String newAddress, String? apt,
+      String? district, String city, String state, String postalCode) async {
     this.country = country;
     this.address = newAddress;
     this.city = city;
@@ -53,13 +54,9 @@ class DeliveryController extends GetxController {
       prefs.setString('postalCode', postalCode);
     });
 
-    Get.snackbar(
-      "Address Updated",
-      "Your delivery address has been updated successfully.",
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
+    await showCustomAlert(
+        title: 'Success',
+        message: 'Your delivery address has been updated successfully');
 
     Get.toNamed('/checkout');
   }
