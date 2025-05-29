@@ -4,9 +4,14 @@ import 'package:shopfinity/controllers/payment_controller.dart';
 import 'package:shopfinity/features/checkout/checkout_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
 
+  @override
+  State<PaymentScreen> createState() => _PaymentScreenState();
+}
+
+class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

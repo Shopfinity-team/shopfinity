@@ -14,47 +14,21 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
-  final DeliveryController deliveryController = Get.put(DeliveryController());
-
-  late final TextEditingController _countryController;
-  late final TextEditingController _addressController;
-  late final TextEditingController _aptController;
-  late final TextEditingController _provinceController;
-  late final TextEditingController _districtController;
-  late final TextEditingController _townController;
-  late final TextEditingController _postalCodeController;
-
-  final formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    _countryController = TextEditingController(text: deliveryController.country.value);
-    _addressController = TextEditingController(text: deliveryController.address.value);
-    _aptController = TextEditingController();
-    _provinceController = TextEditingController(text: deliveryController.state.value);
-    _districtController = TextEditingController(text: deliveryController.city.value);
-    _townController = TextEditingController();
-    _postalCodeController = TextEditingController(text: deliveryController.postalCode.value);
-  }
-
-  @override
-  void dispose() {
-    // Don't forget to dispose controllers
-    _countryController.dispose();
-    _addressController.dispose();
-    _aptController.dispose();
-    _provinceController.dispose();
-    _districtController.dispose();
-    _townController.dispose();
-    _postalCodeController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+    DeliveryController deliveryController = Get.put(DeliveryController());
+
+    TextEditingController _countryController = TextEditingController(text: deliveryController.country);
+    TextEditingController _addressController = TextEditingController(text: deliveryController.address);
+    TextEditingController _aptController = TextEditingController();
+    TextEditingController _provinceController = TextEditingController(text: deliveryController.state);
+    TextEditingController _districtController = TextEditingController();
+    TextEditingController _townController = TextEditingController(text: deliveryController.city);
+    TextEditingController _postalCodeController = TextEditingController(text: deliveryController.postalCode);
 
     return Scaffold(
       appBar: AppBar(
@@ -95,7 +69,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           height: screenHeight * 0.02,
                         ),
                         Form(
-                          key: formKey,
                           child: Column(
                             children: [
                               TextFormField(

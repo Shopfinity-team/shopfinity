@@ -6,11 +6,11 @@ import 'package:shopfinity/services/profile_service.dart';
 class DeliveryController extends GetxController {
 
   var deliveryStatus = 'Pending'.obs;
-  var country = ''.obs;
-  var address = ''.obs;
-  var city = ''.obs;
-  var state = ''.obs;
-  var postalCode = ''.obs;
+  var country = '';
+  var address = '';
+  var city = '';
+  var state = '';
+  var postalCode = '';
 
   ProfileService profileService = ProfileService();
 
@@ -24,11 +24,12 @@ class DeliveryController extends GetxController {
       final token = prefs.getString('access_token') ?? '';
 
       final response = await profileService.getCurrentUser(token);
-      country.value = response['address']['country'];
-      address.value = response['address']['address'];
-      city.value = response['address']['city'];
-      state.value = response['address']['state'];
-      postalCode.value = response['address']['postalCode'];
+      
+      country = response['address']['country'];
+      address = response['address']['address'];
+      city = response['address']['city'];
+      state = response['address']['state'];
+      postalCode = response['address']['postalCode'];
       print(  "Current location fetched successfully: $country, $address, $city, $state, $postalCode");
     } catch (e) {
       print("Error fetching location: $e");
@@ -36,11 +37,11 @@ class DeliveryController extends GetxController {
   }
 
   void updateAddress(String country, String newAddress, String? apt, String? district, String city, String state, String postalCode) {
-    this.country.value = country;
-    this.address.value = newAddress;
-    this.city.value = city;
-    this.state.value = state;
-    this.postalCode.value = postalCode;
+    this.country = country;
+    this.address = newAddress;
+    this.city = city;
+    this.state = state;
+    this.postalCode = postalCode;
 
     SharedPreferences.getInstance().then((prefs) {
       prefs.setString('country', country);
