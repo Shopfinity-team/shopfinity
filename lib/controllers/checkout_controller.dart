@@ -166,7 +166,6 @@ class CheckoutController extends GetxController {
       };
 
       await sharedPrefs.setString('orderDetails', jsonEncode(orderDetails));
-      print('Order saved with ID: ${newOrder.orderId}');
       
       // Clean up temporary data
       final keys = sharedPrefs.getKeys();
