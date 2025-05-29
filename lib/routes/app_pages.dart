@@ -7,6 +7,7 @@ import 'package:shopfinity/features/checkout/payment_screen.dart';
 import 'package:shopfinity/features/product/add_product_screen.dart';
 import 'package:shopfinity/features/product/cart_screen.dart';
 import 'package:shopfinity/features/product/home_screen.dart';
+import 'package:shopfinity/features/product/orders_screen.dart';
 import 'package:shopfinity/features/product/product_screen.dart';
 import 'package:shopfinity/features/product/search_screen.dart';
 import 'package:shopfinity/middleware/auth_middleware.dart';
@@ -69,7 +70,11 @@ class AppPages {
       name: '/navbar',
       page: () => BottomNavBar(),
       middlewares: [AuthMiddleware()]
-    )
-
+    ),
+    GetPage(
+      name: AppRoutes.orders,
+      page: () => OrdersScreen(),
+      middlewares: [AuthMiddleware()]
+    ),
   ];
 }

@@ -25,7 +25,7 @@ class Product {
       'title': title,
       'price': price,
       'image': imageUrl,
-      'quantity': quantity,
+      'quantity': quantity.value,
     };
   }
 

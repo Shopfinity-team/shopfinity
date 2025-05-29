@@ -56,7 +56,7 @@ class DeliveryController extends GetxController {
     Get.snackbar(
       "Address Updated",
       "Your delivery address has been updated successfully.",
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.green,
       colorText: Colors.white,
     );

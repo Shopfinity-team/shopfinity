@@ -48,7 +48,7 @@ class PaymentController extends GetxController {
     Get.snackbar(
       "Payment Details Updated",
       "Your payment details have been updated successfully.",
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.green,
       colorText: Colors.white,
     );
