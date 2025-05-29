@@ -4,6 +4,7 @@ import 'package:shopfinity/controllers/product_controller.dart';
 import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/shared/widgets/checkout_input_field.dart';
+import 'package:shopfinity/shared/widgets/custom_alert.dart';
 
 class AddProductScreen extends StatefulWidget {
   AddProductScreen({super.key});
@@ -29,8 +30,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
     if (addProductFormKey.currentState!.validate()) {
       final price = double.tryParse(_productPriceController.text.trim());
       if (price == null) {
-        Get.snackbar('Error', 'please enter valid price',
-            backgroundColor: Colors.red);
+        await showCustomAlert(
+            title: 'Error', message: 'please enter valid price', isError: true);
+
         return;
       }
       final product = Product(
@@ -44,8 +46,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
       final result = await controller.addProduct(product);
 
       if (result != null) {
-        Get.snackbar('Success', 'New product added successfully.',
-            backgroundColor: Colors.green);
+        await showCustomAlert(
+            title: 'Success', message: 'New product added successfully');
 
         _productTitleController.clear();
         _productPriceController.clear();
@@ -54,11 +56,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
         submitted = false;
       } else {
-        Get.snackbar('Error', 'Failed to add new product',
-            backgroundColor: Colors.red);
+        await showCustomAlert(
+            title: 'Error',
+            message: 'Failed to add new product',
+            isError: true);
       }
     } else {
-      Get.snackbar('Error', 'Form is not valid', backgroundColor: Colors.red);
+      await showCustomAlert(
+          title: 'Error', message: 'Form is not valid', isError: true);
     }
   }
 

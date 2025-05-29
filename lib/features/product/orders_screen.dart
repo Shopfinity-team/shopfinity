@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shopfinity/controllers/checkout_controller.dart';
 import 'package:shopfinity/model/order_model.dart';
 import 'package:shopfinity/model/product_model.dart';
+import 'package:shopfinity/shared/widgets/custom_alert.dart';
 import 'package:shopfinity/shared/widgets/order_card.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -29,15 +30,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
     });
 
     try {
-      List<OrderModel> loadedOrders = await checkoutController.getOrdersFromPreferences();
+      List<OrderModel> loadedOrders =
+          await checkoutController.getOrdersFromPreferences();
       // Sort orders by date (newest first)
       loadedOrders.sort((a, b) {
         if (a.orderDate == null && b.orderDate == null) return 0;
         if (a.orderDate == null) return 1;
         if (b.orderDate == null) return -1;
-        return DateTime.parse(b.orderDate!).compareTo(DateTime.parse(a.orderDate!));
+        return DateTime.parse(b.orderDate!)
+            .compareTo(DateTime.parse(a.orderDate!));
       });
-      
+
       setState(() {
         orders = loadedOrders;
         isLoading = false;
@@ -46,13 +49,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
       setState(() {
         isLoading = false;
       });
-      Get.snackbar(
-        'Error',
-        'Failed to load orders: $e',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      await showCustomAlert(
+          title: 'Error', message: 'Failed to load orders: $e', isError: true);
     }
   }
 
@@ -86,16 +84,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            
+
             // Header
             Padding(
               padding: const EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Order Details',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -107,7 +105,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 ],
               ),
             ),
-            
+
             // Order details content
             Expanded(
               child: SingleChildScrollView(
@@ -117,46 +115,49 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   children: [
                     _buildDetailSection('Order Information', [
                       _buildDetailRow('Order ID', order.orderId ?? 'N/A'),
-                      _buildDetailRow('Date', order.orderDate != null 
-                          ? _formatDetailDate(order.orderDate!) 
-                          : 'N/A'),
+                      _buildDetailRow(
+                          'Date',
+                          order.orderDate != null
+                              ? _formatDetailDate(order.orderDate!)
+                              : 'N/A'),
                       _buildDetailRow('Customer', order.customerName ?? 'N/A'),
-                      _buildDetailRow('Total Amount', '\$${order.price?.toStringAsFixed(2) ?? '0.00'}'),
-                      _buildDetailRow('Items Count', '${order.products.length}'),
-                      _buildDetailRow('Delivery Status', order.deliveryStatus ?? 'Pending'),
-                      _buildDetailRow('Payment Status', order.paymentStatus ?? 'Pending'),
+                      _buildDetailRow('Total Amount',
+                          '\$${order.price?.toStringAsFixed(2) ?? '0.00'}'),
+                      _buildDetailRow(
+                          'Items Count', '${order.products.length}'),
+                      _buildDetailRow(
+                          'Delivery Status', order.deliveryStatus ?? 'Pending'),
+                      _buildDetailRow(
+                          'Payment Status', order.paymentStatus ?? 'Pending'),
                     ]),
-                    
                     const SizedBox(height: 20),
-                    
                     if (order.products.isNotEmpty)
-                      _buildDetailSection('Items Ordered', 
-                        order.products.map((product) => 
-                          _buildProductRow(product)
-                        ).toList()
-                      ),
-                    
+                      _buildDetailSection(
+                          'Items Ordered',
+                          order.products
+                              .map((product) => _buildProductRow(product))
+                              .toList()),
                     const SizedBox(height: 20),
-                    
                     if (order.address != null && order.address!.isNotEmpty)
                       _buildDetailSection('Delivery Address', [
                         _buildDetailRow('Address', order.address ?? ''),
                         if (order.apt != null && order.apt!.isNotEmpty)
                           _buildDetailRow('Apartment', order.apt!),
                         _buildDetailRow('City', order.city ?? ''),
-                        if (order.district != null && order.district!.isNotEmpty)
+                        if (order.district != null &&
+                            order.district!.isNotEmpty)
                           _buildDetailRow('District', order.district!),
                         _buildDetailRow('State', order.state ?? ''),
                         _buildDetailRow('Postal Code', order.postalCode ?? ''),
                         _buildDetailRow('Country', order.country ?? ''),
                       ]),
-                    
                     const SizedBox(height: 20),
-                    
-                    if (order.nameOnCard != null && order.nameOnCard!.isNotEmpty)
+                    if (order.nameOnCard != null &&
+                        order.nameOnCard!.isNotEmpty)
                       _buildDetailSection('Payment Information', [
                         _buildDetailRow('Name on Card', order.nameOnCard ?? ''),
-                        _buildDetailRow('Card Number', order.cardNumber ?? '****'),
+                        _buildDetailRow(
+                            'Card Number', order.cardNumber ?? '****'),
                         _buildDetailRow('Expiry Date', order.expiryDate ?? ''),
                       ]),
                   ],
@@ -245,13 +246,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 width: 50,
                 height: 50,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    Container(
-                      width: 50,
-                      height: 50,
-                      color: Colors.grey[200],
-                      child: const Icon(Icons.image_not_supported),
-                    ),
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.grey[200],
+                  child: const Icon(Icons.image_not_supported),
+                ),
               ),
             ),
           const SizedBox(width: 12),
@@ -260,7 +260,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.title ,
+                  product.title,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
@@ -371,7 +371,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Clear All Orders'),
-        content: const Text('Are you sure you want to clear all orders? This action cannot be undone.'),
+        content: const Text(
+            'Are you sure you want to clear all orders? This action cannot be undone.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -382,13 +383,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
               Navigator.pop(context);
               await checkoutController.clearAllOrders();
               await _loadOrders();
-              Get.snackbar(
-                'Success',
-                'All orders cleared successfully',
-                snackPosition: SnackPosition.TOP,
-                backgroundColor: Colors.green,
-                colorText: Colors.white,
-              );
+              await showCustomAlert(
+                  title: 'Success', message: 'All orders cleared successfully');
             },
             child: const Text(
               'Clear All',

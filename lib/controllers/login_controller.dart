@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/services/login_service.dart';
+import 'package:shopfinity/shared/widgets/custom_alert.dart';
 
 class LoginController extends GetxController {
   final username = TextEditingController();
@@ -23,8 +24,9 @@ class LoginController extends GetxController {
     final formState = formKey.currentState;
 
     if (formState == null) {
-      Get.snackbar("Error", "Form state is null",
-          snackPosition: SnackPosition.TOP);
+      await showCustomAlert(
+          title: 'Error', message: 'Form state is null', isError: true);
+
       return;
     }
 
@@ -44,42 +46,29 @@ class LoginController extends GetxController {
           final cartController = Get.put(CartController());
           await cartController.initializeCartForUser(userId);
 
-          Get.snackbar(
-            "Success",
-            "Logged in successfully",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
+          await showCustomAlert(
+            title: 'Success',
+            message: 'You have logged in successfully!',
           );
 
           Get.toNamed('/navbar');
         } else {
-          Get.snackbar(
-            "Login Failed",
-            "Invalid username or password",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-          );
+          await showCustomAlert(
+              title: 'Login Failed',
+              message: 'Invalid username or password',
+              isError: true);
         }
       } catch (e) {
-        Get.snackbar(
-          "Login failed",
-          "An error occurred: $e",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
+        await showCustomAlert(
+            title: 'Login Failed',
+            message: 'An error occurred: $e',
+            isError: true);
       } finally {
         isLoading.value = false;
       }
     } else {
-      Get.snackbar(
-        "Error", "Please fix errors", 
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      await showCustomAlert(
+          title: 'Error', message: 'Please fix errors', isError: true);
     }
   }
 
@@ -88,12 +77,11 @@ class LoginController extends GetxController {
     isLoggedIn.value = false;
     await prefs.remove('access_token');
     await prefs.remove('refresh_token');
-    Get.snackbar(
-      "Success", "Successfully logged out", 
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
+    await showCustomAlert(
+      title: 'Success',
+      message: 'You have logged out successfully!',
     );
+
     Get.offAllNamed('/login');
   }
 

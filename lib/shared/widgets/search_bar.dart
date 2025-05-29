@@ -63,7 +63,7 @@ class _ProductSearchBarState extends State<ProductSearchBar> {
                     onChanged: onSearchChanged,
                     enabled: widget.enabled,
                     decoration: const InputDecoration(
-                        hintText: 'Search Shopfinity',
+                        hintText: 'Search Products',
                         hintStyle: TextStyle(color: AppColors.accentColor),
                         border:
                             UnderlineInputBorder(borderSide: BorderSide.none)),

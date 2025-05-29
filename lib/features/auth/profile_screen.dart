@@ -16,8 +16,8 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Obx(() =>
-          Padding(
+        child: Obx(
+          () => Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
@@ -33,8 +33,8 @@ class ProfileScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 35,
                         backgroundColor: Colors.transparent,
-                        backgroundImage:
-                            NetworkImage(profileController.userProfileImage.value.isNotEmpty
+                        backgroundImage: NetworkImage(
+                            profileController.userProfileImage.value.isNotEmpty
                                 ? profileController.userProfileImage.value
                                 : "https://dummyjson.com/icon/emilys/128"),
                       ),
@@ -50,7 +50,8 @@ class ProfileScreen extends StatelessWidget {
                             profileController.userEmail.value,
                             style: TextStyle(
                               fontSize: 12,
-                              color: Theme.of(context).textTheme.bodySmall?.color,
+                              color:
+                                  Theme.of(context).textTheme.bodySmall?.color,
                             ),
                           )
                         ],
@@ -99,8 +100,10 @@ class ProfileScreen extends StatelessWidget {
                               profileController.userPhone.value,
                               style: TextStyle(
                                 fontSize: 14,
-                                color:
-                                    Theme.of(context).textTheme.bodySmall?.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.color,
                               ),
                             )
                           ],
@@ -180,8 +183,10 @@ class ProfileScreen extends StatelessWidget {
                               profileController.cardType.value,
                               style: TextStyle(
                                 fontSize: 14,
-                                color:
-                                    Theme.of(context).textTheme.bodySmall?.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.color,
                               ),
                             )
                           ],
@@ -202,8 +207,10 @@ class ProfileScreen extends StatelessWidget {
                               profileController.cardNumber.value,
                               style: TextStyle(
                                 fontSize: 14,
-                                color:
-                                    Theme.of(context).textTheme.bodySmall?.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.color,
                               ),
                             )
                           ],
@@ -224,8 +231,10 @@ class ProfileScreen extends StatelessWidget {
                               profileController.cardExpiry.value,
                               style: TextStyle(
                                 fontSize: 14,
-                                color:
-                                    Theme.of(context).textTheme.bodySmall?.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.color,
                               ),
                             )
                           ],
@@ -255,9 +264,10 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
-                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color,
                           ),
-                        ), 
+                        ),
                         IconButton(
                           onPressed: () {
                             Get.toNamed('/orders');
@@ -289,9 +299,10 @@ class ProfileScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
-                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium?.color,
                           ),
-                        ), 
+                        ),
                         IconButton(
                           onPressed: () {
                             Get.toNamed('/add-product');

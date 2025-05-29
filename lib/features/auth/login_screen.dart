@@ -13,11 +13,11 @@ class LoginPage extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-        key: controller.formKey,
-        child: Column(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: controller.formKey,
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -41,9 +41,9 @@ class LoginPage extends StatelessWidget {
                 ),
                 controller: controller.username,
                 validator: (value) {
-                  if (value == null || value.isEmpty){
+                  if (value == null || value.isEmpty) {
                     return "*Please enter username";
-                  }else{
+                  } else {
                     return null;
                   }
                 },
@@ -51,9 +51,10 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.02,
               ),
-              Obx(() => 
-                TextFormField(
-                  obscureText: controller.isPasswordVisible.value ? false : true,
+              Obx(
+                () => TextFormField(
+                  obscureText:
+                      controller.isPasswordVisible.value ? false : true,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.lock_outline),
                     labelText: "Password",
@@ -62,7 +63,7 @@ class LoginPage extends StatelessWidget {
                         controller.isPasswordVisible.value
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined,
-                        ),
+                      ),
                       onPressed: () {
                         controller.togglePasswordVisibility();
                       },
@@ -70,9 +71,9 @@ class LoginPage extends StatelessWidget {
                   ),
                   controller: controller.password,
                   validator: (value) {
-                    if (value == null || value.isEmpty){
+                    if (value == null || value.isEmpty) {
                       return "*Please enter password";
-                    }else{
+                    } else {
                       return null;
                     }
                   },
@@ -81,16 +82,15 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.08,
               ),
-              Obx(() =>
-                Button(
+              Obx(
+                () => Button(
                     text: controller.isLoading.value ? "Loading..." : "Login",
-                    onPressed: controller.login
-                ),
+                    onPressed: controller.login),
               )
             ],
           ),
-              ),
-              ),
+        ),
+      ),
     );
   }
 }
