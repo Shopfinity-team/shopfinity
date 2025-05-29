@@ -15,7 +15,9 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double cardWidth = screenWidth * 0.45; // 40% of the screen width
+    double screenHeight = MediaQuery.of(context).size.height;
+    double cardWidth = screenWidth * 0.5;
+    double cardHeight = screenHeight * 0.359;
 
     return GestureDetector(
       onTap: () {
@@ -26,7 +28,7 @@ class ProductCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
           side: BorderSide(
-              color: Theme.of(context).colorScheme.secondary, width: 0.4),
+              color: Theme.of(context).colorScheme.secondary, width: 0.6),
         ),
         elevation: 0,
         child: SizedBox(
@@ -35,11 +37,16 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Image.network(
-                  product.imageUrl ?? 'https://via.placeholder.com/150',
-                  fit: BoxFit.cover,
+                child: SizedBox(
+                  height: cardHeight * 0.1,
                   width: double.infinity,
-                  height: cardWidth * 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      product.imageUrl ?? 'https://via.placeholder.com/150',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                 ),
               ),
               Column(

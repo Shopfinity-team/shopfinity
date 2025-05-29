@@ -7,7 +7,9 @@ import 'package:shopfinity/shared/widgets/search_bar.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,7 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth * 0.5;
@@ -193,6 +197,49 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   }),
+                  SizedBox(
+                    height: screenHeight * 0.02,
+                  ),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'New Products',
+                      style: TextStyle(
+                          color: AppColors.primaryText,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.0),
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.02,
+                  ),
+                  Obx(() {
+                    if (controller.addedProducts.isEmpty) {
+                      return const Center(
+                          child: Text('No new products available.'));
+                    }
+
+                    return SizedBox(
+                      height: cardHeight,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: controller.addedProducts.length,
+                        itemBuilder: (context, index) {
+                          final product = controller.addedProducts[index];
+                          return SizedBox(
+                            width: cardWidth,
+                            child: ProductCard(product: product),
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(width: 12),
+                      ),
+                    );
+                  }),
+                  SizedBox(
+                    height: screenHeight * 0.02,
+                  ),
                 ],
               )),
         ));

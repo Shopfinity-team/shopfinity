@@ -25,51 +25,40 @@ class AppPages {
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
-      name: AppRoutes.categories,
-      page: () => ProductScreen(),
-      middlewares: [AuthMiddleware()]
-    ),
+        name: AppRoutes.categories,
+        page: () => ProductScreen(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
-      name: AppRoutes.cart,
-      page: () => CartScreen(),
-      middlewares: [AuthMiddleware()]
-    ),
+        name: AppRoutes.cart,
+        page: () => CartScreen(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
-      name: AppRoutes.delivery,
-      page: () => DeliveryScreen(),
-      middlewares: [AuthMiddleware()]
-    ),
+        name: AppRoutes.delivery,
+        page: () => DeliveryScreen(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
-      name: AppRoutes.payment,
-      page: () => PaymentScreen(),
-      middlewares: [AuthMiddleware()]
-    ),
+        name: AppRoutes.payment,
+        page: () => PaymentScreen(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
-      name: AppRoutes.checkout,
-      page: () => CheckoutScreen(),
-      middlewares: [AuthMiddleware()]
-    ),
+        name: AppRoutes.checkout,
+        page: () => CheckoutScreen(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
-      name: AppRoutes.profile,
-      page: () => ProfileScreen(),
-      middlewares: [AuthMiddleware()]
-    ),
+        name: AppRoutes.profile,
+        page: () => ProfileScreen(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
-      name: AppRoutes.addproduct,
-      page: () => AddProductScreen(),
-      middlewares: [AuthMiddleware()]
-    ),
-
+        name: AppRoutes.addproduct,
+        page: () => AddProductScreen(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
-      name: AppRoutes.search, 
-      page: () => SearchScreen(),
-      middlewares: [AuthMiddleware()]
-    ),
+        name: AppRoutes.search,
+        page: () => SearchScreen(),
+        middlewares: [AuthMiddleware()]),
     GetPage(
-      name: '/navbar',
-      page: () => BottomNavBar(),
-      middlewares: [AuthMiddleware()]
-    )
-
+        name: '/navbar',
+        page: () => BottomNavBar(),
+        middlewares: [AuthMiddleware()])
   ];
 }
