@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/login_controller.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
-import 'package:shopfinity/features/auth/login_screen.dart';
-import 'package:shopfinity/features/product/add_product_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -24,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: screenHeight * 0.1,
+                  height: screenHeight * 0.05,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -243,39 +241,68 @@ class ProfileScreen extends StatelessWidget {
                   color: Colors.black,
                   thickness: 1,
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(
-                        vertical: screenHeight * 0.01,
-                        horizontal: screenWidth * 0.05,
-                      ),
-                      elevation: 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Add Product",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed('/orders');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "My Orders",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                          ),
+                        ), 
+                        IconButton(
+                          onPressed: () {
+                            Get.toNamed('/orders');
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddProductScreen()));
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Theme.of(context).primaryColor,
+                      ],
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed('/add-product');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Add Product",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                          ),
+                        ), 
+                        IconButton(
+                          onPressed: () {
+                            Get.toNamed('/add-product');
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 const Divider(

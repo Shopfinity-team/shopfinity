@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/payment_controller.dart';
-import 'package:shopfinity/features/checkout/checkout_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
 
+  @override
+  State<PaymentScreen> createState() => _PaymentScreenState();
+}
+
+class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -14,10 +18,10 @@ class PaymentScreen extends StatelessWidget {
 
     PaymentController paymentController = Get.put(PaymentController());
 
-    TextEditingController nameController = TextEditingController();
-    TextEditingController cardNumberController = TextEditingController();
-    TextEditingController expiryDateController = TextEditingController();
-    TextEditingController cvvController = TextEditingController();
+    TextEditingController nameController = TextEditingController(text: paymentController.nameOnCard); 
+    TextEditingController cardNumberController = TextEditingController(text: paymentController.cardNumber);
+    TextEditingController expiryDateController = TextEditingController(text: paymentController.expiryDate);
+    TextEditingController cvvController = TextEditingController(text: paymentController.cvv );
 
     return Scaffold(
       appBar: AppBar(
@@ -30,135 +34,116 @@ class PaymentScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Form(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
+      body: SingleChildScrollView(
+        child: Form(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Image.asset(
+                              "lib/assets/images/payment_page_image.png",
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.04,
+                          ),
+                          Text(
+                            "Details",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).textTheme.bodySmall?.color,
+                            ),
+                          ),
+                          TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        labelText: "Name on Card",
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodySmall?.color,
+                        ),
+                      ),
+                      validator: (value) =>
+                          value == null || value.isEmpty ? 'Enter name on card' : null,
+                    ),
+                    SizedBox(height: screenHeight * 0.02),
+                    TextFormField(
+                      controller: cardNumberController,
+                      decoration: InputDecoration(
+                        labelText: "Card Number",
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodySmall?.color,
+                        ),
+                      ),
+                      validator: (value) =>
+                          value == null || value.isEmpty ? 'Enter card number' : null,
+                    ),
+                    SizedBox(height: screenHeight * 0.02),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Center(
-                          child: Image.asset(
-                            "lib/assets/images/payment_page_image.png",
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.04,
-                        ),
-                        Text(
-                          "Details",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).textTheme.bodySmall?.color,
-                          ),
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: "Name on Card",
-                            labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter name on the card';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: "Card Number",
-                            labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodySmall?.color,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter card number';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: "Expiry Date",
-                                  labelStyle: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.color,
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter expiry date';
-                                  }
-                                  return null;
-                                },
+                        Expanded(
+                          flex: 2,
+                          child: TextFormField(
+                            controller: expiryDateController,
+                            decoration: InputDecoration(
+                              labelText: "Expiry Date",
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).textTheme.bodySmall?.color,
                               ),
                             ),
-                            SizedBox(
-                              width: screenWidth * 0.1,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: "CVV",
-                                  labelStyle: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.color,
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter CVV';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            )
-                          ],
+                            validator: (value) => value == null || value.isEmpty
+                                ? 'Enter expiry date'
+                                : null,
+                          ),
                         ),
+                        SizedBox(width: screenWidth * 0.1),
+                        Expanded(
+                          flex: 1,
+                          child: TextFormField(
+                            controller: cvvController,
+                            decoration: InputDecoration(
+                              labelText: "CVV",
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).textTheme.bodySmall?.color,
+                              ),
+                            ),
+                            validator: (value) =>
+                                value == null || value.isEmpty ? 'Enter CVV' : null,
+                          ),
+                        )
                       ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Button(
-                  text: "Save",
-                  onPressed: () {
-                    Get.to(() => CheckoutScreen());
-                  }),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-            ],
+                      ],
+                    ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * 0.2,
+                ),
+                Button(
+                    text: "Save",
+                    onPressed: () {
+                      paymentController.updatePaymentDetails(
+                        nameController.text, 
+                        cardNumberController.text, 
+                        expiryDateController.text, 
+                        cvvController.text,
+                      );
+                    }),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/product_controller.dart';
+import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/shared/widgets/home_screen_top_cards.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/shared/widgets/search_bar.dart';
@@ -33,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth * 0.5;
     double cardHeight = screenHeight * 0.359;
+    ProfileController profileController = Get.put(ProfileController());
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -45,7 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Image.asset('lib/assets/images/profile_image.png'),
+              child: Image.network(profileController.userProfileImage.value,
+                  height: 40,                 
+                  width: 40,
+                  fit:  BoxFit.cover,),
             )
           ],
         ),

@@ -1,9 +1,8 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shopfinity/features/checkout/checkout_screen.dart';
+import 'package:shopfinity/controllers/delivery_controller.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
-import 'package:shopfinity/shared/widgets/checkout_input_field.dart';
 
 class DeliveryScreen extends StatefulWidget {
   DeliveryScreen({super.key});
@@ -13,20 +12,20 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _aptController = TextEditingController();
-  final TextEditingController _provinceController = TextEditingController();
-  final TextEditingController _districtController = TextEditingController();
-  final TextEditingController _townController = TextEditingController();
-  final TextEditingController _postalCodeController = TextEditingController();
-
-  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+    DeliveryController deliveryController = Get.put(DeliveryController());
+
+    TextEditingController _countryController = TextEditingController(text: deliveryController.country);
+    TextEditingController _addressController = TextEditingController(text: deliveryController.address);
+    TextEditingController _aptController = TextEditingController();
+    TextEditingController _provinceController = TextEditingController(text: deliveryController.state);
+    TextEditingController _districtController = TextEditingController();
+    TextEditingController _townController = TextEditingController(text: deliveryController.city);
+    TextEditingController _postalCodeController = TextEditingController(text: deliveryController.postalCode);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,25 +66,27 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           height: screenHeight * 0.02,
                         ),
                         Form(
-                          key: formKey,
                           child: Column(
                             children: [
-                              InputField(
+                              TextFormField(
                                 controller: _countryController,
-                                labelText: 'Country*',
-                                hintText: 'Select Country',
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    showCountryPicker(
+                                readOnly: true, 
+                                decoration: InputDecoration(
+                                  labelText: 'Country*',
+                                  hintText: 'Select Country',
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      showCountryPicker(
                                         context: context,
                                         onSelect: (Country country) {
                                           setState(() {
-                                            _countryController.text =
-                                                country.name;
+                                            _countryController.text = country.name;
                                           });
-                                        });
-                                  },
-                                  icon: const Icon(Icons.arrow_drop_down),
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(Icons.arrow_drop_down),
+                                  ),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -94,12 +95,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: 'Street/house/apartment/unit*',
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _addressController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Street/house/apartment/unit*',
+                                ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter an address';
@@ -107,34 +109,34 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: 'Apt/suite,unit,etc (optional)',
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _aptController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Apt/suite, unit, etc (optional)',
+                                ),
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _provinceController,
-                                labelText: 'Province',
+                                decoration: const InputDecoration(
+                                  labelText: 'Province/State*',
+                                ),
                                 validator: (value) {
-                                  if (_countryController.text == 'Sri Lanka') {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter province';
+                                      return 'Please enter province/State';
                                     }
-                                  }
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
+                              SizedBox(height: screenHeight * 0.02),
+                              TextFormField(
                                 controller: _districtController,
-                                labelText: 'District',
+                                decoration: const InputDecoration(
+                                  labelText: 'District',
+                                ),
                                 validator: (value) {
                                   if (_countryController.text == 'Sri Lanka') {
                                     if (value == null || value.isEmpty) {
@@ -144,12 +146,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: 'Area/Town*',
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _townController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Area/Town*',
+                                ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter city';
@@ -157,12 +160,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: 'ZIP code*',
+                              SizedBox(height: screenHeight * 0.02),
+
+                              TextFormField(
                                 controller: _postalCodeController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Postal/ZIP code*',
+                                ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter a ZIP/postal code';
@@ -170,12 +174,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
+                              SizedBox(height: screenHeight * 0.02),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -185,14 +187,19 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 height: screenHeight * 0.02,
               ),
               Button(
-                  text: "Save",
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      Get.to(() => CheckoutScreen());
-                    } else {
-                      print('form is not valid');
-                    }
-                  }),
+                text: "Save",
+                onPressed: () {
+                  deliveryController.updateAddress(
+                    _countryController.text,
+                    _addressController.text,
+                    _aptController.text,                   
+                    _districtController.text,
+                    _townController.text,
+                    _provinceController.text,
+                    _postalCodeController.text,
+                  );
+                },
+              ),
               SizedBox(
                 height: screenHeight * 0.02,
               ),

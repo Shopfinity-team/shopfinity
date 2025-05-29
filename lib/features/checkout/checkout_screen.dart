@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
-import 'package:shopfinity/controllers/login_controller.dart';
+import 'package:shopfinity/controllers/checkout_controller.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/features/checkout/delivery_screen.dart';
 import 'package:shopfinity/features/checkout/payment_screen.dart';
-import 'package:shopfinity/navigation/bottom_navigation_bar.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/theme/app_colors.dart';
 
@@ -16,10 +15,9 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController =
-        Get.find(); //Access existing cart controller
-    final LoginController loginController = Get.put(LoginController());
+    CartController cartController = Get.find(); //Access existing cart controller
     ProfileController profileController = Get.put(ProfileController());
+    CheckoutController checkoutController = Get.put(CheckoutController());
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -36,11 +34,11 @@ class CheckoutScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Obx(() {
           return Column(
             children: [
-              cartController.cartItems.value == 0
+              cartController.cartItemCount.value == 0
                   ? Center(
                       child: Text(
                       'Your cart is empty',
@@ -52,7 +50,7 @@ class CheckoutScreen extends StatelessWidget {
                   : ListView.builder(
                       itemCount: cartController.cartItems.length,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         final product = cartController.cartItems[index];
                         return Column(
@@ -162,13 +160,13 @@ class CheckoutScreen extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             'Card Number: ',
                             style: TextStyle(
                                 color: AppColors.secondaryText, fontSize: 14),
                           ),
                           Text(profileController.cardNumber.value,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.secondaryText,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -177,7 +175,7 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                       IconButton(
                           onPressed: () {
-                            Get.to(() => PaymentScreen());
+                            Get.toNamed('/payment');
                           },
                           icon: const Icon(
                             Icons.arrow_forward_ios_outlined,
@@ -201,9 +199,8 @@ class CheckoutScreen extends StatelessWidget {
                             fontSize: 18),
                       ),
                       Text(
-                        '\$' +
-                            cartController.totalPrice.value.toStringAsFixed(2),
-                        style: TextStyle(
+                        '\$${cartController.totalPrice.value.toStringAsFixed(2)}',
+                        style: const TextStyle(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w700,
                             fontSize: 20),
@@ -219,11 +216,9 @@ class CheckoutScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 42.0, vertical: 20.0),
         child: Button(
-            text: "Place Order",
+            text: checkoutController.isLoading.value ? "Placing Order..." : "Place Order",
             onPressed: () {
-              Get.snackbar('Success', 'Your order has been placed successfully',
-                  backgroundColor: Colors.green);
-              Get.to(() => BottomNavBar());
+              checkoutController.processCheckout();
             }),
       ),
     );
