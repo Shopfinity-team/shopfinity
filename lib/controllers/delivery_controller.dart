@@ -60,6 +60,8 @@ class DeliveryController extends GetxController {
       backgroundColor: Colors.green,
       colorText: Colors.white,
     );
+
+    Get.toNamed('/checkout');
   }
 
   @override

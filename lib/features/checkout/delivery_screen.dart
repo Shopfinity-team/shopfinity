@@ -2,9 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/delivery_controller.dart';
-import 'package:shopfinity/features/checkout/checkout_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
-import 'package:shopfinity/shared/widgets/checkout_input_field.dart';
 
 class DeliveryScreen extends StatefulWidget {
   DeliveryScreen({super.key});
@@ -17,7 +15,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     DeliveryController deliveryController = Get.put(DeliveryController());

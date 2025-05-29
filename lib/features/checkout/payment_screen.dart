@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/payment_controller.dart';
-import 'package:shopfinity/features/checkout/checkout_screen.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 
 class PaymentScreen extends StatefulWidget {

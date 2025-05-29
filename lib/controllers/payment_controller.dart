@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopfinity/services/profile_service.dart';
@@ -44,8 +43,6 @@ class PaymentController extends GetxController {
       prefs.setString('cardNumber', cardNum);
       prefs.setString('expiryDate', expiry);
       prefs.setString('cvv', cvvCode);
-
-      print(prefs.getString('nameOnCard'));
     });
 
     Get.snackbar(
