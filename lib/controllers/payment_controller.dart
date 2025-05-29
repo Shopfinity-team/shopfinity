@@ -18,6 +18,7 @@ class PaymentController extends GetxController {
   void onInit() {
     super.onInit();
     getCurrentPaymentdetails();
+    printPaymentDetails();
   } 
 
   Future<void> getCurrentPaymentdetails() async {
@@ -26,10 +27,10 @@ class PaymentController extends GetxController {
 
     final response = await profileService.getCurrentUser(token);
 
-    nameOnCard = response['paymentDetails']['nameOnCard'] ?? '';
-    cardNumber = response['paymentDetails']['cardNumber'] ?? '';
-    expiryDate = response['paymentDetails']['expiryDate'] ?? '';
-    cvv = response['paymentDetails']['cvv'] ?? '';
+    nameOnCard = response['username'] ?? '';
+    cardNumber = response['bank']['cardNumber'] ?? '';
+    expiryDate = response['bank']['cardExpire'] ?? '';
+    cvv = response['bank']['cvv'] ?? '123';
   }
 
   void updatePaymentDetails(String name, String cardNum, String expiry, String cvvCode) {
@@ -43,6 +44,8 @@ class PaymentController extends GetxController {
       prefs.setString('cardNumber', cardNum);
       prefs.setString('expiryDate', expiry);
       prefs.setString('cvv', cvvCode);
+
+      print(prefs.getString('nameOnCard'));
     });
 
     Get.snackbar(
@@ -52,13 +55,14 @@ class PaymentController extends GetxController {
       backgroundColor: Colors.green,
       colorText: Colors.white,
     );
+    Get.toNamed('/checkout');
   }
 
-  void processPayment() {
-
-    paymentStatus.value = 'Processing';
-
-    paymentStatus.value = 'Completed';
+  void printPaymentDetails() {
+    print("Name on Card: $nameOnCard");
+    print("Card Number: $cardNumber");
+    print("Expiry Date: $expiryDate");
+    print("CVV: $cvv");
   }
 
 }

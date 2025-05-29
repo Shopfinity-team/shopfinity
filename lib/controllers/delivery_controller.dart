@@ -35,7 +35,7 @@ class DeliveryController extends GetxController {
     }
   }
 
-  void updateAddress(String country, String newAddress, String city, String state, String postalCode) {
+  void updateAddress(String country, String newAddress, String? apt, String? district, String city, String state, String postalCode) {
     this.country.value = country;
     this.address.value = newAddress;
     this.city.value = city;
@@ -45,6 +45,8 @@ class DeliveryController extends GetxController {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setString('country', country);
       prefs.setString('address', newAddress);
+      prefs.setString('apt', apt ?? '');
+      prefs.setString('district', district ?? '');
       prefs.setString('city', city);
       prefs.setString('state', state);
       prefs.setString('postalCode', postalCode);

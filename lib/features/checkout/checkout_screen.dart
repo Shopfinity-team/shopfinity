@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
+import 'package:shopfinity/controllers/checkout_controller.dart';
 import 'package:shopfinity/controllers/login_controller.dart';
 import 'package:shopfinity/controllers/profile_controller.dart';
 import 'package:shopfinity/features/checkout/delivery_screen.dart';
@@ -20,6 +21,7 @@ class CheckoutScreen extends StatelessWidget {
         Get.find(); //Access existing cart controller
     final LoginController loginController = Get.put(LoginController());
     ProfileController profileController = Get.put(ProfileController());
+    CheckoutController checkoutController = Get.put(CheckoutController());
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -221,8 +223,7 @@ class CheckoutScreen extends StatelessWidget {
         child: Button(
             text: "Place Order",
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BottomNavBar()));
+              checkoutController.processCheckout();
             }),
       ),
     );

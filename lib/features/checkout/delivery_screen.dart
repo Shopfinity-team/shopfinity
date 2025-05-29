@@ -51,29 +51,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     super.dispose();
   }
 
-  // The missing method that was causing the error
-  void _saveDeliveryDetails() {
-    if (formKey.currentState!.validate()) {
-      // Update the delivery controller with new values
-      deliveryController.country.value = _countryController.text;
-      deliveryController.address.value = _addressController.text;
-      deliveryController.state.value = _provinceController.text;
-      deliveryController.city.value = _districtController.text;
-      deliveryController.postalCode.value = _postalCodeController.text;
-      
-      // Show success message
-      Get.snackbar(
-        'Success',
-        'Delivery details saved successfully',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      
-      // Navigate back or to checkout screen
-      Get.back();
-      // Or navigate to checkout: Get.to(() => CheckoutScreen());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -123,7 +100,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             children: [
                               TextFormField(
                                 controller: _countryController,
-                                readOnly: true, // Make it read-only since it's selected via picker
+                                readOnly: true, 
                                 decoration: InputDecoration(
                                   labelText: 'Country*',
                                   hintText: 'Select Country',
@@ -175,19 +152,16 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                               TextFormField(
                                 controller: _provinceController,
                                 decoration: const InputDecoration(
-                                  labelText: 'Province',
+                                  labelText: 'Province/State*',
                                 ),
                                 validator: (value) {
-                                  if (_countryController.text == 'Sri Lanka') {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter province';
+                                      return 'Please enter province/State';
                                     }
-                                  }
                                   return null;
                                 },
                               ),
                               SizedBox(height: screenHeight * 0.02),
-
                               TextFormField(
                                 controller: _districtController,
                                 decoration: const InputDecoration(
@@ -221,7 +195,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                               TextFormField(
                                 controller: _postalCodeController,
                                 decoration: const InputDecoration(
-                                  labelText: 'ZIP code*',
+                                  labelText: 'Postal/ZIP code*',
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -244,7 +218,17 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               ),
               Button(
                 text: "Save",
-                onPressed: _saveDeliveryDetails,
+                onPressed: () {
+                  deliveryController.updateAddress(
+                    _countryController.text,
+                    _addressController.text,
+                    _aptController.text,                   
+                    _districtController.text,
+                    _townController.text,
+                    _provinceController.text,
+                    _postalCodeController.text,
+                  );
+                },
               ),
               SizedBox(
                 height: screenHeight * 0.02,
