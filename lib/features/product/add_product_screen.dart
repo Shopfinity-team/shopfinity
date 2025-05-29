@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/product_controller.dart';
-import 'package:shopfinity/features/product/new_products_screen.dart';
 import 'package:shopfinity/model/product_model.dart';
 import 'package:shopfinity/shared/widgets/button.dart';
 import 'package:shopfinity/shared/widgets/checkout_input_field.dart';
@@ -15,6 +14,7 @@ class AddProductScreen extends StatefulWidget {
 
 class _AddProductScreenState extends State<AddProductScreen> {
   final controller = Get.find<ProductController>();
+
   final TextEditingController _productTitleController = TextEditingController();
   final TextEditingController _productDescriptionController =
       TextEditingController();
@@ -22,6 +22,45 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController _productImageController = TextEditingController();
 
   final addProductFormKey = GlobalKey<FormState>();
+  bool submitted = false;
+
+  void onSave() async {
+    submitted = true;
+    if (addProductFormKey.currentState!.validate()) {
+      final price = double.tryParse(_productPriceController.text.trim());
+      if (price == null) {
+        Get.snackbar('Error', 'please enter valid price',
+            backgroundColor: Colors.red);
+        return;
+      }
+      final product = Product(
+          title: _productTitleController.text.trim(),
+          price: price,
+          description: _productDescriptionController.text.trim(),
+          imageUrl: _productImageController.text.trim().isNotEmpty
+              ? _productImageController.text.trim()
+              : 'https://i.imgur.com/sUFH1Aq.png');
+
+      final result = await controller.addProduct(product);
+
+      if (result != null) {
+        Get.snackbar('Success', 'New product added successfully.',
+            backgroundColor: Colors.green);
+
+        _productTitleController.clear();
+        _productPriceController.clear();
+        _productImageController.clear();
+        _productDescriptionController.clear();
+
+        submitted = false;
+      } else {
+        Get.snackbar('Error', 'Failed to add new product',
+            backgroundColor: Colors.red);
+      }
+    } else {
+      Get.snackbar('Error', 'Form is not valid', backgroundColor: Colors.red);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +116,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 labelText: "Product Title",
                                 controller: _productTitleController,
                                 validator: (value) {
+                                  if (!submitted) return null;
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter product title';
                                   }
@@ -91,6 +131,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 controller: _productPriceController,
                                 hintText: 'Enter price in \$ ',
                                 validator: (value) {
+                                  if (!submitted) return null;
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter product price';
                                   }
@@ -104,12 +145,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 labelText: "Product Image",
                                 controller: _productImageController,
                                 hintText: 'Enter image url',
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter product image url';
-                                  }
-                                  return null;
-                                },
                               ),
                               SizedBox(
                                 height: screenHeight * 0.02,
@@ -118,6 +153,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 labelText: "Product Description",
                                 controller: _productDescriptionController,
                                 validator: (value) {
+                                  if (!submitted) return null;
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter product description';
                                   }
@@ -138,40 +174,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               SizedBox(
                 height: screenHeight * 0.02,
               ),
-              Button(
-                  text: "Save",
-                  onPressed: () async {
-                    if (addProductFormKey.currentState!.validate()) {
-                      final price =
-                          double.tryParse(_productPriceController.text.trim());
-                      if (price == null) {
-                        print('enter valid price');
-                        return;
-                      }
-                      final product = Product(
-                          title: _productTitleController.text.trim(),
-                          price: price,
-                          description:
-                              _productDescriptionController.text.trim(),
-                          imageUrl: _productImageController.text
-                                  .trim()
-                                  .isNotEmpty
-                              ? _productImageController.text.trim()
-                              : 'https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp');
-
-                      final result = await controller.addProduct(product);
-
-                      if (result != null) {
-                        Get.to(() => NewProductsScreen(
-                            products: [Product.fromJson(result)]));
-                        print('new product added successfully');
-                      } else {
-                        print('failed to add new product');
-                      }
-                    } else {
-                      print('Form is not valid');
-                    }
-                  }),
+              Button(text: "Save", onPressed: onSave),
               SizedBox(
                 height: screenHeight * 0.02,
               ),

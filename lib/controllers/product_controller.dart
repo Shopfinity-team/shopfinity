@@ -3,7 +3,7 @@ import 'package:shopfinity/services/product_service.dart';
 
 import '../model/product_model.dart';
 
-class  ProductController extends GetxController {
+class ProductController extends GetxController {
   final ProductService _productService = ProductService();
 
   var isAllProductsLoading = true.obs;
@@ -15,6 +15,7 @@ class  ProductController extends GetxController {
   var limitProducts = <Product>[].obs;
   var recommendedGroceries = <Product>[].obs;
   var searchedProducts = <Product>[].obs;
+  var addedProducts = <Product>[].obs;
 
   //for get all products
   Future<void> getAllProducts() async {
@@ -89,10 +90,19 @@ class  ProductController extends GetxController {
     };
     try {
       final result = await _productService.addProduct(newProduct);
+      if (result != null) {
+        final addedProduct = Product.fromJson(result);
+        addedProducts.insert(0, addedProduct);
+      }
       print(result);
       return result;
     } catch (e) {
       print(e);
     }
+  }
+
+  //set newly added products
+  void setNewProducts(List<Product> products) {
+    addedProducts.value = products;
   }
 }

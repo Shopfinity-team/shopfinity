@@ -35,7 +35,11 @@ class ProductDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Center(child: Image.network(product.imageUrl)),
+              Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.network(product.imageUrl),
+              )),
               SizedBox(
                 height: screenHeight * 0.02,
               ),

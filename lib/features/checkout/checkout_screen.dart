@@ -221,8 +221,9 @@ class CheckoutScreen extends StatelessWidget {
         child: Button(
             text: "Place Order",
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BottomNavBar()));
+              Get.snackbar('Success', 'Your order has been placed successfully',
+                  backgroundColor: Colors.green);
+              Get.to(() => BottomNavBar());
             }),
       ),
     );
