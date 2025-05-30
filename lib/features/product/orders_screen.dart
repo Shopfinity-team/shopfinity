@@ -238,11 +238,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
       ),
       child: Row(
         children: [
-          if (product.imageUrl != null && product.imageUrl.isNotEmpty)
+          if (product.imageUrl.isNotEmpty)
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: Image.network(
-                product.imageUrl!,
+                product.imageUrl,
                 width: 50,
                 height: 50,
                 fit: BoxFit.cover,
@@ -266,7 +266,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   ),
                 ),
                 Text(
-                  '\$${product.price!.toStringAsFixed(2)}',
+                  '\$${product.price.toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Colors.green[600],
                     fontWeight: FontWeight.w500,
@@ -293,7 +293,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text('My Orders')),
+        title: const Center(child: Text('My Orders')),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) async {

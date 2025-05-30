@@ -26,20 +26,16 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double cardWidth = screenWidth * 0.5;
-    double cardHeight = screenHeight * 0.359;
     return Scaffold(
       appBar: AppBar(
           leadingWidth: 40,
           title: SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
-              child: ProductSearchBar(
+              child: const ProductSearchBar(
                 enabled: true,
               ))),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Obx(() {
@@ -47,7 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 return const SizedBox.shrink();
               }
               if (controller.isSearchLoading.value) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               if (controller.searchedProducts.isEmpty) {
                 return const Expanded(

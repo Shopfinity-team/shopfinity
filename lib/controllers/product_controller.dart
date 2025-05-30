@@ -26,8 +26,6 @@ class ProductController extends GetxController {
       if (result != null) {
         products.assignAll(result);
       }
-    } catch (e) {
-      print('error fetching all products');
     } finally {
       isAllProductsLoading(false);
     }
@@ -43,8 +41,6 @@ class ProductController extends GetxController {
       if (result != null) {
         limitProducts.assignAll(result);
       }
-    } catch (e) {
-      print('error fetching limit products');
     } finally {
       isLimitProductsLoading(false);
     }
@@ -58,8 +54,6 @@ class ProductController extends GetxController {
       if (result != null) {
         recommendedGroceries.assignAll(result);
       }
-    } catch (e) {
-      print('error fetching recommended groceries');
     } finally {
       isRecommendedGroceriesLoading(false);
     }
@@ -71,14 +65,12 @@ class ProductController extends GetxController {
       isSearchLoading(true);
       hasSearched(true);
       final result = await _productService.searchProducts(query);
-      print(result);
       if (result != null) {
         searchedProducts.assignAll(result);
       } else {
         searchedProducts.clear();
       }
     } catch (e) {
-      print('error searching items');
       searchedProducts.clear();
     } finally {
       isSearchLoading(false);
@@ -99,10 +91,9 @@ class ProductController extends GetxController {
         final addedProduct = Product.fromJson(result);
         addedProducts.insert(0, addedProduct);
       }
-      print(result);
       return result;
     } catch (e) {
-      print(e);
+      return null;
     }
   }
 
