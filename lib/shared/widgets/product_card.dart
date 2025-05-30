@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -42,10 +44,24 @@ class ProductCard extends StatelessWidget {
                   width: double.infinity,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      product.imageUrl ?? 'https://via.placeholder.com/150',
-                      fit: BoxFit.fill,
-                    ),
+                    child: product.imageUrl == null || product.imageUrl.isEmpty
+                        ? Container(
+                            color: Colors.grey.shade200,
+                            child: const Center(
+                              child: Icon(
+                                Icons.image,
+                                size: 60,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          )
+                        : Image(
+                            image: product.imageUrl.startsWith('/')
+                                ? FileImage(File(product.imageUrl))
+                                : NetworkImage(product.imageUrl)
+                                    as ImageProvider,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ),

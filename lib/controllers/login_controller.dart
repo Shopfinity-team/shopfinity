@@ -13,7 +13,6 @@ class LoginController extends GetxController {
   final isPasswordVisible = false.obs;
   RxBool isLoggedIn = false.obs;
 
-  final formKey = GlobalKey<FormState>();
   final LoginService _loginService = LoginService();
 
   void togglePasswordVisibility() {
@@ -21,54 +20,38 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
-    final formState = formKey.currentState;
+    try {
+      final token = await _loginService.login(username.text, password.text);
 
-    if (formState == null) {
-      await showCustomAlert(
-          title: 'Error', message: 'Form state is null', isError: true);
+      if (token != null) {
+        isLoggedIn.value = true;
+        // Store user profile details
+        final profileController = Get.put(ProfileController());
+        String userId = profileController.userId.value;
 
-      return;
-    }
+        // Initialize the cart for this user
+        final cartController = Get.put(CartController());
+        await cartController.initializeCartForUser(userId);
 
-    if (formState.validate()) {
-      isLoading.value = true;
+        await showCustomAlert(
+          title: 'Success',
+          message: 'You have logged in successfully!',
+        );
 
-      try {
-        final token = await _loginService.login(username.text, password.text);
-
-        if (token != null) {
-          isLoggedIn.value = true;
-          // Store user profile details
-          final profileController = Get.put(ProfileController());
-          String userId = profileController.userId.value;
-
-          // Initialize the cart for this user
-          final cartController = Get.put(CartController());
-          await cartController.initializeCartForUser(userId);
-
-          await showCustomAlert(
-            title: 'Success',
-            message: 'You have logged in successfully!',
-          );
-
-          Get.toNamed('/navbar');
-        } else {
-          await showCustomAlert(
-              title: 'Login Failed',
-              message: 'Invalid username or password',
-              isError: true);
-        }
-      } catch (e) {
+        Get.toNamed('/navbar');
+      } else {
         await showCustomAlert(
             title: 'Login Failed',
-            message: 'An error occurred: $e',
+            message: 'Invalid username or password',
             isError: true);
-      } finally {
-        isLoading.value = false;
       }
-    } else {
+    } catch (e) {
       await showCustomAlert(
-          title: 'Error', message: 'Please fix errors', isError: true);
+          title: 'Login Failed',
+          message: 'An error occurred: $e',
+          isError: true);
+    } finally {
+      isLoading.value = false;
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
@@ -28,11 +30,32 @@ class CartCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            Image.network(
-              product.imageUrl,
-              width: cardWidth * 0.3,
-              fit: BoxFit.cover,
-            ),
+            product.imageUrl == null || product.imageUrl.isEmpty
+                ? Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.image,
+                        size: 60,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image(
+                      image: product.imageUrl.startsWith('/')
+                          ? FileImage(File(product.imageUrl))
+                          : NetworkImage(product.imageUrl) as ImageProvider,
+                      fit: BoxFit.cover,
+                      width: 80,
+                      height: 80,
+                    ),
+                  ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -40,6 +63,7 @@ class CartCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         product.title,
@@ -95,38 +119,38 @@ class CartCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   IconButton(
-                                      onPressed: () {
-                                        if (product.quantity > 1) {
-                                          cartController
-                                              .decreaseQuantity(product);
-                                        } else {
-                                          cartController
-                                              .removeFromCart(product);
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.remove,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.color,
-                                        size: 16,
-                                      )),
+                                    onPressed: () {
+                                      if (product.quantity > 1) {
+                                        cartController
+                                            .decreaseQuantity(product);
+                                      } else {
+                                        cartController.removeFromCart(product);
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.remove,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.color,
+                                      size: 16,
+                                    ),
+                                  ),
                                   Obx(() =>
                                       Text(product.quantity.value.toString())),
                                   IconButton(
-                                      onPressed: () {
-                                        cartController
-                                            .increaseQuantity(product);
-                                      },
-                                      icon: Icon(
-                                        Icons.add,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.color,
-                                        size: 16,
-                                      )),
+                                    onPressed: () {
+                                      cartController.increaseQuantity(product);
+                                    },
+                                    icon: Icon(
+                                      Icons.add,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.color,
+                                      size: 16,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopfinity/controllers/cart_controller.dart';
@@ -38,7 +40,24 @@ class ProductDetailsScreen extends StatelessWidget {
               Center(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(product.imageUrl),
+                child: product.imageUrl == null || product.imageUrl.isEmpty
+                    ? Container(
+                        height: screenHeight * 0.3,
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: const Center(
+                          child: Icon(
+                            Icons.image,
+                            size: 60,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      )
+                    : Image(
+                        image: product.imageUrl.startsWith('/')
+                            ? FileImage(File(product.imageUrl))
+                            : NetworkImage(product.imageUrl) as ImageProvider),
               )),
               SizedBox(
                 height: screenHeight * 0.02,
