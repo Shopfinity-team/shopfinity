@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../features/product/product_details_screen.dart';
 import '../../model/product_model.dart';
 
@@ -18,7 +17,6 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double cardWidth = screenWidth * 0.5;
     double cardHeight = screenHeight * 0.359;
 
     return GestureDetector(
@@ -44,6 +42,7 @@ class ProductCard extends StatelessWidget {
                   width: double.infinity,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
+
                     child: product.imageUrl == null || product.imageUrl.isEmpty
                         ? Container(
                             color: Colors.grey.shade200,
@@ -62,6 +61,7 @@ class ProductCard extends StatelessWidget {
                                     as ImageProvider,
                             fit: BoxFit.cover,
                           ),
+
                   ),
                 ),
               ),
@@ -71,7 +71,7 @@ class ProductCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      product.title ?? 'No title',
+                      product.title,
                       style: TextStyle(
                         fontSize: screenWidth * 0.04,
                         fontStyle: FontStyle.normal,
@@ -83,7 +83,7 @@ class ProductCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "\$" + product.price.toString(),
+                      "\$${product.price}",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

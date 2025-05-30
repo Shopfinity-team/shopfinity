@@ -6,8 +6,6 @@ import 'package:shopfinity/shared/widgets/category_buton.dart';
 import 'package:shopfinity/shared/widgets/product_card.dart';
 import 'package:shopfinity/shared/widgets/search_bar.dart';
 
-import '../../model/product_model.dart';
-
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
 
@@ -33,7 +31,7 @@ class _ProductScreenState extends State<ProductScreen> {
               SizedBox(
                 height: screenHeight * 0.06,
               ),
-              ProductSearchBar(
+              const ProductSearchBar(
                 enabled: false,
               ),
               SizedBox(
@@ -67,7 +65,7 @@ class _ProductScreenState extends State<ProductScreen> {
               ),
               Obx(() =>
                 Text(
-                  categoryController.selectedCategory.value + " Products",
+                  "${categoryController.selectedCategory.value} Products",
                   style: TextStyle(
                     fontSize: screenWidth * 0.05,
                     fontWeight: FontWeight.w600,
@@ -80,15 +78,15 @@ class _ProductScreenState extends State<ProductScreen> {
                     return Column(
                       children: [
                         SizedBox(height: screenHeight * 0.1),
-                        Center(child: CircularProgressIndicator()),
+                        const Center(child: CircularProgressIndicator()),
                       ],
                     );
                   } else if (controller.products.isEmpty) {
-                    return Center(child: Text("No products found."));
+                    return const Center(child: Text("No products found."));
                   }
                   return GridView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: controller.products.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,

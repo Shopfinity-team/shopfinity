@@ -20,6 +20,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
+
     try {
       final token = await _loginService.login(username.text, password.text);
 
@@ -32,6 +33,9 @@ class LoginController extends GetxController {
         // Initialize the cart for this user
         final cartController = Get.put(CartController());
         await cartController.initializeCartForUser(userId);
+      try {
+        final token = await _loginService.login(username.text, password.text);
+
 
         await showCustomAlert(
           title: 'Success',
@@ -45,6 +49,7 @@ class LoginController extends GetxController {
             message: 'Invalid username or password',
             isError: true);
       }
+
     } catch (e) {
       await showCustomAlert(
           title: 'Login Failed',
@@ -54,6 +59,9 @@ class LoginController extends GetxController {
       isLoading.value = false;
     }
   }
+
+    } 
+
 
   void logout() async {
     final confirm = await showCustomAlert(

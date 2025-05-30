@@ -5,9 +5,9 @@ class OrderCard extends StatelessWidget {
   final OrderModel order;
 
   const OrderCard({
-    Key? key,
+    super.key,
     required this.order,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class OrderCard extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        product.title ?? 'Unknown Product',
+                        product.title,
                         style: TextStyle(
                           fontSize: 13,
                           color: Colors.grey[700],
