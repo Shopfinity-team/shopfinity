@@ -7,7 +7,7 @@ import 'package:shopfinity/shared/widgets/checkout_input_field.dart';
 import 'package:shopfinity/shared/widgets/custom_alert.dart';
 
 class AddProductScreen extends StatefulWidget {
-  AddProductScreen({super.key});
+  const AddProductScreen({super.key});
 
   @override
   State<AddProductScreen> createState() => _AddProductScreenState();
@@ -20,50 +20,56 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController _productDescriptionController =
       TextEditingController();
   final TextEditingController _productPriceController = TextEditingController();
-  final TextEditingController _productImageController = TextEditingController();
 
   final addProductFormKey = GlobalKey<FormState>();
   bool submitted = false;
 
-  void onSave() async {
+  // handle save
+  Future<void> onSave() async {
     submitted = true;
     if (addProductFormKey.currentState!.validate()) {
       final price = double.tryParse(_productPriceController.text.trim());
       if (price == null) {
         await showCustomAlert(
-            title: 'Error', message: 'please enter valid price', isError: true);
-
+          title: 'Error',
+          message: 'Please enter a valid price',
+          isError: true,
+        );
         return;
       }
+
       final product = Product(
-          title: _productTitleController.text.trim(),
-          price: price,
-          description: _productDescriptionController.text.trim(),
-          imageUrl: _productImageController.text.trim().isNotEmpty
-              ? _productImageController.text.trim()
-              : 'https://i.imgur.com/sUFH1Aq.png');
+        title: _productTitleController.text.trim(),
+        price: price,
+        description: _productDescriptionController.text.trim(),
+        imageUrl: controller.getImagePathOrDefault(),
+      );
 
       final result = await controller.addProduct(product);
 
       if (result != null) {
         await showCustomAlert(
-            title: 'Success', message: 'New product added successfully');
-
+          title: 'Success',
+          message: 'New product added successfully',
+        );
         _productTitleController.clear();
         _productPriceController.clear();
-        _productImageController.clear();
         _productDescriptionController.clear();
-
+        controller.resetPickedImage();
         submitted = false;
       } else {
         await showCustomAlert(
-            title: 'Error',
-            message: 'Failed to add new product',
-            isError: true);
+          title: 'Error',
+          message: 'Failed to add new product',
+          isError: true,
+        );
       }
     } else {
       await showCustomAlert(
-          title: 'Error', message: 'Form is not valid', isError: true);
+        title: 'Error',
+        message: 'Form is not valid',
+        isError: true,
+      );
     }
   }
 
@@ -83,107 +89,89 @@ class _AddProductScreenState extends State<AddProductScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        Center(
-                          child: Image.asset(
-                            "lib/assets/images/add_product_page_image.png",
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Obx(() {
+              final pickedImage = controller.pickedImage.value;
+              return GestureDetector(
+                onTap: () => controller.pickImage(),
+                child: Container(
+                  height: screenHeight * 0.25,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey.shade200,
+                  ),
+                  child: pickedImage != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            pickedImage,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
                           ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        Text(
-                          "Details",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).textTheme.bodySmall?.color,
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.02,
-                        ),
-                        Form(
-                          key: addProductFormKey,
+                        )
+                      : const Center(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              InputField(
-                                labelText: "Product Title",
-                                controller: _productTitleController,
-                                validator: (value) {
-                                  if (!submitted) return null;
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter product title';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: "Price",
-                                controller: _productPriceController,
-                                hintText: 'Enter price in \$ ',
-                                validator: (value) {
-                                  if (!submitted) return null;
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter product price';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: "Product Image",
-                                controller: _productImageController,
-                                hintText: 'Enter image url',
-                              ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
-                              InputField(
-                                labelText: "Product Description",
-                                controller: _productDescriptionController,
-                                validator: (value) {
-                                  if (!submitted) return null;
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter product description';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              SizedBox(
-                                height: screenHeight * 0.02,
-                              ),
+                              Icon(Icons.image, size: 40, color: Colors.grey),
+                              Text("Tap to pick an image"),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                ),
+              );
+            }),
+            SizedBox(height: screenHeight * 0.03),
+            Form(
+              key: addProductFormKey,
+              child: Column(
+                children: [
+                  InputField(
+                    labelText: "Product Title",
+                    controller: _productTitleController,
+                    validator: (value) {
+                      if (!submitted) return null;
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter product title';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  InputField(
+                    labelText: "Price",
+                    controller: _productPriceController,
+                    hintText: 'Enter price in \$',
+                    validator: (value) {
+                      if (!submitted) return null;
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter product price';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  InputField(
+                    labelText: "Product Description",
+                    controller: _productDescriptionController,
+                    validator: (value) {
+                      if (!submitted) return null;
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter product description';
+                      }
+                      return null;
+                    },
                   ),
                 ],
               ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Button(text: "Save", onPressed: onSave),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-            ],
-          ),
+            ),
+            SizedBox(height: screenHeight * 0.04),
+            Button(text: "Save", onPressed: onSave),
+          ],
         ),
       ),
     );

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shopfinity/services/product_service.dart';
 
 import '../model/product_model.dart';
@@ -6,17 +9,35 @@ import '../model/product_model.dart';
 class ProductController extends GetxController {
   final ProductService _productService = ProductService();
 
+  //loading flags
   final RxBool isAllProductsLoading = true.obs;
   final RxBool isLimitProductsLoading = true.obs;
   final RxBool isRecommendedGroceriesLoading = true.obs;
   final RxBool isSearchLoading = false.obs;
   final RxBool hasSearched = false.obs;
 
+  //product lists
   var products = <Product>[].obs;
   var limitProducts = <Product>[].obs;
   var recommendedGroceries = <Product>[].obs;
   var searchedProducts = <Product>[].obs;
   var addedProducts = <Product>[].obs;
+
+  //image file
+  Rx<File?> pickedImage = Rx<File?>(null);
+  //for pick an image
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      pickedImage.value = File(picked.path);
+    }
+  }
+
+  //get image path
+  String getImagePathOrDefault() {
+    return pickedImage.value?.path ?? '';
+  }
 
   //for get all products
   Future<void> getAllProducts() async {
@@ -85,6 +106,7 @@ class ProductController extends GetxController {
       'price': product.price,
       'thumbnail': product.imageUrl,
     };
+
     try {
       final result = await _productService.addProduct(newProduct);
       if (result != null) {
@@ -93,12 +115,20 @@ class ProductController extends GetxController {
       }
       return result;
     } catch (e) {
+
+      print('Error adding product: $e');
+
       return null;
     }
   }
 
-  //set newly added products
+  // Update added products list
   void setNewProducts(List<Product> products) {
     addedProducts.value = products;
+  }
+
+  //Reset picked image
+  void resetPickedImage() {
+    pickedImage.value = null;
   }
 }
