@@ -20,48 +20,40 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
-
-    try {
-      final token = await _loginService.login(username.text, password.text);
-
-      if (token != null) {
-        isLoggedIn.value = true;
-        // Store user profile details
-        final profileController = Get.put(ProfileController());
-        String userId = profileController.userId.value;
-
-        // Initialize the cart for this user
-        final cartController = Get.put(CartController());
-        await cartController.initializeCartForUser(userId);
       try {
         final token = await _loginService.login(username.text, password.text);
 
+        if (token != null) {
+          isLoggedIn.value = true;
+          // Store user profile details
+          final profileController = Get.put(ProfileController());
+          String userId = profileController.userId.value;
 
-        await showCustomAlert(
-          title: 'Success',
-          message: 'You have logged in successfully!',
-        );
+          // Initialize the cart for this user
+          final cartController = Get.put(CartController());
+          await cartController.initializeCartForUser(userId);
 
-        Get.toNamed('/navbar');
-      } else {
+          await showCustomAlert(
+            title: 'Success',
+            message: 'You have logged in successfully!',
+          );
+
+          Get.toNamed('/navbar');
+        } else {
+          await showCustomAlert(
+              title: 'Login Failed',
+              message: 'Invalid username or password',
+              isError: true);
+        }
+      } catch (e) {
         await showCustomAlert(
             title: 'Login Failed',
-            message: 'Invalid username or password',
+            message: 'An error occurred: $e',
             isError: true);
+      } finally {
+        isLoading.value = false;
       }
-
-    } catch (e) {
-      await showCustomAlert(
-          title: 'Login Failed',
-          message: 'An error occurred: $e',
-          isError: true);
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
     } 
-
 
   void logout() async {
     final confirm = await showCustomAlert(
