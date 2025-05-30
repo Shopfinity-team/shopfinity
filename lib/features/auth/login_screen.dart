@@ -16,7 +16,6 @@ class LoginPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: controller.formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,7 +34,7 @@ class LoginPage extends StatelessWidget {
                 height: screenHeight * 0.08,
               ),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.person_2_outlined),
                   labelText: "Username",
                 ),

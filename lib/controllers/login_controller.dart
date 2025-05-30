@@ -13,7 +13,6 @@ class LoginController extends GetxController {
   final isPasswordVisible = false.obs;
   RxBool isLoggedIn = false.obs;
 
-  final formKey = GlobalKey<FormState>();
   final LoginService _loginService = LoginService();
 
   void togglePasswordVisibility() {
@@ -21,18 +20,6 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
-    final formState = formKey.currentState;
-
-    if (formState == null) {
-      await showCustomAlert(
-          title: 'Error', message: 'Form state is null', isError: true);
-
-      return;
-    }
-
-    if (formState.validate()) {
-      isLoading.value = true;
-
       try {
         final token = await _loginService.login(username.text, password.text);
 
@@ -66,11 +53,7 @@ class LoginController extends GetxController {
       } finally {
         isLoading.value = false;
       }
-    } else {
-      await showCustomAlert(
-          title: 'Error', message: 'Please fix errors', isError: true);
-    }
-  }
+    } 
 
   void logout() async {
     final confirm = await showCustomAlert(
